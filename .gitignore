@@ -25,8 +25,11 @@
 /src/SSDK/build/linux/release/.qmake.cache
 
 
+/src/App/App.pro.user
+/src/Job/Job.pro.user
 /src/Job/.qmake.stash
 /src/Job/.qmake.cache
+/src/SSDK/SSDK.pro.user
 /src/SSDK/.qmake.stash
 /src/SSDK/.qmake.cache
 
