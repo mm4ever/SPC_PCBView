@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../../build/debug/libparquet_test_main.a  CMakeFiles/parquet_test_main.dir/test_main.cc.o
+/usr/bin/ranlib ../../../build/debug/libparquet_test_main.a

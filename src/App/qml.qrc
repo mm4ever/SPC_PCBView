@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>images/arrow.png</file>
+        <file>scripts/AddTarget.js</file>
+        <file>component/PCBView.qml</file>
+        <file>component/LoginView.qml</file>
+        <file>component/LoadingView.qml</file>
+        <file>component/MainWindow.qml</file>
+    </qresource>
+</RCC>
