@@ -7,5 +7,7 @@
         <file>component/LoginView.qml</file>
         <file>component/LoadingView.qml</file>
         <file>component/MainWindow.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>component/ThemeDialog.qml</file>
     </qresource>
 </RCC>
