@@ -22,3 +22,27 @@
 mkdir -p debug  lib/debug data debug/config
 
 ## 配置说明:
+#### APP
+1. 打开qtCreator软件
+2. 打开项目:
+    - 依次点击Welcome->OpenProject->(SPC_PCBView项目路径) SPC_PCBView/src/APP/APP.pro
+    - 将 Build directory 设置为: ../../debug
+3. 配置完成
+
+#### Job
+1. 打开项目:
+    - 依次点击Welcome->OpenProject->(SPC_PCBView项目路径) SPC_PCBView/src/Job/Job.pro
+    - 将 Build directory 设置为: ./build/linux/debug
+2. 设置Build Steps:
+    - 依次点击Projects->BuildSteps->AddBuildStep->CustomProcessStep
+    - 将Command修改为:./debug_build.sh
+3. 配置完成
+
+#### SSDK
+1. 打开项目:
+    - 依次点击Welcome->OpenProject->(SPC_PCBView项目路径) SPC_PCBView/src/SSDK/SSDK.pro
+    - 将 Build directory 设置为: ./build/linux/debug
+2. 设置Build Steps:
+    - 依次点击Projects->BuildSteps->AddBuildStep->CustomProcessStep
+    - 将Command修改为:./debug_build.sh
+3. 配置完成
