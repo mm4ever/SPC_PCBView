@@ -25,12 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES +=\
     DB/SqlitedDb.cpp \
     DB/Blob.cpp \
-    CustomException.cpp
+    CustomException.cpp \
+    FormatConvertor.cpp \
+    Shape.cpp
 
 HEADERS += \
     DB/SqliteDb.hpp \
     DB/Blob.hpp \
-    CustomException.hpp
+    CustomException.hpp \
+    FormatConvertor.hpp \
+    Shape.hpp
 
 INCLUDEPATH += $$PWD/../../include/sqlite
 INCLUDEPATH += $$PWD/../../include
