@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 
 Item {
     id: mainWindow;
+
     GridLayout{
         columns: 2;
         anchors.fill: parent;
@@ -17,7 +18,6 @@ Item {
             height: 720;
             Text{
                 text: qsTr("PCBView");
-                color: Material.color(Material.Pink);
             }
         }
 
@@ -27,7 +27,6 @@ Item {
             height: pcbViewArea.height;
             Text{
                 text: qsTr("List");
-                color: Material.color(Material.Pink);
             }
         }
 
@@ -38,7 +37,6 @@ Item {
 
             Text{
                 text: qsTr("Equipment");
-                color: Material.color(Material.Pink);
             }
         }
 
@@ -49,7 +47,6 @@ Item {
 
             Text{
                 text: qsTr("Lots");
-                color: Material.color(Material.Pink);
             }
         }
     }

@@ -6,9 +6,10 @@ import QtQuick.Controls.Universal 2.1
 
 Dialog {
     id: themeDialog
-    modal: true
+    x: -width/2;
+    y: -height/2;
     focus: true
-    title: "Theme"
+    title: "Theme";
 
     standardButtons: Dialog.Ok | Dialog.Cancel
     onAccepted: {
@@ -21,37 +22,34 @@ Dialog {
     }
 
     contentItem: ColumnLayout {
-        id: settingsColumn
-        spacing: 20
-
+        spacing: 20;
         RowLayout {
-            spacing: 10
+            spacing: 10;
 
             Label {
-                text: "Style:"
+                text: "Style:";
             }
-
             ComboBox {
-                id: styleBox
-                property int styleIndex: -1
-                model: availableStyles
+                id: styleBox;
+                property int styleIndex: -1;
+                model: availableStyles;
                 Component.onCompleted: {
                     styleIndex = find(settings.style, Qt.MatchFixedString)
                     if (styleIndex !== -1)
-                        currentIndex = styleIndex
+                        currentIndex = styleIndex;
                 }
-                Layout.fillWidth: true
+                Layout.fillWidth: true;
             }
         }
 
         Label {
-            text: "Restart required"
-            color: "#e41e25"
+            text: "Restart required";
+            color: "#e41e25";
             opacity: styleBox.currentIndex !== styleBox.styleIndex ? 1.0 : 0.0
-            horizontalAlignment: Label.AlignHCenter
-            verticalAlignment: Label.AlignVCenter
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            horizontalAlignment: Label.AlignHCenter;
+            verticalAlignment: Label.AlignVCenter;
+            Layout.fillWidth: true;
+            Layout.fillHeight: true;
         }
     }
 }

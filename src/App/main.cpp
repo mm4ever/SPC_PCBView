@@ -5,6 +5,10 @@
 #include <QQuickStyle>
 #include <QIcon>
 
+#include "LoginCheck.hpp"
+
+using namespace Job;
+
 int main(int argc, char *argv[])
 {
 #if defined(Q_OS_WIN)
@@ -24,6 +28,9 @@ int main(int argc, char *argv[])
 
 
     QQmlApplicationEngine engine;
+
+    qmlRegisterType<LoginCheck>("an.qt.LoginCheck",1,0,"LoginCheck");
+
     engine.rootContext()->setContextProperty("availableStyles", QQuickStyle::availableStyles());
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
