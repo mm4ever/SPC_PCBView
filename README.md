@@ -17,9 +17,10 @@
 /debug/config<br>
 /lib/debug<br>
 /data<br>
-/include<br>
+/include/Job<br>
+/include/SSDK
 >LinuxTerminal中使用以下命令直接创建:<br>
-mkdir -p debug  lib/debug data debug/config
+mkdir -p lib/debug data debug/config include/Job include/SSDK
 
 ## 配置说明:
 #### APP

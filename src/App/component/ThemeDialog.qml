@@ -9,7 +9,7 @@ Dialog {
     x: -width/2;
     y: -height/2;
     focus: true
-    title: "Theme";
+    title: qsTr("Theme");
 
     standardButtons: Dialog.Ok | Dialog.Cancel
     onAccepted: {
@@ -27,7 +27,7 @@ Dialog {
             spacing: 10;
 
             Label {
-                text: "Style:";
+                text: qsTr("Style:");
             }
             ComboBox {
                 id: styleBox;
@@ -43,7 +43,7 @@ Dialog {
         }
 
         Label {
-            text: "Restart required";
+            text: qsTr("Restart required");
             color: "#e41e25";
             opacity: styleBox.currentIndex !== styleBox.styleIndex ? 1.0 : 0.0
             horizontalAlignment: Label.AlignHCenter;

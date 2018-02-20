@@ -7,6 +7,9 @@ import an.qt.LoginCheck 1.0
 
 Item{
     signal login(var user);           // 登录完成
+    function openLoginWnd(){
+        loginPop.open();
+    }
 
     LoginCheck{
         id: account;                  // 登录账户的用户名及密码检测
@@ -59,7 +62,7 @@ Item{
 
                     onClicked: {
                         if(userName.text === "" || userPasswd.text === ""){
-                            msg.text = qsTr("Username or passwd is empty!");
+                            msg.text = qsTr("Input is empty!");
                         }
                         else{
                             account.user = userName.text;
@@ -75,7 +78,7 @@ Item{
 
                     onClicked: {
                         if(userName.text === "" || userPasswd.text === ""){
-                            msg.text = qsTr("Username or passwd is empty!");
+                            msg.text = qsTr("Input is empty!");
                         }
                         else{
                             account.user = userName.text;
@@ -120,9 +123,6 @@ Item{
             }
             timer.cnt++;
         }
-    }
-    function openLoginWnd(){
-        loginPop.open();
     }
 }
 

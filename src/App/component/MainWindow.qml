@@ -14,10 +14,38 @@ Item {
 
         Item{
             id: pcbViewArea;                    // PCBView窗口
-            width: 1280;
-            height: 720;
+            width: 1284;
+            height: 721;
             Text{
+                id: pcbViewTitle;
                 text: qsTr("PCBView");
+            }
+            Loader{
+                id: pcbView;
+                anchors.top: pcbViewTitle.bottom;
+                anchors.left: parent.left;
+                anchors.right: parent.right;
+                anchors.bottom: parent.bottom;
+                anchors.margins: 2;
+                source: "qrc:/component/PCBView.qml";
+            }
+            Loader{
+                id: rotation;
+                height: 24;
+                width: 24;
+                anchors.right: pcbView.right;
+                anchors.bottom: pcbView.top;
+                source: "qrc:/component/RotationTriangle.qml";
+            }
+
+            Loader{
+                id: preView;
+                width: 512;
+                height: 297;
+                anchors.top: pcbView.top;
+                anchors.right: pcbView.right;
+                visible: false;
+                source: "qrc:/component/PreView.qml";
             }
         }
 
@@ -48,6 +76,12 @@ Item {
             Text{
                 text: qsTr("Lots");
             }
+        }
+    }
+    Connections{
+        target: rotation.item;
+        onRotationChanged:{
+            preView.visible = !preView.visible;
         }
     }
 

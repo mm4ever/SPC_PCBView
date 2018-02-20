@@ -48,9 +48,7 @@ ApplicationWindow {
                 anchors.right: parent.right;
                 font.capitalization: Font.MixedCase;
                 onClicked: {
-                    if(loginView.source === ""){
-                        loginView.source = "qrc:/component/LoginView.qml";
-                    }
+                    loginView.source = "qrc:/component/LoginView.qml";
                     loginView.item.openLoginWnd();
                 }
             }
@@ -58,7 +56,7 @@ ApplicationWindow {
 
     Settings{
         id: settings;
-        property string style: "Default"
+        property string style: qsTr("Default");
     }
 
     Loader{

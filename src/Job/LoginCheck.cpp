@@ -31,7 +31,7 @@ void LoginCheck::loginAccount()
         auto currentUser = config.value(m_currentUser).toInt();
         if( 0 != currentUser )
         {
-            auto rightPasswd = config.value(m_currentUser).toString();
+            auto rightPasswd = config.value(m_currentUser);
             if( m_currentPasswd == rightPasswd ){
                 emit loginSuccess();
             }
