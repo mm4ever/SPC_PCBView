@@ -13,5 +13,6 @@
         <file>component/RotationTriangle.qml</file>
         <file>language/tr_cn.qm</file>
         <file>language/tr_en.qm</file>
+				<file>03_CallCppModel.qml</file>
     </qresource>
 </RCC>
