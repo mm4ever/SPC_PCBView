@@ -47,3 +47,8 @@ mkdir -p lib/debug data debug/config include/Job include/SSDK
     - 依次点击Projects->BuildSteps->AddBuildStep->CustomProcessStep
     - 将Command修改为:./debug_build.sh
 3. 配置完成
+
+#### 数据库配置
+若数据库不能正常使用，可能是因为项目中用到SQLITE数据库，需安装相应的软件，请尝试在终端输入以下命令：
+sudo apt install libsqlite3
+sudo apt install libsqlite3-dev
