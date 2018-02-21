@@ -8,12 +8,13 @@ Element::Element()
 {
     int role = Qt::UserRole;
 
-    m_roleNames.insert(role++, "shape");
     m_roleNames.insert(role++, "centralX");
     m_roleNames.insert(role++, "centralY");
     m_roleNames.insert(role++, "cwidth");
     m_roleNames.insert(role++, "cheight");
+    m_roleNames.insert(role++, "shape");
 }
+
 Element::~Element()
 {
     for(int i = 0; i < this->m_pShapes.size(); ++i)

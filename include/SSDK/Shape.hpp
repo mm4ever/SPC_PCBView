@@ -2,6 +2,7 @@
 #define SHAPE_HPP
 
 #include <QVariant>
+#include <QString>
 
 #include "CustomException.hpp"
 

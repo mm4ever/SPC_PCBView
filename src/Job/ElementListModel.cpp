@@ -38,7 +38,7 @@ QString ElementListModel::source() const
 
 void ElementListModel::setSource(const QString &filePath)
 {
-    m_pElement->jobPath() = filePath;
+    m_pElement->setJobPath(filePath);
     reload();
 }
 

@@ -35,7 +35,40 @@ Shape::~Shape()
 
 QString Shape::at(int index)
 {
+    switch (index)
+    {
+    case 0:
+        return QString::number(this->m_centralX,10);
+        break;
 
+    case 1:
+        return QString::number(this->m_centralY,10);
+        break;
+
+    case 2:
+        return QString::number(this->m_width,10);
+        break;
+
+    case 3:
+        return QString::number(this->m_height,10);
+        break;
+
+    case 4:
+    {
+        if(ShapeType::CIRCLE == this->m_shapeType)
+        {
+            return QString("circle");
+        }
+        else
+        {
+            return QString("rectangle");
+        }
+        break;
+    }
+
+    default:
+        break;
+    }
 }
 
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
