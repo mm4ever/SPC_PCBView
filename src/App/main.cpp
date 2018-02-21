@@ -9,6 +9,8 @@
 
 #include "LoginCheck.hpp"
 #include "ElementListModel.hpp"
+#include "StyleSetting.hpp"
+
 
 using namespace Job;
 
@@ -26,9 +28,11 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<ElementListModel>("an.qt.CModel", 1, 0, "ElementListModel");
 
+    qmlRegisterType<StyleSetting>("an.qt.StyleSetting",1,0,"StyleSetting"); //主题相关
 
     // 主题
     QSettings settings;
+    QQuickStyle::setStyle("Material");
     QString style = QQuickStyle::name();
     if (!style.isEmpty())
         settings.setValue("style", style);
