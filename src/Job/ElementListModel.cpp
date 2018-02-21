@@ -58,3 +58,8 @@ void ElementListModel::remove(int index)
     delete m_pElement->pShapes().takeAt(index);
     endRemoveRows();
 }
+
+QVariant ElementListModel::elementData(int index, int attr)
+{
+    return this->m_pElement->pShapes()[index]->at(attr);
+}

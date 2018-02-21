@@ -28,7 +28,7 @@ void LoginCheck::loginAccount()
     try
     {
         QSettings config(m_path,QSettings::IniFormat);
-        auto currentUser = config.value(m_currentUser).toInt();
+        auto currentUser = config.value(m_currentUser).toString();
         if( 0 != currentUser )
         {
             auto rightPasswd = config.value(m_currentUser);

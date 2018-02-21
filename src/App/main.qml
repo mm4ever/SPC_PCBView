@@ -54,11 +54,6 @@ ApplicationWindow {
             }
         }
 
-    Settings{
-        id: settings;
-        property string style: qsTr("Default");
-    }
-
     Loader{
         id: themeDialog;            // 主题设置
         anchors.centerIn: parent;

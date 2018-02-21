@@ -17,6 +17,7 @@ public:
 
     Q_INVOKABLE void reload();
     Q_INVOKABLE void remove(int index);
+    Q_INVOKABLE QVariant elementData(int index,int attr);
 
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;

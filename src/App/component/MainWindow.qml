@@ -59,80 +59,20 @@ Item {
             Layout.fillWidth: true;
             height: pcbViewArea.height;
 
-            Item {  //list区域的title
-                id: listTitle;
-                height: parent.height / 10;
-                width: parent.width;
-                anchors.top: parent.top;
-
-                Text{
-                    text: qsTr("List\ncentralX\tcentralY\tcwidth\tcheight\tshape");
-                    anchors.top: parent.top;
-                }
+            Text{
+                id: listModelTitle;
+                text: qsTr("List");
             }
-
-            Item{   //元件列表区域
-                id: elementList
-                anchors.top: listTitle.bottom;
+            Loader{
+                id: listModelView;
+                anchors.top:listModelTitle.bottom;
                 anchors.left: parent.left;
+                anchors.leftMargin: 20;
                 anchors.right: parent.right;
                 anchors.bottom: parent.bottom;
+                source: "qrc:/component/ListModelView.qml";
+            }
 
-                //Delegate
-                Component{
-                    id: elementDelegate;
-
-                    Item{
-                        id: itemWrapper;
-                        width: parent.width;
-                        height: 50;
-
-                        MouseArea{
-                            anchors.fill: parent;
-
-                            onClicked: {
-                                //调用listView的属性
-                                itemWrapper.ListView.view.currentIndex = index;
-                            }
-
-                            onDoubleClicked: {
-                                itemWrapper.ListView.view.model.remove(index);
-                                mouse.accept = true;
-                            }
-                        }
-
-                        ColumnLayout{
-                            height: parent.height;
-                            spacing: 2;
-                            anchors.leftMargin: 4;
-                            anchors.left: parent.left;
-                            anchors.top: parent.top;
-
-                            Text{
-                                Layout.fillWidth: true;
-                                text:   centralX + "\t" + centralY + "\t" + cwidth + "\t" + cheight + "\t" + shape;
-                                color: itemWrapper.ListView.isCurrentItem ? "blue" : "black";
-                                font.pixelSize: 18;
-                                elide: Text.ElideRight;
-                            }
-                        }
-                    }// end of itemWrapper
-                }//end of elementDelegate
-
-                ListView{
-                    anchors.fill: parent;
-                    spacing: 2;
-                    delegate: elementDelegate;
-
-                    //这里引用的VideoListModel其实是来自与C++了
-                    model: ElementListModel { source: "../data/qml"; }
-                    focus: true;
-                    highlight: Rectangle{
-                        width: parent.width;
-                        color: "lightblue";
-                    }
-                }
-            }// end of elementList
         }// end of listArea
 
         Item{

@@ -17,7 +17,7 @@ StyleSetting::StyleSetting(QObject *parent):QObject(parent)
 
     //自定义初始值
     this->m_backgroundColorList[(int)ThemeType::USER_DEFINED] = QColor("#E0FFFF");
-    this->m_foregroundColorList[(int)ThemeType::USER_DEFINED] = QColor("CCE5FF");
+    this->m_foregroundColorList[(int)ThemeType::USER_DEFINED] = QColor("#CCE5FF");
     this->m_primaryColorList[(int)ThemeType::USER_DEFINED] = QColor("#20B2AA");
     this->m_accentColorList[(int)ThemeType::USER_DEFINED] = QColor("#994C00");
 }
