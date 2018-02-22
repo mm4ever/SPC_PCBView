@@ -4,7 +4,6 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.3
 
 import an.qt.CModel 1.0
-import an.qt.StyleSetting 1.0
 
 import "../scripts/AddTarget.js" as AddTarget
 

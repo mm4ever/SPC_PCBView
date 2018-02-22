@@ -14,5 +14,6 @@
         <file>language/tr_cn.qm</file>
         <file>language/tr_en.qm</file>
         <file>component/ListModelView.qml</file>
+        <file>component/LanguageDialog.qml</file>
     </qresource>
 </RCC>
