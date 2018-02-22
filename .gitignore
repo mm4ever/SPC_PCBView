@@ -33,6 +33,9 @@
 /src/SSDK/.qmake.stash
 /src/SSDK/.qmake.cache
 
+/lib/debug/*.so
+/lib/debug/*.so.*
+ 
 *~
 *.autosave
 *.a

@@ -8,7 +8,7 @@ import Qt.labs.settings 1.0
 
 ApplicationWindow {
     id: appWnd;
-    x:(screen.width-width)/2;       // 主窗口限定在屏幕中央
+    x:(screen.width-width)/2;        // 将主窗口限定在屏幕中央
     y:(screen.height-height)/2;
     width: fixedWidth;
     height: fixedHeight;

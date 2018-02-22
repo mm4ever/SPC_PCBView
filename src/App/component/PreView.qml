@@ -12,7 +12,7 @@ Item {
     anchors.centerIn: parent;
 
     Canvas{
-        anchors.fill: parent;
+        anchors.fill: parent;   // 画背景
         contextType: "2d";
         onPaint: {
             context.fillStyle = "grey";
