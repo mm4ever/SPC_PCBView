@@ -11,7 +11,6 @@
 #include "ElementListModel.hpp"
 #include "StyleSetting.hpp"
 
-
 using namespace Job;
 
 int main(int argc, char *argv[])

@@ -1,9 +1,11 @@
 import QtQuick 2.10
 import QtQuick.Layouts 1.3
 
-import an.qt.CModel 1.0
+import "../scripts/AddTarget.js" as AddTarget
 
 Item {
+    signal listDataChanged();
+
     Component{
         id: headerVw;
         Item{
@@ -56,12 +58,17 @@ Item {
                 anchors.fill: parent;
 
                 onClicked: {
+                    mouse.accept = true;
                     //调用listView的属性
-                    itemWrapper.ListView.view.currentIndex = index;
+                    selected = index;       // 当前选中目标
+                    itemWrapper.ListView.view.currentIndex = selected;
+                    emit:listDataChanged();
                 }
                 onDoubleClicked: {
-                    itemWrapper.ListView.view.model.remove(index);
                     mouse.accept = true;
+                    itemWrapper.ListView.view.model.remove(selected);
+                    emit:listDataChanged();
+                    itemWrapper.ListView.view.currentIndex = selected;
                 }
             }
 
@@ -99,10 +106,15 @@ Item {
                     Layout.fillWidth: true;
                 }
             }
+
+            Component.onCompleted: {
+                itemWrapper.ListView.view.currentIndex = selected;
+            }
         }
     }
 
     ListView{
+        id: lstVm;
         anchors.fill: parent;
         clip: true;
 
@@ -111,11 +123,16 @@ Item {
         delegate: elementDelegate;
 
         //这里引用的VideoListModel其实是来自与C++了
-        model: ElementListModel { source: "../data/qml"; }
+        model: elementList;
         focus: true;
         highlight: Rectangle{
             radius: 4;
             color: "#81D4FA";
         }
     }
+
+    function updateListView(){
+        lstVm.currentIndex = selected;
+    }
+
 }

@@ -1,39 +1,59 @@
 .pragma library
 
-var isSelected = false;
-var xPos = 0;
-var yPos = 0;
-var width = 0;
-var height = 0;
-var lineWidth = 0;
-var strokeStyle = "";
-var fillStyle = "";
-var shape = "";
+var rectColor = "#81d4fa";
+var cicleColor = "#ffcc80";
+var strokeColor = "black";
+var selectedBlodWidth = 2;
+var unselectedBlodWidth = 0;
 
-function setProperties(target){
-    this.isSelected = target.isSlelected;
-    this.xPos = target.targetPosX;
-    this.yPos = target.targetPosY;
-    this.width = target.targetWidth;
-    this.height = target.targetHeight;
-    this.lineWidth = target.borderWidth;
-    this.strokeStyle = target.borderColor;
-    this.fillStyle = target.fillCorlor;
-    this.shape = target.targetShape;
-}
+function drawShape(target,data,selectedIndex){
+    var cnt = data.rowCount();
 
-function drawShape(target){
-    target.lineWidth = lineWidth;
-    target.strokeStyle = strokeStyle;
-    target.fillStyle  = fillStyle;
+    target.lineWidth = unselectedBlodWidth;
+    target.strokeStyle = strokeColor;
+    // 画矩形
     target.beginPath();
-    if( shape === "rectangle" ){
-        target.rect(xPos,yPos,width,height);
-    }
-    else if( shape === "circle" ){
-        target.ellipse(xPos,yPos,width,height);
+    for( var i = 0; i < cnt; ++i ){
+        if( data.elementData(i,4) === "rectangle" ){
+            target.fillStyle = rectColor;
+            target.rect( data.elementData(i,0),
+                         data.elementData(i,1),
+                         data.elementData(i,2),
+                         data.elementData(i,3));
+        }
     }
     target.fill();
-    target.stroke();
-    target.closePath();
+    // 画圆形
+    target.beginPath();
+    for( var i = 0; i < cnt; ++i ){
+        if( data.elementData(i,4) === "circle" ){
+            target.fillStyle = cicleColor;
+            target.ellipse( data.elementData(i,0),
+                            data.elementData(i,1),
+                            data.elementData(i,2),
+                            data.elementData(i,3));
+        }
+    }
+    target.fill();
+    // 画选中
+    if( selectedIndex !== -1 ){
+        target.beginPath();
+        target.lineWidth = selectedBlodWidth;
+        if( data.elementData(selectedIndex,4) === "rectangle" ){
+            target.fillStyle = rectColor;
+            target.rect( data.elementData(selectedIndex,0),
+                        data.elementData(selectedIndex,1),
+                        data.elementData(selectedIndex,2),
+                        data.elementData(selectedIndex,3));
+        }
+        else{
+            target.fillStyle = cicleColor;
+            target.ellipse( data.elementData(selectedIndex,0),
+                           data.elementData(selectedIndex,1),
+                           data.elementData(selectedIndex,2),
+                           data.elementData(selectedIndex,3));
+        }
+        target.fill();
+        target.stroke();
+    }
 }

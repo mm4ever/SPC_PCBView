@@ -8,6 +8,13 @@ import an.qt.CModel 1.0
 Item {
     id: mainWindow;
 
+    property int  selected: 0;
+
+    ElementListModel{
+        id: elementList;
+        source: "../data/qml";
+    }
+
     GridLayout{
         columns: 2;
         anchors.fill: parent;
@@ -17,7 +24,7 @@ Item {
         Item{
             id: pcbViewArea;                    // PCBView窗口
             width: 1284;
-            height: 721;
+            height: 741;
 
             Text{
                 id: pcbViewTitle;
@@ -46,8 +53,8 @@ Item {
             Loader{
                 id: preView;
                 source: "qrc:/component/PreView.qml";
-                width: 512;
-                height: 297;
+                width: 516;
+                height: 292;
                 visible: false;
                 anchors.top: pcbView.top;
                 anchors.right: pcbView.right;
@@ -100,6 +107,20 @@ Item {
         target: rotation.item;
         onRotationChanged:{
             preView.visible = !preView.visible;
+        }
+    }
+    Connections{
+        target: listModelView.item;
+        onListDataChanged:{
+            pcbView.item.renderTargets();
+            preView.item.renderTargets();
+        }
+    }
+    Connections{
+        target: pcbView.item;
+        onPcbDataChanged:{
+            listModelView.item.updateListView();
+            preView.item.renderTargets();
         }
     }
 

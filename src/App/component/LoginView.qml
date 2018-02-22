@@ -7,6 +7,7 @@ import an.qt.LoginCheck 1.0
 
 Item{
     signal login(var user);           // 登录完成
+
     function openLoginWnd(){
         loginPop.open();
     }
