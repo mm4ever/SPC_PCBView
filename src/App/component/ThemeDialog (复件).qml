@@ -28,7 +28,7 @@ Dialog {
         property color backgroundColor2;
 
         Component.onCompleted: {
-            //把系统的Materil不同Theme的颜色缓存下来，以便在自定义改了颜色后能够恢复
+            //把系统的Materil不同Theme的颜色缓存下来，一遍在自定义改了颜色后能够恢复
             var origTheme =  appWnd.Material.theme;
             appWnd.Material.theme = Material.Light;
 

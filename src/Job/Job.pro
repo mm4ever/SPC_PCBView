@@ -4,7 +4,10 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+QT += quick
+QT += gui
+QT += quickcontrols2
+CONFIG += c++11
 
 TARGET = Job
 TEMPLATE = lib
@@ -25,12 +28,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     LoginCheck.cpp \
     Element.cpp \
-    ElementListModel.cpp
+    ElementListModel.cpp \
+    LanguageSetting.cpp \
+    ThemeSetting.cpp
 
 HEADERS += \
     LoginCheck.hpp \
     Element.hpp \
-    ElementListModel.hpp
+    ElementListModel.hpp \
+    LanguageSetting.hpp \
+    ThemeSetting.hpp
 
 INCLUDEPATH += $$PWD/../../include
 DEPENDPATH += $$PWD/../../include

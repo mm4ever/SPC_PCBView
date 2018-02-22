@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 
 import an.qt.CModel 1.0
+import an.qt.LanguageSetting 1.0
 
 Item {
     id: mainWindow;
@@ -29,6 +30,7 @@ Item {
             Text{
                 id: pcbViewTitle;
                 text: qsTr("PCBView");
+                color: "#ff00ff"
             }
 
             Loader{
@@ -69,6 +71,7 @@ Item {
             Text{
                 id: listModelTitle;
                 text: qsTr("List");
+                    color: "#ff00ff"
             }
             Loader{
                 id: listModelView;
@@ -89,6 +92,7 @@ Item {
 
             Text{
                 text: qsTr("Equipment");
+                color: "#ff00ff"
             }
         }
 
@@ -99,6 +103,7 @@ Item {
 
             Text{
                 text: qsTr("Lots");
+                color: "#ff00ff"
             }
         }
     }// end of GridLayout

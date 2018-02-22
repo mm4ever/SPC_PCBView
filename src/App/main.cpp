@@ -3,13 +3,11 @@
 #include <QQmlContext>
 #include <QSettings>
 #include <QQuickStyle>
-#include <QIcon>
-#include <QTranslator>
-#include <QDebug>
 
 #include "LoginCheck.hpp"
 #include "ElementListModel.hpp"
-#include "StyleSetting.hpp"
+#include "ThemeSetting.hpp"
+#include "LanguageSetting.hpp"
 
 using namespace Job;
 
@@ -21,13 +19,13 @@ int main(int argc, char *argv[])
 
     QGuiApplication::setApplicationName("SPC");
     QGuiApplication app(argc, argv);
+    QQmlApplicationEngine engine;
 
     // 注册
     qmlRegisterType<LoginCheck>("an.qt.LoginCheck",1,0,"LoginCheck");
-
     qmlRegisterType<ElementListModel>("an.qt.CModel", 1, 0, "ElementListModel");
-
-    qmlRegisterType<StyleSetting>("an.qt.StyleSetting",1,0,"StyleSetting"); //主题相关
+    qmlRegisterType<ThemeSetting>("an.qt.ThemeSetting",1,0,"ThemeSetting");
+    qmlRegisterType<LanguageSetting>("an.qt.LanguageSetting",1,0,"LanguageSetting");
 
     // 主题
     QSettings settings;
@@ -40,10 +38,22 @@ int main(int argc, char *argv[])
 
     // 语言
     QTranslator translator;
-    translator.load(":/language/tr_en.qm");
-    app.installTranslator(&translator);
+    LanguageSetting languageSetting(app, engine, translator);
 
-    QQmlApplicationEngine engine;
+    LanguageSetting langSetting; // qml与C++的枚举绑定
+    const QMetaObject* metaObj = langSetting.metaObject();
+    QMetaEnum enumType = metaObj->enumerator(metaObj->indexOfEnumerator("LanguageType"));
+    QStringList list;
+    for(int i=0; i < enumType.keyCount(); ++i)
+    {
+        QString item = QString::fromLatin1(enumType.key(i));
+        list.append(item);
+    }
+    engine.rootContext()->setContextProperty("languageModel", QVariant::fromValue(list));
+
+    engine.rootContext()->setContextProperty("languages", &languageSetting);
+
+    app.installTranslator(&translator);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     if (engine.rootObjects().isEmpty())
