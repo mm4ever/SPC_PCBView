@@ -24,7 +24,7 @@ ApplicationWindow {
     header: ToolBar {
         id: titleBar;
         visible: false;
-        Material.foreground: "white"
+        Material.foreground: "white";
             RowLayout {
                 anchors.margins: 20;
                 ToolButton {

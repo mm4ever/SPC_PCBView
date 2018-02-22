@@ -6,46 +6,50 @@ import "../scripts/AddTarget.js" as AddTarget
 Item {
     signal listDataChanged();
 
-    Component{
+    Item{
         id: headerVw;
-        Item{
-            width: parent.width;
-            height: 30;
-            RowLayout{
-                spacing: 8;
-                Text {
-                    text: qsTr("x");
-                    font.bold: true;
-                    font.pixelSize: 24;
-                    Layout.preferredWidth: 100;
-                }
-                Text {
-                    text: qsTr("y");
-                    font.bold: true;
-                    font.pixelSize: 24;
-                    Layout.preferredWidth: 100;
-                }
-                Text {
-                    text: qsTr("width");
-                    font.bold: true;
-                    font.pixelSize: 24;
-                    Layout.preferredWidth: 100;
-                }
-                Text {
-                    text: qsTr("height");
-                    font.bold: true;
-                    font.pixelSize: 24;
-                    Layout.preferredWidth: 100;
-                }
-                Text {
-                    text: qsTr("shape");
-                    font.bold: true;
-                    font.pixelSize: 24;
-                    Layout.fillWidth: true;
-                }
+        width: parent.width;
+        height: 30;
+        RowLayout{
+            spacing: 8;
+            Text {
+                text: qsTr("x");
+                font.bold: true;
+                font.pixelSize: 24;
+                Layout.preferredWidth: 100;
+                color: "grey";
+            }
+            Text {
+                text: qsTr("y");
+                font.bold: true;
+                font.pixelSize: 24;
+                Layout.preferredWidth: 100;
+                color: "grey";
+            }
+            Text {
+                text: qsTr("width");
+                font.bold: true;
+                font.pixelSize: 24;
+                Layout.preferredWidth: 100;
+                color: "grey";
+            }
+            Text {
+                text: qsTr("height");
+                font.bold: true;
+                font.pixelSize: 24;
+                Layout.preferredWidth: 100;
+                color: "grey";
+            }
+            Text {
+                text: qsTr("shape");
+                font.bold: true;
+                font.pixelSize: 24;
+                Layout.fillWidth: true;
+                color: "grey";
             }
         }
     }
+    //    }
 
     Component{
         id: elementDelegate;
@@ -77,31 +81,31 @@ Item {
                 spacing: 8;
                 Text {
                     text: centralX;
-                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "black";
+                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "grey";
                     font.pixelSize: itemWrapper.ListView.isCurrentItem ? 22 : 18;
                     Layout.preferredWidth: 100;
                 }
                 Text {
                     text: centralY;
-                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "black";
+                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "grey";
                     font.pixelSize: itemWrapper.ListView.isCurrentItem ? 22 : 18;
                     Layout.preferredWidth: 100;
                 }
                 Text {
                     text: cwidth;
-                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "black";
+                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "grey";
                     font.pixelSize: itemWrapper.ListView.isCurrentItem ? 22 : 18;
                     Layout.preferredWidth: 100;
                 }
                 Text {
                     text: cheight;
-                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "black";
+                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "grey";
                     font.pixelSize: itemWrapper.ListView.isCurrentItem ? 22 : 18;
                     Layout.preferredWidth: 100;
                 }
                 Text {
                     text: shape;
-                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "black";
+                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "grey";
                     font.pixelSize: itemWrapper.ListView.isCurrentItem ? 22 : 18;
                     Layout.fillWidth: true;
                 }
@@ -115,16 +119,21 @@ Item {
 
     ListView{
         id: lstVm;
-        anchors.fill: parent;
+        //        anchors.fill: parent;
+        anchors.top: headerVw.bottom;
+        anchors.left: parent.left;
+        anchors.right: parent.right;
+        anchors.bottom: parent.bottom;
         clip: true;
 
         spacing: 2;
-        header: headerVw;
+        //        header: headerVw;
         delegate: elementDelegate;
 
         //这里引用的VideoListModel其实是来自与C++了
         model: elementList;
         focus: true;
+        highlightMoveDuration: 750;
         highlight: Rectangle{
             radius: 4;
             color: "#81D4FA";

@@ -19,7 +19,6 @@ Item {
         columns: 2;
         anchors.fill: parent;
         anchors.margins: 20;
-        Material.foreground: Material.Pink;
 
         Item{
             id: pcbViewArea;                    // PCBView窗口
@@ -29,6 +28,7 @@ Item {
             Text{
                 id: pcbViewTitle;
                 text: qsTr("PCBView");
+                color: Material.color(Material.Pink);
             }
 
             Loader{
@@ -69,6 +69,7 @@ Item {
             Text{
                 id: listModelTitle;
                 text: qsTr("List");
+                color: Material.color(Material.Pink);
             }
             Loader{
                 id: listModelView;
@@ -89,6 +90,7 @@ Item {
 
             Text{
                 text: qsTr("Equipment");
+                color: Material.color(Material.Pink);
             }
         }
 
@@ -99,6 +101,7 @@ Item {
 
             Text{
                 text: qsTr("Lots");
+                color: Material.color(Material.Pink);
             }
         }
     }// end of GridLayout
