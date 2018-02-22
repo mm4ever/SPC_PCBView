@@ -37,6 +37,11 @@ ApplicationWindow {
                     onClicked: themeDialog.item.open();
                 }
                 ToolButton {
+                    text: qsTr("Language");
+                    font.capitalization: Font.MixedCase;
+                    onClicked: languageDialog.item.open();
+                }
+                ToolButton {
                     text: qsTr("Exit");
                     font.capitalization: Font.MixedCase;
                     onClicked: Qt.quit();
@@ -63,6 +68,12 @@ ApplicationWindow {
         id: themeDialog;            // 主题设置
         anchors.centerIn: parent;
         source: "qrc:/component/ThemeDialog.qml";
+    }
+
+    Loader{
+        id: languageDialog;         // 语言设置
+        anchors.centerIn: parent;
+        source: "qrc:/component/LanguageDialog.qml";
     }
 
     Loader{
@@ -99,4 +110,5 @@ ApplicationWindow {
             mainWindow.source = "qrc:/component/MainWindow.qml";
         }
     }
+
 }

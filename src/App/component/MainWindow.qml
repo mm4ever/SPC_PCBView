@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 
 import an.qt.CModel 1.0
+import an.qt.LanguageSetting 1.0
 
 Item {
     id: mainWindow;
@@ -22,6 +23,7 @@ Item {
             Text{
                 id: pcbViewTitle;
                 text: qsTr("PCBView");
+                color: "#ff00ff"
             }
 
             Loader{
@@ -66,8 +68,9 @@ Item {
                 anchors.top: parent.top;
 
                 Text{
-                    text: qsTr("List\ncentralX\tcentralY\tcwidth\tcheight\tshape");
+                    text: qsTr("List\n\ncentralX\tcentralY\tcwidth\tcheight\tshape");
                     anchors.top: parent.top;
+                    color: "#ff00ff"
                 }
             }
 
@@ -111,7 +114,7 @@ Item {
                             Text{
                                 Layout.fillWidth: true;
                                 text:   centralX + "\t" + centralY + "\t" + cwidth + "\t" + cheight + "\t" + shape;
-                                color: itemWrapper.ListView.isCurrentItem ? "blue" : "black";
+                                color: itemWrapper.ListView.isCurrentItem ? "blue" : "#ff00ff";
                                 font.pixelSize: 18;
                                 elide: Text.ElideRight;
                             }
@@ -142,6 +145,7 @@ Item {
 
             Text{
                 text: qsTr("Equipment");
+                color: "#ff00ff"
             }
         }
 
@@ -152,6 +156,7 @@ Item {
 
             Text{
                 text: qsTr("Lots");
+                color: "#ff00ff"
             }
         }
     }// end of GridLayout

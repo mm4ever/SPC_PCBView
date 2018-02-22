@@ -34,7 +34,8 @@ HEADERS += \
     DB/Blob.hpp \
     CustomException.hpp \
     FormatConvertor.hpp \
-    Shape.hpp
+    Shape.hpp \
+    MetaEnum.hpp
 
 INCLUDEPATH += $$PWD/../../include/sqlite
 INCLUDEPATH += $$PWD/../../include
