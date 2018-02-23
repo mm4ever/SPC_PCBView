@@ -15,6 +15,7 @@ public:
     ElementListModel(QObject *parent = nullptr);
     virtual ~ElementListModel();
 
+    Q_INVOKABLE void save();
     Q_INVOKABLE void reload();
     Q_INVOKABLE void remove(int index);
     Q_INVOKABLE QVariant elementData(int index,int attr);

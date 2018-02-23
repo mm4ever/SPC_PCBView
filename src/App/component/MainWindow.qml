@@ -134,4 +134,8 @@ Item {
         }
     }
 
+    Shortcut{
+        sequence: "Ctrl+S";
+        onActivated: elementList.save();
+    }
 }// end of mainWindow
