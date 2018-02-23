@@ -15,6 +15,7 @@
         <file>language/tr_en.qm</file>
         <file>component/ListModelView.qml</file>
         <file>component/LanguageDialog.qml</file>
-        <file>component/FileDialog.qml</file>
+        <file>component/FileDialog.qml
+        </file><file>component/FloatingWin.qml</file>
     </qresource>
 </RCC>

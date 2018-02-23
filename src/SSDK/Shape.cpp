@@ -2,7 +2,8 @@
 
 using namespace SSDK;
 
-Shape::Shape()
+Shape::Shape(QObject *parent):
+    QObject(parent)
 {
     try
     {

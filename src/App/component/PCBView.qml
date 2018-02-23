@@ -4,15 +4,22 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 
 import an.qt.CModel 1.0
+import an.qt.Shape 1.0
 
 import "../scripts/AddTarget.js" as AddTarget
 
 Item {
+    id: pcbViewItem;
     visible: true;
     anchors.centerIn: parent;
     clip: true;
 
     property point clickPos: "0,0";             // 鼠标点击的位置坐标
+    property int selectedObjIdx: -1;
+
+    property var floatWinComponent: null;
+    property var floatWin;
+
 
     signal pcbDataChanged();
     signal pcbAreaChanged();
@@ -37,6 +44,45 @@ Item {
         }
     }
 
+    Menu {
+        id: contentMenu;
+        x: curPos.mouseX;
+        y: curPos.mouseY;
+        width: 100;
+
+        Menu { // 右键菜单
+            title: qsTr("Edit");
+            MenuItem {
+                id: menuItem;
+                text: qsTr("add");
+                onTriggered: {
+                    if(null === pcbViewItem.floatWinComponent){
+                        pcbViewItem.floatWin = Qt.createComponent("qrc:/component/FloatingWin.qml");
+                        pcbViewItem.floatWinComponent = pcbViewItem.floatWin.createObject(pcbViewItem,{"x":300,"y":150});
+                    }
+                }
+            }
+
+            MenuItem {
+                text: qsTr("continue1");
+                onTriggered: { menuTip.visible = true; }
+            }
+
+            MenuItem {
+                text: qsTr("continue2");
+                onTriggered: { menuTip.visible = true; }
+            }
+
+            Item {
+                ToolTip {
+                    id: menuTip;
+                    timeout: 1000;
+                    text: qsTr("此功能暂未开放！");
+                }
+            }
+        }
+    }
+
     MouseArea{
         id: hoveredCursor;                      // 获取鼠标悬浮时的坐标
         anchors.fill: parent;
@@ -47,12 +93,50 @@ Item {
         id: curPos;
         anchors.fill: parent;
 
+        acceptedButtons: Qt.RightButton|Qt.LeftButton|Qt.WheelFocus; // 激活右键
+
+        onClicked: {
+            if (mouse.button === Qt.RightButton) { // 右键菜单
+                contentMenu.popup();
+            }
+        }
+
+        onReleased: {
+            if( clickPos === Qt.point(mouseX,mouseY) )
+            {
+                if( null != pcbViewItem.floatWinComponent &&
+                     -1 === pcbViewItem.selectedObjIdx  ) {
+                    //判断鼠标点击的区域是否存在已有target
+                    if(pcbViewItem.floatWinComponent.checkedShape === "rectangle"){
+                        //要添加的target是矩形
+                        elementList.add(Shape.RECTANGLE,mouseX,mouseY,10,10);
+                        renderTargets();
+                        emit:pcbDataChanged();
+                    }
+                    else if(pcbViewItem.floatWinComponent.checkedShape === "circle"){
+                        //要添加的target是圆形
+                        elementList.add(Shape.CIRCLE,mouseX,mouseY,10,10);
+                        renderTargets();
+                        emit:pcbDataChanged();
+                    }
+                }
+            }
+        }
+
         onDoubleClicked: {
-            xOffset = 0;                        // canvas上绘图的起始位置偏移量恢复
-            yOffset = 0;
-            elementScale = 1;                   // canvas上绘图的比例恢复
-            renderTargets();
-            emit:pcbAreaChanged();
+            if( -1 === pcbViewItem.selectedObjIdx ) {
+                xOffset = 0;                        // canvas上绘图的起始位置偏移量恢复
+                yOffset = 0;
+                elementScale = 1;                   // canvas上绘图的比例恢复
+                renderTargets();
+                emit:pcbAreaChanged();
+            }
+            else {
+                clickPos  = Qt.point(mouse.x,mouse.y);
+                distinguishTarget(clickPos);
+                elementList.remove(selected);
+                emit:listModelView.item.listDataChanged();
+            }
         }
 
         onPressed: { //接收鼠标按下事件
@@ -115,6 +199,8 @@ Item {
         var distance = 0;
         var shape = "rectangle";
 
+        pcbViewItem.selectedObjIdx = -1;
+
         for(var i = 0; i < cnt; ++i){
             x = parseInt(elementList.elementData(i,0));
             y = parseInt(elementList.elementData(i,1));
@@ -131,6 +217,7 @@ Item {
                     selected = i;
                     renderTargets();
                     emit:pcbDataChanged();
+                    pcbViewItem.selectedObjIdx = i;
                     return;
                 }
             }
@@ -143,11 +230,11 @@ Item {
                     selected = i;
                     renderTargets();
                     emit:pcbDataChanged();
+                    pcbViewItem.selectedObjIdx = i;
                     return;
                 }
             }
 
         }
     }
-
 }
