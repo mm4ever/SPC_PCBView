@@ -151,10 +151,10 @@ void Element::save()
     {
         // 获取当前时间,用于生成保存的数据库文件名
         QDateTime local(QDateTime::currentDateTime());
-        QString localTime = local.toString("yyyy:MM:dd:hh:mm:ss");
+        QString localTime = local.toString("_yyMMddhhmmss");
 
         // 创建数据库对象，打开传入路径的数据库
-        sqlite.open( "../data/save" + localTime.toStdString());
+        sqlite.open( m_jobPath.toStdString() + localTime.toStdString());
 
 
         if( !sqlite.isOpened() )

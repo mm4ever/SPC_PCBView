@@ -38,7 +38,7 @@ Item {
     }
 
     MouseArea{
-        id: hoveredCursor;
+        id: hoveredCursor;                      // 获取鼠标悬浮时的坐标
         anchors.fill: parent;
         hoverEnabled: true;
     }
@@ -85,6 +85,7 @@ Item {
                 xOffset -= hoveredCursor.mouseX * tempScale;
                 yOffset -= hoveredCursor.mouseY * tempScale;
                 renderTargets();
+                console.log(elementScale);
                 emit:pcbAreaChanged();
             }
         }
@@ -145,6 +146,7 @@ Item {
                     return;
                 }
             }
+
         }
     }
 

@@ -2,6 +2,7 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
+import Qt.labs.platform 1.0
 
 import an.qt.CModel 1.0
 import an.qt.LanguageSetting 1.0
@@ -14,10 +15,22 @@ Item {
     property int yOffset: 0;
     property real elementScale: 1;
 
-    ElementListModel{
-        id: elementList;
-        source: "../data/qml";
-    }
+//    Shortcut{
+//        sequence: "Ctrl+O";
+//        onActivated: Qt.quit();
+//    }
+
+//    ElementListModel{
+//        id: elementList;
+////        source: "../data/qml";
+//    }
+
+//    FileDialog {
+//        id: fileDialog1
+//        fileMode: FileDialog.OpenFile
+//        nameFilters: ["数据库文件 (*.db)", "全部文件 (*.*)"]
+//        options :FileDialog.ReadOnly;
+//    }
 
     GridLayout{
         columns: 2;

@@ -1,4 +1,5 @@
 import QtQuick 2.10
+import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 
 Item {
@@ -47,7 +48,6 @@ Item {
             }
         }
     }
-    //    }
 
     Component{
         id: elementDelegate;
@@ -68,7 +68,18 @@ Item {
                 }
                 onDoubleClicked: {
                     mouse.accept = true;
-                    itemWrapper.ListView.view.model.remove(selected);
+                    if( elementList.rowCount() > 1 ){
+                        if( elementList.rowCount() === selected+1 ){
+                            selected -= 1;
+                            itemWrapper.ListView.view.model.remove(selected+1);
+                        }
+                        else{
+                            itemWrapper.ListView.view.model.remove(selected);
+                        }
+                    }
+                    else{
+                        itemWrapper.ListView.view.model.remove(selected);
+                    }
                     emit:listDataChanged();
                 }
             }
@@ -116,7 +127,6 @@ Item {
 
     ListView{
         id: lstVm;
-        //        anchors.fill: parent;
         anchors.top: headerVw.bottom;
         anchors.left: parent.left;
         anchors.right: parent.right;

@@ -5,21 +5,29 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Controls.Universal 2.2
 import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
+import QtQuick.Dialogs 1.1
+
+import an.qt.CModel 1.0
+import an.qt.LanguageSetting 1.0
 
 ApplicationWindow {
     id: appWnd;
-    x:(screen.width-width)/2;        // 将主窗口限定在屏幕中央
+    x:(screen.width-width)/2;                   // 将主窗口限定在屏幕中央
     y:(screen.height-height)/2;
-    width: fixedWidth;
-    height: fixedHeight;
-    minimumWidth: fixedWidth;
-    minimumHeight: fixedHeight;
-    maximumWidth: fixedWidth;
-    maximumHeight: fixedHeight;
+    width: 320;
+    height: 520;
     visible: true;
+    flags: Qt.Window | Qt.FramelessWindowHint   //去标题栏
 
-    property int  fixedWidth : 320;
-    property int  fixedHeight: 520;
+    Shortcut{
+        sequence: "Ctrl+Q";
+        onActivated: Qt.quit();
+    }
+
+    ElementListModel{
+        id: elementList;
+        source: "../data/default";
+    }
 
     header: ToolBar {
         id: titleBar;
@@ -30,6 +38,7 @@ ApplicationWindow {
                 ToolButton {
                     text: qsTr("File");
                     font.capitalization: Font.MixedCase;
+                    onClicked: fileDialog.item.open();
                 }
                 ToolButton {
                     text: qsTr("Theme");
@@ -58,6 +67,12 @@ ApplicationWindow {
                 }
             }
         }
+
+    Loader{
+        id: fileDialog;
+        anchors.centerIn: parent;
+        source: "qrc:/component/FileDialog.qml";
+    }
 
     Loader{
         id: themeDialog;            // 主题设置
@@ -93,10 +108,10 @@ ApplicationWindow {
             loadingView.source = "";
             loginView.source = "qrc:/component/LoginView.qml";
             titleBar.visible = true;
-            appWnd.fixedWidth=Screen.desktopAvailableWidth;
-            appWnd.fixedHeight=Screen.desktopAvailableHeight-titleBar.height;
+            appWnd.showFullScreen();
         }
     }
+
     Connections{
         target: loginView.item;
         onLogin:{
@@ -105,5 +120,4 @@ ApplicationWindow {
             mainWindow.source = "qrc:/component/MainWindow.qml";
         }
     }
-
 }
