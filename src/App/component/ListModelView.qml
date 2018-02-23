@@ -70,7 +70,6 @@ Item {
                     mouse.accept = true;
                     itemWrapper.ListView.view.model.remove(selected);
                     emit:listDataChanged();
-                    itemWrapper.ListView.view.currentIndex = selected;
                 }
             }
 

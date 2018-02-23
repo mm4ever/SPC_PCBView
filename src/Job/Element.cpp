@@ -6,29 +6,53 @@ using namespace SSDK::DB;
 
 Element::Element()
 {
-    int role = Qt::UserRole;
+    try
+    {
+        int role = Qt::UserRole;
 
-    m_roleNames.insert(role++, "centralX");
-    m_roleNames.insert(role++, "centralY");
-    m_roleNames.insert(role++, "cwidth");
-    m_roleNames.insert(role++, "cheight");
-    m_roleNames.insert(role++, "shape");
+        m_roleNames.insert(role++, "centralX");
+        m_roleNames.insert(role++, "centralY");
+        m_roleNames.insert(role++, "cwidth");
+        m_roleNames.insert(role++, "cheight");
+        m_roleNames.insert(role++, "shape");
+    }
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("构造函数出错")
 }
 
 Element::~Element()
 {
-    for(int i = 0; i < this->m_pShapes.size(); ++i)
+    try
     {
-        delete this->m_pShapes[i];
+        for(int i = 0; i < this->m_pShapes.size(); ++i)
+        {
+            if(nullptr != this->m_pShapes[i])
+            {
+                delete this->m_pShapes[i];
+            }
+        }
+    }
+    catch(...)
+    {
+        for(int i = 0; i < this->m_pShapes.size(); ++i)
+        {
+            if(nullptr != this->m_pShapes[i])
+            {
+                delete this->m_pShapes[i];
+            }
+        }
     }
 }
 
 void Element::reset()
 {
-    for(int i = 0; i < this->m_pShapes.size(); ++i)
+    try
     {
-        delete this->m_pShapes[i];
+        for(int i = 0; i < this->m_pShapes.size(); ++i)
+        {
+            delete this->m_pShapes[i];
+        }
     }
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("重置数据出错")
 }
 
 void Element::read()
@@ -125,8 +149,13 @@ void Element::save()
     SqliteDB sqlite;
     try
     {
+        // 获取当前时间,用于生成保存的数据库文件名
+        QDateTime local(QDateTime::currentDateTime());
+        QString localTime = local.toString("yyyy:MM:dd:hh:mm:ss");
+
         // 创建数据库对象，打开传入路径的数据库
-        sqlite.open( "../data/save" );
+        sqlite.open( "../data/save" + localTime.toStdString());
+
 
         if( !sqlite.isOpened() )
         {

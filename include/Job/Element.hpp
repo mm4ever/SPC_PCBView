@@ -1,12 +1,15 @@
 #ifndef ELEMENT_HPP
 #define ELEMENT_HPP
 
+#include <QDateTime>
 #include <QVector>
 #include <QHash>
 
 #include "DB/SqliteDb.hpp"
+
 #include "Shape.hpp"
 #include "FormatConvertor.hpp"
+#include "CustomException.hpp"
 
 class Element
 {

@@ -35,40 +35,44 @@ Shape::~Shape()
 
 QString Shape::at(int index)
 {
-    switch (index)
+    try
     {
-    case 0:
-        return QString::number(this->m_centralX,10);
-        break;
-
-    case 1:
-        return QString::number(this->m_centralY,10);
-        break;
-
-    case 2:
-        return QString::number(this->m_width,10);
-        break;
-
-    case 3:
-        return QString::number(this->m_height,10);
-        break;
-
-    case 4:
-    {
-        if(ShapeType::CIRCLE == this->m_shapeType)
+        switch (index)
         {
-            return QString("circle");
-        }
-        else
-        {
-            return QString("rectangle");
-        }
-        break;
-    }
+        case 0:
+            return QString::number(this->m_centralX,10);
+            break;
 
-    default:
-        break;
+        case 1:
+            return QString::number(this->m_centralY,10);
+            break;
+
+        case 2:
+            return QString::number(this->m_width,10);
+            break;
+
+        case 3:
+            return QString::number(this->m_height,10);
+            break;
+
+        case 4:
+        {
+            if(ShapeType::CIRCLE == this->m_shapeType)
+            {
+                return QString("circle");
+            }
+            else
+            {
+                return QString("rectangle");
+            }
+            break;
+        }
+
+        default:
+            break;
+        }
     }
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("读取数据出错")
 }
 
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
