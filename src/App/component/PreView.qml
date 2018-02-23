@@ -1,7 +1,4 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.3
 
 import an.qt.CModel 1.0
 
@@ -10,15 +7,21 @@ import "../scripts/AddTarget.js" as AddTarget
 Item {
     visible: true;
     anchors.centerIn: parent;
+    clip: true;
 
-    Canvas{
-        anchors.fill: parent;   // 画背景
-        contextType: "2d";
-        onPaint: {
-            context.fillStyle = "grey";
-            context.beginPath();
-            context.fillRect(0,0,parent.width,parent.height);
-        }
+    Rectangle{          // 画背景
+        anchors.fill: parent;
+        color: "grey";
+    }
+    Rectangle{
+        id: rectBox;
+        x: 0;
+        y: 0;
+        width: 512;
+        height: 288;
+        border.width: 1;
+        border.color: "red";
+        color: "transparent";
     }
 
     Canvas{
@@ -32,11 +35,11 @@ Item {
 
         onPaint: {
             AddTarget.drawShape( preViewCanvas.context,
-                                elementList,
-                                selected,
-                                0,
-                                0,
-                                1 );
+                                 elementList,
+                                 selected,
+                                 0,
+                                 0,
+                                 1 );
         }
     }
 
@@ -50,6 +53,22 @@ Item {
                              0,
                              1 );
         preViewCanvas.requestPaint();
+    }
+
+    // 重新画缩略图预览框
+    function renderRectBox(){
+        if( elementScale < 1 ){
+            rectBox.x = 0;
+            rectBox.y = 0;
+            rectBox.width = 512;
+            rectBox.height = 288;
+        }
+        else{
+            rectBox.x = -xOffset/elementScale*0.4;
+            rectBox.y = -yOffset/elementScale*0.4;
+            rectBox.width = 512/elementScale;
+            rectBox.height = 288/elementScale;
+        }
     }
 
 }

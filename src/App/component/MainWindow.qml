@@ -57,8 +57,8 @@ Item {
             Loader{
                 id: preView;
                 source: "qrc:/component/PreView.qml";
-                width: 516;
-                height: 292;
+                width: 512;
+                height: 288;
                 visible: false;
                 anchors.top: pcbView.top;
                 anchors.right: pcbView.right;
@@ -128,6 +128,9 @@ Item {
         onPcbDataChanged:{
             listModelView.item.updateListView();
             preView.item.renderTargets();
+        }
+        onPcbAreaChanged:{
+            preView.item.renderRectBox();
         }
     }
 

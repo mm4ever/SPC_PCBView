@@ -125,7 +125,6 @@ Item {
         clip: true;
 
         spacing: 2;
-        //        header: headerVw;
         delegate: elementDelegate;
 
         //这里引用的VideoListModel其实是来自与C++了

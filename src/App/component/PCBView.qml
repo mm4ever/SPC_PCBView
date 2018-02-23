@@ -15,6 +15,7 @@ Item {
     property point clickPos: "0,0";             // 鼠标点击的位置坐标
 
     signal pcbDataChanged();
+    signal pcbAreaChanged();
 
     Canvas{
         id: pcbViewCanvas;
@@ -51,6 +52,7 @@ Item {
             yOffset = 0;
             elementScale = 1;                   // canvas上绘图的比例恢复
             renderTargets();
+            emit:pcbAreaChanged();
         }
 
         onPressed: { //接收鼠标按下事件
@@ -63,12 +65,12 @@ Item {
             yOffset += mouse.y - clickPos.y;
             renderTargets();
             clickPos  = Qt.point(mouse.x,mouse.y);
-            console.log(xOffset,yOffset)
+            emit:pcbAreaChanged();
         }
         onWheel: {
             if (wheel.modifiers & Qt.ControlModifier) {
-                var tempScale = Math.floor(0.1*wheel.angleDelta.y/120*10)/10;
-                elementScale = Math.floor((elementScale + tempScale)*10)/10;
+                var tempScale = wheel.angleDelta.y/1200;
+                elementScale += tempScale;
                 if (elementScale < 0.3) {
                     // 画布最小缩放比例为0.3
                     elementScale = 0.3;
@@ -80,10 +82,10 @@ Item {
                     tempScale = 0;
                 }
                 // canvas偏移量
-                xOffset += hoveredCursor.mouseX * -tempScale;
-                yOffset += hoveredCursor.mouseY * -tempScale;
-                console.log(elementScale,tempScale,xOffset);
+                xOffset -= hoveredCursor.mouseX * tempScale;
+                yOffset -= hoveredCursor.mouseY * tempScale;
                 renderTargets();
+                emit:pcbAreaChanged();
             }
         }
     }
