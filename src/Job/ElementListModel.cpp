@@ -6,49 +6,24 @@ ElementListModel::ElementListModel(QObject *parent):
     QAbstractListModel(parent),
     m_pElement(new Element())
 {
-    try
-    {
 
-    }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("构造函数出错")
 }
 
 ElementListModel::~ElementListModel()
 {
-    try
-    {
-        delete this->m_pElement;
-    }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("析构函数出错")
-}
-
-void ElementListModel::save()
-{
-    try
-    {
-        this->m_pElement->save();
-    }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("保存数据到数据库文件出错")
+    delete this->m_pElement;
 }
 
 int ElementListModel::rowCount(const QModelIndex &parent) const
 {
-    try
-    {
-        Q_UNUSED(parent);
-        return m_pElement->pShapes().size();
-    }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("获取行数出错")
+    Q_UNUSED(parent);
+    return m_pElement->pShapes().size();
 }
 
 QVariant ElementListModel::data(const QModelIndex &index, int role) const
 {
-    try
-    {
-        Shape *pElement = m_pElement->pShapes()[index.row()];
-        return pElement->at(role - Qt::UserRole);
-    }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("获取数据出错")
+    Shape *pElement = m_pElement->pShapes()[index.row()];
+    return pElement->at(role - Qt::UserRole);
 }
 
 QHash<int, QByteArray> ElementListModel::roleNames() const
@@ -58,21 +33,13 @@ QHash<int, QByteArray> ElementListModel::roleNames() const
 
 QString ElementListModel::source() const
 {
-    try
-    {
-        return m_pElement->jobPath();
-    }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("source get函数出错")
+    return m_pElement->jobPath();
 }
 
 void ElementListModel::setSource(const QString &filePath)
 {
-    try
-    {
-        m_pElement->setJobPath(filePath);
-        reload();
-    }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("source set函数出错")
+    m_pElement->setJobPath(filePath);
+    reload();
 }
 
 void ElementListModel::reload()
@@ -86,24 +53,41 @@ void ElementListModel::reload()
 
         endResetModel();
     }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("重新加载函数出错")
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("加载数据有误！");
+}
+
+void ElementListModel::add(Shape::ShapeType shapeType, int centralX, int centralY, int width, int height)
+{
+    try
+    {
+        beginInsertRows(QModelIndex(),this->m_pElement->pShapes().size(),this->m_pElement->pShapes().size());
+        m_pElement->add(shapeType,centralX,centralY,width,height);
+        endInsertRows();
+    }
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("添加数据有误！");
 }
 
 void ElementListModel::remove(int index)
 {
-    beginRemoveRows(QModelIndex(), index, index);
-    delete m_pElement->pShapes().takeAt(index);
-    endRemoveRows();
+    try
+    {
+        beginRemoveRows(QModelIndex(), index, index);
+        delete m_pElement->pShapes().takeAt(index);
+        endRemoveRows();
+    }
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("删除数据有误！");
+}
+
+void ElementListModel::save()
+{
+    try
+    {
+        m_pElement->save();
+    }
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("保存数据有误！");
 }
 
 QVariant ElementListModel::elementData(int index, int attr)
 {
-    try
-    {
-        if(index <= this->m_pElement->pShapes().size() -1 )
-        {
-            return this->m_pElement->pShapes()[index]->at(attr);
-        }
-    }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("获取元素数据出错")
+    return this->m_pElement->pShapes()[index]->at(attr);
 }
