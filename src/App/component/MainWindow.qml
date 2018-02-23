@@ -10,6 +10,9 @@ Item {
     id: mainWindow;
 
     property int  selected: 0;
+    property int xOffset: 0;
+    property int yOffset: 0;
+    property real elementScale: 1;
 
     ElementListModel{
         id: elementList;

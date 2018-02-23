@@ -46,14 +46,14 @@ int main(int argc, char *argv[])
     QStringList list;
     for(int i=0; i < enumType.keyCount(); ++i)
     {
-        QString item = QString::fromLatin1(enumType.key(i));
+        QString item = QString::fromLatin1(enumType.key(i)).toLower();
         list.append(item);
     }
     engine.rootContext()->setContextProperty("languageModel", QVariant::fromValue(list));
     engine.rootContext()->setContextProperty("languages", &languageSetting);
     app.installTranslator(&translator);
 
-    // 加载
+    // 加载main.qml
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     if (engine.rootObjects().isEmpty())

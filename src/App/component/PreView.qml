@@ -31,14 +31,24 @@ Item {
         scale: 0.4;
 
         onPaint: {
-            AddTarget.drawShape(preViewCanvas.context,elementList,selected);
+            AddTarget.drawShape( preViewCanvas.context,
+                                elementList,
+                                selected,
+                                0,
+                                0,
+                                1 );
         }
     }
 
     // 重新渲染
     function renderTargets(){
         preViewCanvas.context.clearRect(0,0,1280,720);
-        AddTarget.drawShape(preViewCanvas.context,elementList,selected);
+        AddTarget.drawShape( preViewCanvas.context,
+                             elementList,
+                             selected,
+                             0,
+                             0,
+                             1 );
         preViewCanvas.requestPaint();
     }
 

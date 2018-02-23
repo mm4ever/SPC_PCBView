@@ -1,8 +1,6 @@
 import QtQuick 2.10
 import QtQuick.Layouts 1.3
 
-import "../scripts/AddTarget.js" as AddTarget
-
 Item {
     signal listDataChanged();
 

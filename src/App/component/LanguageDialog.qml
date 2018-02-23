@@ -41,7 +41,7 @@ Dialog {
             spacing: 10;
 
             Label {
-                text: "Style:";
+                text: qsTr("Style:");
             }
 
             //This control's model provide by C++
