@@ -50,10 +50,10 @@ int main(int argc, char *argv[])
         list.append(item);
     }
     engine.rootContext()->setContextProperty("languageModel", QVariant::fromValue(list));
-
     engine.rootContext()->setContextProperty("languages", &languageSetting);
-
     app.installTranslator(&translator);
+
+    // 加载
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     if (engine.rootObjects().isEmpty())
