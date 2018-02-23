@@ -15,7 +15,7 @@ Item {
     clip: true;
 
     property point clickPos: "0,0";             // 鼠标点击的位置坐标
-    property int selectedObjIdx: -1;
+    property int selectedObjIdx: -1;            // 是否选中元件
 
     property var floatWinComponent: null;
     property var floatWin;
@@ -109,13 +109,13 @@ Item {
                     //判断鼠标点击的区域是否存在已有target
                     if(pcbViewItem.floatWinComponent.checkedShape === "rectangle"){
                         //要添加的target是矩形
-                        elementList.add(Shape.RECTANGLE,mouseX,mouseY,10,10);
+                        elementList.add(Shape.RECTANGLE,mouseX,mouseY,20,20);
                         renderTargets();
                         emit:pcbDataChanged();
                     }
                     else if(pcbViewItem.floatWinComponent.checkedShape === "circle"){
                         //要添加的target是圆形
-                        elementList.add(Shape.CIRCLE,mouseX,mouseY,10,10);
+                        elementList.add(Shape.CIRCLE,mouseX,mouseY,20,20);
                         renderTargets();
                         emit:pcbDataChanged();
                     }

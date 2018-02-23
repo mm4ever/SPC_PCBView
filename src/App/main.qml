@@ -50,20 +50,34 @@ ApplicationWindow {
                     font.capitalization: Font.MixedCase;
                     onClicked: languageDialog.item.open();
                 }
-                ToolButton {
-                    text: qsTr("Exit");
-                    font.capitalization: Font.MixedCase;
-                    onClicked: Qt.quit();
-                }
             }
+
             ToolButton{
                 id: loginMsg;
                 text: qsTr("Login");
-                anchors.right: parent.right;
+                anchors.right: minWnd.left;
                 font.capitalization: Font.MixedCase;
                 onClicked: {
                     loginView.source = "qrc:/component/LoginView.qml";
                     loginView.item.openLoginWnd();
+                }
+                Rectangle{
+                    anchors.centerIn: parent;
+                    width: parent.width;
+                    height: parent.height*0.75;
+                    border.width: 2;
+                    border.color: "white";
+                    color: "transparent";
+                    radius: 4;
+                }
+            }
+            ToolButton{
+                id: minWnd;
+                text: "X";
+                anchors.right: parent.right;
+                font.capitalization: Font.MixedCase;
+                onClicked: {
+                    Qt.quit();
                 }
             }
         }
