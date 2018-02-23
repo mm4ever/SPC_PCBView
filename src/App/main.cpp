@@ -10,6 +10,7 @@
 #include "LanguageSetting.hpp"
 
 using namespace Job;
+using namespace SSDK;
 
 int main(int argc, char *argv[])
 {
@@ -26,6 +27,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<ElementListModel>("an.qt.CModel", 1, 0, "ElementListModel");
     qmlRegisterType<ThemeSetting>("an.qt.ThemeSetting",1,0,"ThemeSetting");
     qmlRegisterType<LanguageSetting>("an.qt.LanguageSetting",1,0,"LanguageSetting");
+    qmlRegisterType<Shape>("an.qt.Shape", 1, 0, "Shape");
+
+    qRegisterMetaType<Shape::ShapeType>();
 
     // 主题
     QSettings settings;

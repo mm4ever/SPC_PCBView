@@ -6,7 +6,6 @@
 
 #include "CustomException.hpp"
 
-
 namespace SSDK
 {
     /**
@@ -16,8 +15,11 @@ namespace SSDK
      *  @version 1.00 2018-02-10 plato
      *                note:create it
      */
-    class Shape
+    class Shape: public QObject
     {
+        Q_OBJECT
+
+        Q_ENUMS(ShapeType)
     public:
 
         enum class ShapeType
@@ -29,7 +31,7 @@ namespace SSDK
         //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //constructor & destructor
 
-        Shape();
+        Shape(QObject *parent = nullptr);
 
         Shape( ShapeType shapeType,
                int centralX,
@@ -66,5 +68,7 @@ namespace SSDK
     };
 
 }//End of namespace SSDK
+
+Q_DECLARE_METATYPE(SSDK::Shape::ShapeType)
 
 #endif // SHAPE_HPP
