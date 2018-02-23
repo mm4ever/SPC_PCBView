@@ -82,7 +82,7 @@ Dialog {
             spacing: 10;
 
             Label {
-                text: "Style:";
+                text: qsTr("Style:");
             }
 
             ComboBox {
