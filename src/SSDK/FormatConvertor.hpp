@@ -1,13 +1,9 @@
 #ifndef FORMATCONVERTION_HPP
 #define FORMATCONVERTION_HPP
 
-#include <iostream>
 #include <string>
-#include <sstream>
 
 #include "CustomException.hpp"
-
-using namespace std;
 
 namespace SSDK
 {
@@ -66,6 +62,6 @@ namespace SSDK
 
         //<<<-------------------------------------------------------------------
     };
-}   //End of namespace SSDK
+}//End of namespace SSDK
 
 #endif // FORMATCONVERTION_HPP

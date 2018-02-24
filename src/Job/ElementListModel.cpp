@@ -1,5 +1,6 @@
 #include "ElementListModel.hpp"
 
+using namespace Job;
 using namespace SSDK;
 
 ElementListModel::ElementListModel(QObject *parent):

@@ -2,8 +2,8 @@
 
 using namespace std;
 
-using namespace SSDK;
 using namespace Job;
+using namespace SSDK;
 
 ThemeSetting::ThemeSetting(QObject *parent):QObject(parent)
 {
@@ -22,7 +22,7 @@ ThemeSetting::ThemeSetting(QObject *parent):QObject(parent)
 
         //自定义初始值
         this->m_backgroundColorList[(int)ThemeType::USER_DEFINED] = QColor("#FFFFFF");
-        this->m_foregroundColorList[(int)ThemeType::USER_DEFINED] = QColor("#ffcce0");
+        this->m_foregroundColorList[(int)ThemeType::USER_DEFINED] = QColor("#000000");
         this->m_primaryColorList[(int)ThemeType::USER_DEFINED] = QColor("#9C27B0");
         this->m_accentColorList[(int)ThemeType::USER_DEFINED] = QColor("#EE82EE");
     }

@@ -39,28 +39,26 @@ Item {
                                  yOffset,
                                  elementScale);
         }
-        Component.onCompleted: {
-            var cnt = 2000;
-            var x = 0;
-            var y = 0;
-            for( var i = 0; i < cnt; ++i ){
-                x = parseInt(Math.random()*1280);
-                y = parseInt(Math.random()*720);
-                if( 0 === i % 2 ){
-                    elementList.add(Shape.RECTANGLE,x,y,10,10);
-                }
-                else{
-                    elementList.add(Shape.CIRCLE,x,y,10,10);
-                }
+//        Component.onCompleted: {
+//            var cnt = 2000;
+//            var x = 0;
+//            var y = 0;
+//            for( var i = 0; i < cnt; ++i ){
+//                x = parseInt(Math.random()*1280);
+//                y = parseInt(Math.random()*720);
+//                if( 0 === i % 2 ){
+//                    elementList.add(Shape.RECTANGLE,x,y,10,10);
+//                }
+//                else{
+//                    elementList.add(Shape.CIRCLE,x,y,10,10);
+//                }
 
-            }
-        }
+//            }
+//        }
     }
 
     Menu {
         id: contentMenu;
-        x: curPos.mouseX;
-        y: curPos.mouseY;
         width: 100;
 
         Menu { // 右键菜单
@@ -108,12 +106,18 @@ Item {
 
         acceptedButtons: Qt.RightButton|Qt.LeftButton|Qt.WheelFocus; // 激活右键
 
+        property string buttonType: "null";
+        property point startPos: "0,0";
+
         onClicked: {
             mouse.accept = true;
             if (mouse.button === Qt.RightButton) { // 右键菜单
                 contentMenu.popup();
             }
-            else{
+        }
+
+        onReleased: {
+            if( startPos === Qt.point(mouseX,mouseY) ) {
                 if( null != pcbViewItem.floatWinComponent &&
                      -1 === selected  ) {
                     var xDelta = parseInt( (clickPos.x - xOffset )/elementScale );
@@ -134,33 +138,44 @@ Item {
         }
 
         onDoubleClicked: {
-            mouse.accept = true;
-            if( -1 === selected ){
-                xOffset = 0;                        // canvas上绘图的起始位置偏移量恢复
-                yOffset = 0;
-                elementScale = 1;                   // canvas上绘图的比例恢复
-                renderTargets();
-                emit:pcbAreaChanged();
-            }
-            else{
-                distinguishTarget(clickPos);
-                elementList.remove(selected);
-                emit:listModelView.item.listDataChanged();
+            if(mouse.button === Qt.LeftButton){
+                mouse.accept = true;
+                if( -1 === selected ){
+                    xOffset = 0;                        // canvas上绘图的起始位置偏移量恢复
+                    yOffset = 0;
+                    elementScale = 1;                   // canvas上绘图的比例恢复
+                    renderTargets();
+                    emit:pcbAreaChanged();
+                }
+                else{
+                    distinguishTarget(clickPos);
+                    elementList.remove(selected);
+                    emit:listModelView.item.listDataChanged();
+                }
             }
         }
 
         onPressed: { //接收鼠标按下事件
-            clickPos  = Qt.point(mouse.x,mouse.y);
-            distinguishTarget(clickPos);
+            if(mouse.button === Qt.LeftButton){
+                startPos = Qt.point(mouse.x,mouse.y);
+                clickPos = Qt.point(mouse.x,mouse.y);
+                distinguishTarget(clickPos);
+                buttonType = "left";
+            }
+            else{
+                buttonType = "right";
+            }
         }
 
         onPositionChanged: {
-            // canvas偏移量
-            xOffset += mouse.x - clickPos.x;
-            yOffset += mouse.y - clickPos.y;
-            renderTargets();
-            clickPos  = Qt.point(mouse.x,mouse.y);
-            emit:pcbAreaChanged();
+            if("left" === buttonType){
+                // canvas偏移量
+                xOffset += mouse.x - clickPos.x;
+                yOffset += mouse.y - clickPos.y;
+                renderTargets();
+                clickPos  = Qt.point(mouse.x,mouse.y);
+                emit:pcbAreaChanged();
+            }
         }
         onWheel: {
             if (wheel.modifiers & Qt.ControlModifier) {

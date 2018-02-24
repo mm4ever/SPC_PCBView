@@ -1,8 +1,9 @@
 #include "LanguageSetting.hpp"
 
-using namespace SSDK;
-using namespace Job;
 using namespace std;
+
+using namespace Job;
+using namespace SSDK;
 
 LanguageSetting::LanguageSetting(QObject *parent) : QObject(parent),
     m_laguageIndex(0)

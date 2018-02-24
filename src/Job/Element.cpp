@@ -1,6 +1,8 @@
 #include "Element.hpp"
 
 using namespace std;
+
+using namespace Job;
 using namespace SSDK;
 using namespace SSDK::DB;
 
