@@ -9,6 +9,8 @@
 #include "ThemeSetting.hpp"
 #include "LanguageSetting.hpp"
 
+#include <QDebug>
+
 using namespace Job;
 using namespace SSDK;
 
@@ -22,6 +24,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
+
     // 注册
     qmlRegisterType<LoginCheck>("an.qt.LoginCheck",1,0,"LoginCheck");
     qmlRegisterType<ElementListModel>("an.qt.CModel", 1, 0, "ElementListModel");
@@ -30,6 +33,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Shape>("an.qt.Shape", 1, 0, "Shape");
 
     qRegisterMetaType<Shape::ShapeType>();
+
 
     // 主题
     QSettings settings;
@@ -40,22 +44,15 @@ int main(int argc, char *argv[])
     else
         QQuickStyle::setStyle(settings.value("style").toString());
 
+
     // 语言
     QTranslator translator;
-    LanguageSetting languageSetting(app, engine, translator);
-
     LanguageSetting langSetting; // qml与C++的枚举绑定
-    const QMetaObject* metaObj = langSetting.metaObject();
-    QMetaEnum enumType = metaObj->enumerator(metaObj->indexOfEnumerator("LanguageType"));
-    QStringList list;
-    for(int i=0; i < enumType.keyCount(); ++i)
-    {
-        QString item = QString::fromLatin1(enumType.key(i)).toLower();
-        list.append(item);
-    }
-    engine.rootContext()->setContextProperty("languageModel", QVariant::fromValue(list));
-    engine.rootContext()->setContextProperty("languages", &languageSetting);
+    langSetting.setPEngine(&engine);
+    langSetting.setPTranslator(&translator);
+    engine.rootContext()->setContextProperty("languages", &langSetting);
     app.installTranslator(&translator);
+
 
     // 加载main.qml
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

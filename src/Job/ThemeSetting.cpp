@@ -21,10 +21,10 @@ ThemeSetting::ThemeSetting(QObject *parent):QObject(parent)
         }
 
         //自定义初始值
-        this->m_backgroundColorList[(int)ThemeType::USER_DEFINED] = QColor("#E0FFFF");
-        this->m_foregroundColorList[(int)ThemeType::USER_DEFINED] = QColor("#0000CD");
-        this->m_primaryColorList[(int)ThemeType::USER_DEFINED] = QColor("#20B2AA");
-        this->m_accentColorList[(int)ThemeType::USER_DEFINED] = QColor("#008B8B");
+        this->m_backgroundColorList[(int)ThemeType::USER_DEFINED] = QColor("#FFFFFF");
+        this->m_foregroundColorList[(int)ThemeType::USER_DEFINED] = QColor("#ffcce0");
+        this->m_primaryColorList[(int)ThemeType::USER_DEFINED] = QColor("#9C27B0");
+        this->m_accentColorList[(int)ThemeType::USER_DEFINED] = QColor("#EE82EE");
     }
     CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("主题设置的构造函数出错");
 }

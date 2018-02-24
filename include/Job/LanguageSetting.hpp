@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QTranslator>
-#include <QGuiApplication>
+#include <QString>
 #include <QQmlApplicationEngine>
 
 #include "../SSDK/MetaEnum.hpp"
@@ -23,6 +23,7 @@ namespace Job
         Q_OBJECT
         Q_ENUMS(LanguageType)
         Q_PROPERTY(int laguageIndex READ laguageIndex  WRITE setLaguageIndex)
+        Q_PROPERTY(QStringList languageList READ languageList )
 
 
     public:
@@ -34,9 +35,6 @@ namespace Job
         };
 
         LanguageSetting(QObject* parent = 0);
-        LanguageSetting(QGuiApplication& app,
-                        QQmlApplicationEngine& engine,
-                        QTranslator& translator);
         virtual ~LanguageSetting();
 
         Q_INVOKABLE void setLanguage(LanguageType languageType);
@@ -45,11 +43,19 @@ namespace Job
         int laguageIndex() const;
         void setLaguageIndex(int laguageIndex);
 
+        void setPEngine(QQmlApplicationEngine *pEngine);
+
+        void setPTranslator(QTranslator *pTranslator);
+
+        QList<LanguageType> languages() const;
+        void setLanguages(const QList<LanguageType> &languages);
+
+        QStringList languageList();
 
     private:
         int m_laguageIndex;               // 进行语言类型切换时定位，和界面进行绑定
+        QStringList m_languageList;
         QList<LanguageType> m_languages;      // 存放语言类型
-        QGuiApplication *m_pApp;          // 调用翻译相关函数
         QQmlApplicationEngine *m_pEngine; // 调用翻译相关函数
         QTranslator *m_pTranslator;       // 调用翻译相关函数
         // 翻译文件所在的路径

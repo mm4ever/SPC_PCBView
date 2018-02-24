@@ -1,12 +1,16 @@
 import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.3
+import QtQuick.Controls.Material 2.3
 
 import an.qt.LanguageSetting 1.0
 
 Dialog {
     id: languageDialog;
-    title: qsTr("Language");
+    title: qsTr("<font size='4'>Language</font>");
+    Material.background: appWnd.Material.primary;
+    width: 265;
+    height: 230;
     x: -width/2;
     y: -height/2;
     modal: true;
@@ -31,6 +35,8 @@ Dialog {
         //save language type to C++
         languageSetting.setLanguageType(0,LanguageSetting.CHINESE);
         languageSetting.setLanguageType(1,LanguageSetting.ENGLISH);
+        language.model = languageSetting.languageList; //set ComboBox model
+        language.currentIndex = 1;
         updateLanguage();
     }
 
@@ -42,14 +48,12 @@ Dialog {
 
             Label {
                 text: qsTr("Style:");
+                font.pixelSize: 18;
             }
 
-            //This control's model provide by C++
             ComboBox {
                 id: language;
                 Layout.fillWidth: true;
-                currentIndex: 1;
-                model: languageModel;
             }
         }
     }

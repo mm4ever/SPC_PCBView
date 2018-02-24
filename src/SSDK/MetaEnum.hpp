@@ -139,7 +139,8 @@ namespace SSDK
                         {
                             for(int j=0; j <m.keyCount(); ++j)
                             {
-                                list.push_back(QObject::tr(m.key(j)));
+                                list.push_back(QObject::tr(m.key(j)).left(1) +
+                                               QObject::tr(m.key(j)).right(QObject::tr(m.key(j)).length() - 1).toLower());
                             }
 
                             return list;

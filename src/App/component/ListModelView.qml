@@ -1,6 +1,7 @@
 import QtQuick 2.10
-import QtQuick.Controls 2.3
+//import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.3
 
 Item {
     signal listDataChanged();
@@ -12,39 +13,43 @@ Item {
         RowLayout{
             spacing: 8;
             Text {
-                text: qsTr("x");
+                text: qsTr("X");
                 font.bold: true;
-                font.pixelSize: 24;
+                font.pixelSize: 18;
                 Layout.preferredWidth: 100;
-                color: "grey";
+                color: appWnd.Material.foreground;
             }
             Text {
-                text: qsTr("y");
+                text: qsTr("Y");
                 font.bold: true;
-                font.pixelSize: 24;
+                font.pixelSize: 18;
                 Layout.preferredWidth: 100;
-                color: "grey";
+                color: appWnd.Material.foreground;
+
             }
             Text {
-                text: qsTr("width");
+                text: qsTr("Width");
                 font.bold: true;
-                font.pixelSize: 24;
+                font.pixelSize: 18;
                 Layout.preferredWidth: 100;
-                color: "grey";
+                color: appWnd.Material.foreground;
+
             }
             Text {
-                text: qsTr("height");
+                text: qsTr("Height");
                 font.bold: true;
-                font.pixelSize: 24;
+                font.pixelSize: 18;
                 Layout.preferredWidth: 100;
-                color: "grey";
+                color: appWnd.Material.foreground;
+
             }
             Text {
-                text: qsTr("shape");
+                text: qsTr("Shape");
                 font.bold: true;
-                font.pixelSize: 24;
+                font.pixelSize: 18;
                 Layout.fillWidth: true;
-                color: "grey";
+                color: appWnd.Material.foreground;
+
             }
         }
     }

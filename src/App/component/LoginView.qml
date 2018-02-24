@@ -30,19 +30,19 @@ Item{
             anchors.centerIn: parent;
             Label {
                 elide: Label.ElideMiddle;
-                text: qsTr("Please enter the credentials:");
+                text: qsTr("<font size='4'>Please enter the credentials:</font>");
                 Layout.fillWidth: true;
             }
             TextField {
                 id: userName;
                 focus: true;
-                placeholderText: qsTr("Username");
+                placeholderText: qsTr("<font size='4'>Username</font>");
                 maximumLength: 15;
                 Layout.fillWidth: true;
             }
             TextField {
                 id: userPasswd;
-                placeholderText: qsTr("Password");
+                placeholderText: qsTr("<font size='4'>Password</font>");
                 echoMode: TextField.Password;
                 maximumLength: 15;
                 Layout.fillWidth: true;
@@ -58,7 +58,7 @@ Item{
                 spacing: 50;
                 Button{
                     anchors.left: parent.left;
-                    text: qsTr("Regist");
+                    text: qsTr("<font size='4'>Regist</font>");
                     font.capitalization: Font.MixedCase;
 
                     onClicked: {
@@ -74,7 +74,7 @@ Item{
                 }
                 Button{
                     anchors.right: parent.right;
-                    text: qsTr("Login");
+                    text: qsTr("<font size='4'>Login</font>");
                     font.capitalization: Font.MixedCase;
 
                     onClicked: {
