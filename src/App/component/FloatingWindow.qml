@@ -43,8 +43,8 @@ Pane {
     // 添加原件形状中的矩形
     Rectangle{
         id: rectOption;
-        width: parent.width / 6;
-        height: parent.width / 6;
+        width: parent.width / 5;
+        height: parent.width / 5;
         color: defaultColor;
         anchors.top: parent.top;
         anchors.topMargin: parent.height/3;
@@ -73,14 +73,14 @@ Pane {
     // 添加原件形状中的圆形
     Rectangle{
         id: circleOption;
-        width: parent.width / 6;
-        height: parent.width / 6;
+        width: parent.width / 5;
+        height: parent.width / 5;
         radius: width / 2;
         color: defaultColor;
         anchors.top: parent.top;
         anchors.topMargin: parent.height / 3;
         anchors.left: rectOption.right;
-        anchors.leftMargin: parent.width / 4;
+        anchors.leftMargin: parent.width / 5;
 
         MouseArea {
             id: circleArea;
@@ -103,18 +103,19 @@ Pane {
 
     //>>>---------------------------------------------------------------------------
     // 悬浮框上的退出按钮
-    Button{
-        text: qsTr("close");
-        font.capitalization: Font.MixedCase;
+    RoundButton {
+        text: qsTr("X");
+        width: 40;
+        height: 40;
+        radius: 20;
+        Material.foreground: "#9C27B0";
+        Material.background: "#B39DDB";
+        anchors.top: parent.top;
         anchors.right: parent.right;
-        anchors.bottom: parent.bottom;
-        Material.background: "transparent";
-        Material.foreground: "#B0BEC5";
-
         onClicked: {
             pcbViewItem.floatWinComponent.destroy();
         }
-    }//end of Button
+    }
 
     function checkShape(shape){
         if("circle" === shape){

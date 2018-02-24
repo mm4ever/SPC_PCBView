@@ -4,10 +4,9 @@
 #include <QObject>
 #include <QColor>
 #include <QString>
-#include <QMetaEnum>
 
-#include "../SSDK/MetaEnum.hpp"
-#include "../SSDK/CustomException.hpp"
+#include "MetaEnum.hpp"
+#include "CustomException.hpp"
 
 namespace Job
 {
@@ -26,7 +25,6 @@ namespace Job
         Q_ENUMS(ColorType)
         Q_PROPERTY(int themeIndex READ themeIndex WRITE setThemeIndex)
         Q_PROPERTY(QStringList themeList READ themeList )
-
 
     public:
 
@@ -55,7 +53,6 @@ namespace Job
 
         int themeIndex() const;
         void setThemeIndex(const int themeIndex);
-
 
     private:
         int m_themeIndex; // 这里为了方便和界面进行绑定，都使用Index进行定位

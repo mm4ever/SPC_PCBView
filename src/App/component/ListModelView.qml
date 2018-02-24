@@ -161,5 +161,4 @@ Item {
     function updateListView(){
         lstVm.currentIndex = selected;
     }
-
 }

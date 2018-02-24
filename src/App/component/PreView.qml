@@ -71,5 +71,4 @@ Item {
             rectBox.height = 288/elementScale;
         }
     }
-
 }

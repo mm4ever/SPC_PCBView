@@ -1,7 +1,6 @@
 #ifndef LOGINCHECK_HPP
 #define LOGINCHECK_HPP
 
-#include <iostream>
 #include <string>
 #include <cstring>
 
@@ -19,7 +18,6 @@ namespace Job
 
         Q_PROPERTY(QString user READ user WRITE setUser)
         Q_PROPERTY(QString passwd READ passwd WRITE setPasswd)
-
 
     public:
         explicit LoginCheck(QObject *parent = nullptr);
@@ -40,7 +38,6 @@ namespace Job
         QString m_path {"../debug/config/UserAccount.ini"};
         QString m_currentUser {"peter"};
         QString m_currentPasswd {"12345678"};
-
 
     };
 } // End of namespace Job

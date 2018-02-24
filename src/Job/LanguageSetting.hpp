@@ -6,8 +6,8 @@
 #include <QString>
 #include <QQmlApplicationEngine>
 
-#include "../SSDK/MetaEnum.hpp"
-#include "../SSDK/CustomException.hpp"
+#include "MetaEnum.hpp"
+#include "CustomException.hpp"
 
 namespace Job
 {
@@ -24,7 +24,6 @@ namespace Job
         Q_ENUMS(LanguageType)
         Q_PROPERTY(int laguageIndex READ laguageIndex  WRITE setLaguageIndex)
         Q_PROPERTY(QStringList languageList READ languageList )
-
 
     public:
 
