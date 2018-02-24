@@ -10,7 +10,7 @@ LoginCheck::LoginCheck(QObject *parent) : QObject(parent)
     {
         registerAccount();
     }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("Constructor error!");
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("Constructor error!")
 
 }
 
@@ -20,7 +20,7 @@ LoginCheck::~LoginCheck()
     {
 
     }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("Destructor error!");
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("Destructor error!")
 }
 
 void LoginCheck::loginAccount()

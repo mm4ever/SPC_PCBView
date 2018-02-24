@@ -1,16 +1,12 @@
 import QtQuick 2.9
-import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.3
+import QtQuick.Layouts 1.3
 
 import an.qt.LanguageSetting 1.0
 
 Dialog {
     id: languageDialog;
-    title: qsTr("<font size='4'>Language</font>");
-    Material.background: appWnd.Material.primary;
-    width: 265;
-    height: 230;
     x: -width/2;
     y: -height/2;
     modal: true;
@@ -21,9 +17,10 @@ Dialog {
     }
 
     standardButtons: Dialog.Ok | Dialog.Cancel;
+    font.capitalization: Font.MixedCase;
     onAccepted: {
         languageSetting.laguageIndex = language.currentIndex;
-        updateLanguage();
+        languageDialog.updateLanguage();
     }
     onRejected: {
         //when click Cancel button set shown language is current language
@@ -47,8 +44,9 @@ Dialog {
             spacing: 10;
 
             Label {
-                text: qsTr("Style:");
-                font.pixelSize: 18;
+                text: qsTr("Language:");
+                font.pointSize: 14;
+                color: Material.accent;
             }
 
             ComboBox {

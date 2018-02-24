@@ -14,7 +14,7 @@ Pane {
     property color defaultColor: "#B0BEC5";
     property color floatRectColor: "#779C27B0";
 
-    property string checkedShape: "null";
+    property string currentShape: "null";
 
     //>>>---------------------------------------------------------------------------
     // 悬浮框拖动功能
@@ -57,11 +57,10 @@ Pane {
             hoverEnabled: true;
 
             cursorShape: {  //当鼠标经过和点击时改变鼠标样式
-                (containsMouse ? (pressed ? Qt.ClosedHandCursor :
-                                            Qt.OpenHandCursor) :
+                (containsMouse ? ( pressed ? Qt.ClosedHandCursor :
+                                             Qt.OpenHandCursor ) :
                                  Qt.ArrowCursor);
             }
-
             onReleased: {   //选择矩形作为选中的添加元件类型
                 checkShape("rectangle");
             }
@@ -89,11 +88,10 @@ Pane {
 
             //若加载未完成，当鼠标经过和点击时改变鼠标样式
             cursorShape: {
-                (containsMouse ? (pressed ? Qt.ClosedHandCursor :
-                                            Qt.OpenHandCursor) :
+                (containsMouse ? ( pressed ? Qt.ClosedHandCursor :
+                                             Qt.OpenHandCursor ) :
                                  Qt.ArrowCursor);
             }
-
             onReleased: {
                 checkShape("circle");
             }
@@ -105,11 +103,6 @@ Pane {
     // 悬浮框上的退出按钮
     RoundButton {
         text: qsTr("X");
-        width: 40;
-        height: 40;
-        radius: 20;
-        Material.foreground: "#9C27B0";
-        Material.background: "#B39DDB";
         anchors.top: parent.top;
         anchors.right: parent.right;
         onClicked: {
@@ -119,19 +112,19 @@ Pane {
 
     function checkShape(shape){
         if("circle" === shape){
-            checkedShape = "circle";
+            currentShape = "circle";
             rectOption.color = defaultColor;
             circleOption.color = cicleColor;
         }
         else if("rectangle" === shape){
-            checkedShape = "rectangle";
+            currentShape = "rectangle";
             rectOption.color = rectColor;
             circleOption.color = defaultColor;
         }
         else{
             circleOption.color = defaultColor;
             rectOption.color = defaultColor;
-            checkedShape = "null";
+            currentShape = "null";
         }
     }
 }// end of Rectangle(ID:floatingRect)

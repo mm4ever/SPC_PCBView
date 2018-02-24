@@ -1,4 +1,5 @@
 import QtQuick 2.7
+import QtQuick.Controls.Material 2.3
 
 import an.qt.CModel 1.0
 
@@ -9,19 +10,22 @@ Item {
     anchors.centerIn: parent;
     clip: true;
 
-    Rectangle{          // 画背景
+    Rectangle{                      // 画缩略图背景
         anchors.fill: parent;
-        color: "grey";
+        border.width: 1;
+        border.color: Material.foreground;
+        color: Material.background;
     }
 
     Canvas{
-        id: preViewCanvas;
+        id: preViewCanvas;          // 画缩略图
         anchors.centerIn: parent;
+        anchors.margins: 1;
         width: 1280;
         height: 720;
         clip: true;
         contextType: "2d";
-        scale: 0.4;
+        scale: 0.4;                 // canvas缩放系数
 
         onPaint: {
             AddTarget.drawShape( preViewCanvas.context,
@@ -35,12 +39,12 @@ Item {
 
     Rectangle{
         id: rectBox;
-        x: 0;
-        y: 0;
+        x: 1;
+        y: 1;
         width: 512;
         height: 288;
         border.width: 1;
-        border.color: "red";
+        border.color: Material.accent;
         color: "transparent";
     }
 
@@ -59,14 +63,14 @@ Item {
     // 重新画缩略图预览框
     function renderRectBox(){
         if( elementScale < 1 ){
-            rectBox.x = 0;
-            rectBox.y = 0;
+            rectBox.x = 1;
+            rectBox.y = 1;
             rectBox.width = 512;
             rectBox.height = 288;
         }
         else{
-            rectBox.x = -xOffset/elementScale*0.4;
-            rectBox.y = -yOffset/elementScale*0.4;
+            rectBox.x = 1-xOffset/elementScale*0.4;
+            rectBox.y = 1-yOffset/elementScale*0.4;
             rectBox.width = 512/elementScale;
             rectBox.height = 288/elementScale;
         }

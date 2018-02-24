@@ -59,7 +59,12 @@ void Element::reset()
 
 void Element::read()
 {
-    SqliteDB sqlite( this->jobPath().toStdString() );
+    string pathPrefix = "file:/";                   //qml中获取的文件前缀
+    string path = this->jobPath().toStdString();    //程式文件路径
+    string::size_type pos = path.find( 'file:/' );  //从传入的路径中找出文件前缀
+    path.erase( pos - pathPrefix.size() + 1, pathPrefix.size() );//删除文件前缀
+
+    SqliteDB sqlite( path );
     try
     {
         auto isOpened = sqlite.isOpened();
@@ -130,34 +135,22 @@ void Element::add(Shape::ShapeType shapeType, int centralX, int centralY, int wi
     this->pShapes().push_back(pShape);
 }
 
-void Element::remove(int centralX, int centralY)
-{
-    for (QVector<Shape *>::iterator iter = this->pShapes().begin();
-         iter != this->pShapes().end(); ++iter)
-    {
-
-        if ( centralX ==  (*iter)->centralX() &&
-             centralY == (*iter)->centralY() )
-        {
-            delete *iter;
-            this->pShapes().erase(iter);
-            break;
-        }
-    }
-}
-
 void Element::save()
 {
     SqliteDB sqlite;
     try
     {
+        string pathPrefix = "file:/";                   //qml中获取的文件前缀
+        string path = this->jobPath().toStdString();    //程式文件路径
+        string::size_type pos = path.find( 'file:/' );  //从传入的路径中找出文件前缀
+        path.erase( pos - pathPrefix.size() + 1, pathPrefix.size() );//删除文件前缀
+
         // 获取当前时间,用于生成保存的数据库文件名
         QDateTime local(QDateTime::currentDateTime());
-        QString localTime = local.toString("_yyMMddhhmmss");
+        QString localTime = local.toString("_yyMMddhhmmss.'s'ung");
 
         // 创建数据库对象，打开传入路径的数据库
-        sqlite.open( m_jobPath.toStdString() + localTime.toStdString());
-
+        sqlite.open( path + localTime.toStdString());
 
         if( !sqlite.isOpened() )
         {

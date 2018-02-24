@@ -3,6 +3,9 @@
 #include <QQmlContext>
 #include <QSettings>
 #include <QQuickStyle>
+#include <QIcon>
+#include <QTranslator>
+#include <QDebug>
 
 #include "LoginCheck.hpp"
 #include "ElementListModel.hpp"

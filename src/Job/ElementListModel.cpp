@@ -23,8 +23,16 @@ int ElementListModel::rowCount(const QModelIndex &parent) const
 
 QVariant ElementListModel::data(const QModelIndex &index, int role) const
 {
-    Shape *pElement = m_pElement->pShapes()[index.row()];
-    return pElement->at(role - Qt::UserRole);
+    try
+    {
+        if(m_pElement->pShapes().size() - 1 < index.row())
+        {
+            THROW_EXCEPTION("访问vector越界")
+        }
+        Shape *pElement = m_pElement->pShapes()[index.row()];
+        return pElement->at(role - Qt::UserRole);
+    }
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("获取数据出错")
 }
 
 QHash<int, QByteArray> ElementListModel::roleNames() const
@@ -90,5 +98,16 @@ void ElementListModel::save()
 
 QVariant ElementListModel::elementData(int index, int attr)
 {
-    return this->m_pElement->pShapes()[index]->at(attr);
+    try
+    {
+        if(this->m_pElement->pShapes().size() - 1 >= index)
+        {
+            return this->m_pElement->pShapes()[index]->at(attr);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("访问元件数据出错")
 }

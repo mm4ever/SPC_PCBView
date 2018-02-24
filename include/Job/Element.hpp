@@ -24,8 +24,6 @@ namespace Job
 
         void add(SSDK::Shape::ShapeType shapeType, int centralX, int centralY, int width, int height);
 
-        void remove(int centralX, int centralY);
-
         void save();
 
         QVector<SSDK::Shape *>& pShapes() { return this->m_pShapes; }

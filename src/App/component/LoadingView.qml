@@ -1,13 +1,12 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.3
 
 Item{
     signal loadin();    // 加载结束
 
     ProgressBar {
-        x: ( parent.width - width ) / 2;
-        y: ( parent.height - height ) / 4 * 3;
+        x: ( parent.width - width ) * 0.5;
+        y: ( parent.height - height ) * 0.75;
         value: 0            // 加载时进度条起始位置
 
         Timer{

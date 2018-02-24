@@ -52,11 +52,11 @@ namespace Job
         QStringList languageList();
 
     private:
-        int m_laguageIndex;               // 进行语言类型切换时定位，和界面进行绑定
+        int m_laguageIndex;                 // 进行语言类型切换时定位，和界面进行绑定
         QStringList m_languageList;
-        QList<LanguageType> m_languages;      // 存放语言类型
-        QQmlApplicationEngine *m_pEngine; // 调用翻译相关函数
-        QTranslator *m_pTranslator;       // 调用翻译相关函数
+        QList<LanguageType> m_languages;    // 存放语言类型
+        QQmlApplicationEngine *m_pEngine;   // 调用翻译相关函数
+        QTranslator *m_pTranslator;         // 调用翻译相关函数
         // 翻译文件所在的路径
         QString m_filesPathArr[2] { ":/language/tr_cn.qm", ":/language/tr_en.qm" };
     };

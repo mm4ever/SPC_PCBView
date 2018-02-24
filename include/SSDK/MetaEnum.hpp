@@ -1,5 +1,5 @@
-#ifndef ENUMHELPER_H
-#define ENUMHELPER_H
+#ifndef METAENUM_HPP
+#define METAENUM_HPP
 
 #include <string>
 #include <sstream>
@@ -200,6 +200,4 @@ namespace SSDK
                 }
     }//End of namespace SSDK
 
-//#include "Core/enumhelper.hpp.inl"
-
-#endif // ENUMHELPER_H
+#endif // METAENUM_HPP

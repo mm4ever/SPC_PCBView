@@ -1,16 +1,11 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 
 import an.qt.LoginCheck 1.0
 
 Item{
     signal login(var user);           // 登录完成
-
-    function openLoginWnd(){
-        loginPop.open();
-    }
 
     LoginCheck{
         id: account;                  // 登录账户的用户名及密码检测
@@ -20,31 +15,35 @@ Item{
         id: loginPop;
         x: -width/2;
         y: -height/2;
-        width: 320;
-        height: 300;
+        width: 300;
+        height: 320;
         focus: true;
 
         ColumnLayout {
             id: col;
             spacing: 20;
             anchors.centerIn: parent;
+
             Label {
                 elide: Label.ElideMiddle;
-                text: qsTr("<font size='4'>Please enter the credentials:</font>");
+                text: qsTr("Please enter the credentials:");
+                font.pointSize: 14;
                 Layout.fillWidth: true;
             }
             TextField {
                 id: userName;
                 focus: true;
-                placeholderText: qsTr("<font size='4'>Username</font>");
-                maximumLength: 15;
+                placeholderText: qsTr("Username");
+                font.pointSize: 12;
+                maximumLength: 8;
                 Layout.fillWidth: true;
             }
             TextField {
                 id: userPasswd;
-                placeholderText: qsTr("<font size='4'>Password</font>");
+                placeholderText: qsTr("Password");
+                font.pointSize: 12;
                 echoMode: TextField.Password;
-                maximumLength: 15;
+                maximumLength: 8;
                 Layout.fillWidth: true;
             }
             Label{
@@ -55,10 +54,11 @@ Item{
             }
 
             RowLayout{
-                spacing: 50;
+                spacing: 60;
+                Layout.alignment: Qt.AlignCenter
                 Button{
-                    anchors.left: parent.left;
-                    text: qsTr("<font size='4'>Regist</font>");
+                    text: qsTr("Regist");
+                    font.pointSize: 12;
                     font.capitalization: Font.MixedCase;
 
                     onClicked: {
@@ -73,8 +73,8 @@ Item{
                     }
                 }
                 Button{
-                    anchors.right: parent.right;
-                    text: qsTr("<font size='4'>Login</font>");
+                    text: qsTr("Login");
+                    font.pointSize: 12;
                     font.capitalization: Font.MixedCase;
 
                     onClicked: {
@@ -111,7 +111,7 @@ Item{
     Timer{
         id: timer;
         repeat: true;
-        interval: 50;
+        interval: 25;
         triggeredOnStart: true;
         property int cnt: 0;
         onTriggered:{
@@ -125,99 +125,8 @@ Item{
             timer.cnt++;
         }
     }
+
+    function openLoginWnd(){
+        loginPop.open();
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Item{
-//    signal login();           // 登录完成
-
-//    Dialog {
-//        id: inputDialog;
-//        x: (parent.width - width) / 2;
-//        y: (parent.height - height) / 2;
-
-//        focus: true;
-//        modal: true;
-//        title: qsTr("Login");
-//        standardButtons: Dialog.Cancel | Dialog.Ok;
-//        onAccepted: {
-//            emit:login();
-//        }
-
-//        ColumnLayout {
-//            spacing: 20;
-//            anchors.fill: parent;
-//            Label {
-//                elide: Label.ElideRight;
-//                text: qsTr("Please enter the credentials:");
-//                Layout.fillWidth: true;
-//            }
-//            TextField {
-//                focus: true;
-//                placeholderText: qsTr("Username");
-//                maximumLength: 15;
-//                Layout.fillWidth: true;
-//            }
-//            TextField {
-//                placeholderText: qsTr("Password");
-//                echoMode: TextField.Password;
-//                maximumLength: 15;
-//                Layout.fillWidth: true;
-//            }
-//        }
-//        Button{
-//            id: btnLogin;
-//            anchors.bottom: parent.bottom;
-//            anchors.right:parent.right;
-//            anchors.margins: 4;
-//            text: qsTr("Login");
-//            font.capitalization: Font.MixedCase;
-//        }
-//        Button{
-//            id: btnRegist;
-//            anchors.bottom: parent.bottom;
-//            anchors.left: parent.left;
-//            anchors.margins: 4;
-//            text: qsTr("Regist");
-//            font.capitalization: Font.MixedCase;
-//        }
-//    }
-//    Component.onCompleted: inputDialog.open();
-//}

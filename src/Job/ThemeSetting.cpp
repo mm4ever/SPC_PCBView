@@ -21,12 +21,12 @@ ThemeSetting::ThemeSetting(QObject *parent):QObject(parent)
         }
 
         //自定义初始值
-        this->m_backgroundColorList[(int)ThemeType::USER_DEFINED] = QColor("#FFFFFF");
-        this->m_foregroundColorList[(int)ThemeType::USER_DEFINED] = QColor("#000000");
-        this->m_primaryColorList[(int)ThemeType::USER_DEFINED] = QColor("#9C27B0");
-        this->m_accentColorList[(int)ThemeType::USER_DEFINED] = QColor("#EE82EE");
+        this->m_backgroundColorList[(int)ThemeType::CUSTOM] = QColor("#EEEEEE");
+        this->m_foregroundColorList[(int)ThemeType::CUSTOM] = QColor("#000000");
+        this->m_primaryColorList[(int)ThemeType::CUSTOM] = QColor("#9C27B0");
+        this->m_accentColorList[(int)ThemeType::CUSTOM] = QColor("#00BCD4");
     }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("主题设置的构造函数出错");
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("主题设置的构造函数出错")
 }
 
 ThemeSetting::~ThemeSetting()
@@ -63,7 +63,7 @@ void ThemeSetting::setThemeColor(int themeIndex, ColorType colorType, QColor col
             }
         }
     }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("设置主题颜色时出错");
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("设置主题颜色时出错")
 }
 
 QColor ThemeSetting::getThemeColor(int themeIndex, ColorType colorType)
@@ -91,7 +91,7 @@ QColor ThemeSetting::getThemeColor(int themeIndex, ColorType colorType)
             }
         }
     }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("获取主题颜色时出错");
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("获取主题颜色时出错")
 }
 
 QStringList ThemeSetting::themeList()

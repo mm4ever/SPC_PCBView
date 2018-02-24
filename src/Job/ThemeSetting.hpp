@@ -32,7 +32,7 @@ namespace Job
         {
             LIGHT,           // 白色
             DARK,            // 黑色
-            USER_DEFINED     // 自定义
+            CUSTOM           // 自定义
         };
 
         enum class ColorType // 颜色类型

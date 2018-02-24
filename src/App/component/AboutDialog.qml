@@ -3,7 +3,8 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.3
 
 Dialog {
-    title: qsTr("<font size='4'>About</font>");
+    title: qsTr("About");
+    font.pointSize: 14;
     x: -width/2;
     y: -height/2;
     modal: true;
@@ -12,7 +13,7 @@ Dialog {
     Text {
         id: aboutDialog;
         text: qsTr("The project is for statistical about PCB!");
-        font.pixelSize: 18;
-        color: appWnd.Material.foreground;
+        font.pointSize: 18;
+        color: Material.foreground;
     }
 }

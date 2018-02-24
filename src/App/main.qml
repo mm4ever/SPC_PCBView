@@ -13,20 +13,20 @@ ApplicationWindow {
     id: appWnd;
     x:(screen.width-width)/2;                   // 将主窗口限定在屏幕中央
     y:(screen.height-height)/2;
-    width: 320;
-    height: 520;
+    width: screen.width / 6;
+    height: screen.height / 2;
     visible: true;
     flags: Qt.Window | Qt.FramelessWindowHint   //去标题栏
 
     ElementListModel{
         id: elementList;                    // list数据
-        source: "../data/default";
+        source: "file:/../data/default.sung";
     }
 
     Loader{
         id: loadingView;                    // loading
         source: "qrc:/component/LoadingView.qml";
-        anchors.centerIn: parent;
+        anchors.fill: parent;
     }
 
     Loader{
@@ -43,6 +43,8 @@ ApplicationWindow {
         id: fileDialog;                     // 打开文件窗口
         source: "qrc:/component/FileDialog.qml";
         anchors.centerIn: parent;
+
+        signal clearElements();
     }
 
     Loader{
@@ -63,29 +65,30 @@ ApplicationWindow {
         anchors.centerIn: parent;
     }
 
-
-
     header: ToolBar {
         id: titleBar;
         visible: false;
         Material.foreground: "white";
         font.capitalization: Font.MixedCase;
+
         RowLayout {
-            anchors.margins: 20;
+            anchors.fill: parent;
             ToolButton {
+                id: fileMenuButton;
                 text: qsTr("&File");
                 font.pointSize: 14;
                 onClicked: fileMenu.open();
                 Menu{
                     id: fileMenu;
                     y: titleBar.height;
-                    MenuItem{ action: openAction; }
-                    MenuItem{ action: saveAction; }
+                    MenuItem{action: openAction; }
+                    MenuItem{action: saveAction; }
                     MenuSeparator { }
                     MenuItem{ action: quitAction; }
                 }
             }
             ToolButton {
+                id: toolMenuButton;
                 text: qsTr("&Tools");
                 font.pointSize: 14;
                 onClicked: toolMenu.open();
@@ -99,53 +102,52 @@ ApplicationWindow {
                     MenuItem{ action: showAbout; }
                 }
             }
+
+            MouseArea{
+                id: mouseArea;
+                Layout.fillWidth: true;
+                height: titleBar.height;
+                onPressed: appWnd.showMaximized();
+            }
+            ToolButton{
+                id: loginMsg;
+                text: qsTr("Login");
+                onClicked: {
+                    loginView.source = "qrc:/component/LoginView.qml";
+                    loginView.item.openLoginWnd();
+                }
+                Rectangle{
+                    anchors.centerIn: parent;
+                    width: parent.width;
+                    height: parent.height*0.75;
+                    border.width: 2;
+                    border.color: "white";
+                    color: "transparent";
+                    radius: 4;
+                }
+            }
         }
 
-        ToolButton{
-            id: loginMsg;
-            text: qsTr("Login");
-            anchors.right: minWnd.left;
-            onClicked: {
-                loginView.source = "qrc:/component/LoginView.qml";
-                loginView.item.openLoginWnd();
-            }
-            Rectangle{
-                anchors.centerIn: parent;
-                width: parent.width;
-                height: parent.height*0.75;
-                border.width: 2;
-                border.color: "white";
-                color: "transparent";
-                radius: 4;
-            }
-        }
-        ToolButton{
-            id: minWnd;
-            text: "X";
-            anchors.right: parent.right;
-            font.capitalization: Font.MixedCase;
-            onClicked: {
-                Qt.quit();
-            }
-        }
     }
 
     Item{
         id: actionItem;
         Action{
             id:openAction;
+            enabled: false;
             text:qsTr("&Open");
             shortcut: StandardKey.Open;
             onTriggered: fileDialog.item.open();
         }
         Action{
             id:saveAction;
+            enabled: false;
             text:qsTr("Save");
             shortcut: "Ctrl+S";
             onTriggered: elementList.save();
         }
         Action{
-            id:quitAction
+            id:quitAction;
             text:qsTr("Exit");
             shortcut: "Ctrl+Q";
             onTriggered: Qt.quit();
@@ -170,12 +172,17 @@ ApplicationWindow {
     Item{
         id: connectionsItem;
         Connections{
-            target: loadingView.item;   // 加载完成,启动登录界面
+            target: loadingView.item;                   // 加载完成,启动登录界面
             onLoadin:{
                 loadingView.source = "";
                 loginView.source = "qrc:/component/LoginView.qml";
                 titleBar.visible = true;
-                appWnd.showFullScreen();
+                appWnd.showMaximized();                         // 窗口最大化
+                // Screen.desktopAvailableHeight为获得当前屏幕有效高度1056
+                // screen.height为获得当前屏幕高度1080
+                // 将当前有效屏幕设置为最小值
+                appWnd.minimumHeight = Screen.desktopAvailableHeight;
+                appWnd.minimumWidth = Screen.desktopAvailableWidth;
             }
         }
 
@@ -185,6 +192,8 @@ ApplicationWindow {
                 loginMsg.text = user;
                 loginView.source = "";
                 mainWindow.source = "qrc:/component/MainWindow.qml";
+                openAction.enabled = true;
+                saveAction.enabled = true;
             }
         }
     }

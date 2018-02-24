@@ -15,7 +15,7 @@ LanguageSetting::LanguageSetting(QObject *parent) : QObject(parent),
         this->m_languages.push_back(LanguageType::CHINESE);
         this->m_languages.push_back(LanguageType::ENGLISH);
     }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("语言设置的构造函数出错!");
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("语言设置的构造函数出错!")
 }
 
 LanguageSetting::~LanguageSetting()
@@ -43,7 +43,7 @@ void LanguageSetting::setLanguage(LanguageType languageType)
             this->m_pEngine->retranslate();
         }
     }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("设置语言时出错!");
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("设置语言时出错!")
 }
 
 void LanguageSetting::setLanguageType(int languageIndex, LanguageType languageType)
@@ -65,7 +65,7 @@ void LanguageSetting::setLanguageType(int languageIndex, LanguageType languageTy
             }
         }
     }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("从qml设置数据到C++部分出错!");
+    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("从qml设置数据到C++部分出错!")
 }
 
 int LanguageSetting::laguageIndex() const

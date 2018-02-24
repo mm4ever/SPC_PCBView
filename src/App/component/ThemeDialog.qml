@@ -7,10 +7,6 @@ import an.qt.ThemeSetting 1.0
 
 Dialog {
     id: themeDialog;
-    title: qsTr("<font size='4'>Theme</font>");
-    Material.background: appWnd.Material.primary;
-    width: 265;
-    height: 230;
     x: -width/2;
     y: -height/2;
     modal: true;
@@ -67,7 +63,8 @@ Dialog {
         }
     }//End of ThemeSetting
 
-    standardButtons: Dialog.Ok | Dialog.Cancel
+    standardButtons: Dialog.Ok | Dialog.Cancel;
+    font.capitalization: Font.MixedCase;
     onAccepted: {
         themeSetting.themeIndex = styleBox.currentIndex;
         themeSetting.updateStyle();
@@ -84,8 +81,9 @@ Dialog {
             spacing: 10;
 
             Label {
-                text: qsTr("Style:");
-                font.pixelSize: 18;
+                text: qsTr("Theme:");
+                color: Material.accent;
+                font.pixelSize: 14;
             }
 
             ComboBox {

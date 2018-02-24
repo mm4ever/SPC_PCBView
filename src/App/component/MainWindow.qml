@@ -23,12 +23,13 @@ Item {
         Item{
             id: pcbViewArea;                    // PCBView窗口
             width: 1284;
-            height: 741;
+            height: 745;
 
             Text{
                 id: pcbViewTitle;
-                text: qsTr("<font size='4'>PCBView</font>");
-                color: Material.color(Material.Pink);
+                text: qsTr("PCBView");
+                font.pointSize: 14;
+                color: Material.accent;
             }
 
             Loader{
@@ -53,8 +54,8 @@ Item {
             Loader{
                 id: preView;
                 source: "qrc:/component/PreView.qml";
-                width: 512;
-                height: 288;
+                width: 514;
+                height: 290;
                 visible: false;
                 anchors.top: pcbView.top;
                 anchors.right: pcbView.right;
@@ -68,8 +69,9 @@ Item {
 
             Text{
                 id: listModelTitle;
-                text: qsTr("<font size='4'>List</font>");
-                color: Material.color(Material.Pink);
+                text: qsTr("List");
+                font.pointSize: 14;
+                color: Material.accent;
             }
             Loader{
                 id: listModelView;
@@ -89,8 +91,9 @@ Item {
             width: pcbViewArea.width;
 
             Text{
-                text: qsTr("<font size='4'>Equipment</font>");
-                color: Material.color(Material.Pink);
+                text: qsTr("Equipment");
+                font.pointSize: 14;
+                color: Material.accent;
             }
         }
 
@@ -100,33 +103,47 @@ Item {
             Layout.fillWidth: true;
 
             Text{
-                text: qsTr("<font size='4'>Lots</font>");
-                color: Material.color(Material.Pink);
+                text: qsTr("Lots");
+                font.pointSize: 14;
+                color: Material.accent;
             }
         }
     }// end of GridLayout
 
-    Connections{
-        target: rotation.item;
-        onRotationChanged:{
-            preView.visible = !preView.visible;
+    Item{
+        id: connectionsItem;                    // 信号实现
+        Connections{
+            target: rotation.item;              // PreView上旋转动画的信号
+            onRotationChanged:{
+                preView.visible = !preView.visible;
+            }
         }
-    }
-    Connections{
-        target: listModelView.item;
-        onListDataChanged:{
-            pcbView.item.renderTargets();
-            preView.item.renderTargets();
+        Connections{
+            target: listModelView.item;         // ListModelView数据变化的信号
+            onListDataChanged:{
+                pcbView.item.renderTargets();
+                preView.item.renderTargets();
+            }
         }
-    }
-    Connections{
-        target: pcbView.item;
-        onPcbDataChanged:{
-            listModelView.item.updateListView();
-            preView.item.renderTargets();
+        Connections{
+            target: pcbView.item;               // PCBView中数据和位置变化的信号
+            onPcbDataChanged:{
+                listModelView.item.updateListView();
+                preView.item.renderTargets();
+            }
+            onPcbAreaChanged:{
+                preView.item.renderRectBox();
+            }
         }
-        onPcbAreaChanged:{
-            preView.item.renderRectBox();
+        Connections{
+            target: fileDialog;
+            onClearElements:{
+                var cnt = elementList.rowCount();
+                for(var i = 0; i < cnt; ++i){
+                    elementList.remove(0);
+                }
+                pcbView.item.renderTargets();
+            }
         }
     }
 }// end of mainWindow
