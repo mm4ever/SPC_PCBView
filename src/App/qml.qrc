@@ -16,6 +16,6 @@
         <file>component/ListModelView.qml</file>
         <file>component/LanguageDialog.qml</file>
         <file>component/FileDialog.qml</file>
-        <file>component/FloatingWin.qml</file>
+        <file>component/FloatingWindow.qml</file>
     </qresource>
 </RCC>

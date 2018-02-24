@@ -15,11 +15,8 @@ Item {
     clip: true;
 
     property point clickPos: "0,0";             // 鼠标点击的位置坐标
-    property int selectedObjIdx: -1;            // 是否选中元件
-
     property var floatWinComponent: null;
     property var floatWin;
-
 
     signal pcbDataChanged();
     signal pcbAreaChanged();
@@ -42,6 +39,22 @@ Item {
                                  yOffset,
                                  elementScale);
         }
+        Component.onCompleted: {
+            var cnt = 2000;
+            var x = 0;
+            var y = 0;
+            for( var i = 0; i < cnt; ++i ){
+                x = parseInt(Math.random()*1280);
+                y = parseInt(Math.random()*720);
+                if( 0 === i % 2 ){
+                    elementList.add(Shape.RECTANGLE,x,y,10,10);
+                }
+                else{
+                    elementList.add(Shape.CIRCLE,x,y,10,10);
+                }
+
+            }
+        }
     }
 
     Menu {
@@ -57,7 +70,7 @@ Item {
                 text: qsTr("add");
                 onTriggered: {
                     if(null === pcbViewItem.floatWinComponent){
-                        pcbViewItem.floatWin = Qt.createComponent("qrc:/component/FloatingWin.qml");
+                        pcbViewItem.floatWin = Qt.createComponent("qrc:/component/FloatingWindow.qml");
                         pcbViewItem.floatWinComponent = pcbViewItem.floatWin.createObject(pcbViewItem,{"x":300,"y":150});
                     }
                 }
@@ -96,43 +109,40 @@ Item {
         acceptedButtons: Qt.RightButton|Qt.LeftButton|Qt.WheelFocus; // 激活右键
 
         onClicked: {
+            mouse.accept = true;
             if (mouse.button === Qt.RightButton) { // 右键菜单
                 contentMenu.popup();
             }
-        }
-
-        onReleased: {
-            if( clickPos === Qt.point(mouseX,mouseY) )
-            {
+            else{
                 if( null != pcbViewItem.floatWinComponent &&
-                     -1 === pcbViewItem.selectedObjIdx  ) {
+                     -1 === selected  ) {
+                    var xDelta = parseInt( (clickPos.x - xOffset )/elementScale );
+                    var yDelta = parseInt( (clickPos.y - yOffset )/elementScale );
                     //判断鼠标点击的区域是否存在已有target
                     if(pcbViewItem.floatWinComponent.checkedShape === "rectangle"){
                         //要添加的target是矩形
-                        elementList.add(Shape.RECTANGLE,mouseX,mouseY,20,20);
-                        renderTargets();
-                        emit:pcbDataChanged();
+                        elementList.add(Shape.RECTANGLE,xDelta,yDelta,10,10);
                     }
                     else if(pcbViewItem.floatWinComponent.checkedShape === "circle"){
                         //要添加的target是圆形
-                        elementList.add(Shape.CIRCLE,mouseX,mouseY,20,20);
-                        renderTargets();
-                        emit:pcbDataChanged();
+                        elementList.add(Shape.CIRCLE,xDelta,yDelta,10,10);
                     }
+                    renderTargets();
+                    emit:pcbDataChanged();
                 }
             }
         }
 
         onDoubleClicked: {
-            if( -1 === pcbViewItem.selectedObjIdx ) {
+            mouse.accept = true;
+            if( -1 === selected ){
                 xOffset = 0;                        // canvas上绘图的起始位置偏移量恢复
                 yOffset = 0;
                 elementScale = 1;                   // canvas上绘图的比例恢复
                 renderTargets();
                 emit:pcbAreaChanged();
             }
-            else {
-                clickPos  = Qt.point(mouse.x,mouse.y);
+            else{
                 distinguishTarget(clickPos);
                 elementList.remove(selected);
                 emit:listModelView.item.listDataChanged();
@@ -143,6 +153,7 @@ Item {
             clickPos  = Qt.point(mouse.x,mouse.y);
             distinguishTarget(clickPos);
         }
+
         onPositionChanged: {
             // canvas偏移量
             xOffset += mouse.x - clickPos.x;
@@ -160,16 +171,15 @@ Item {
                     elementScale = 0.3;
                     tempScale = 0;
                 }
-                else if(elementScale > 4) {
-                    // 画布最大缩放比例为4
-                    elementScale = 4.0;
+                else if(elementScale > 10) {
+                    // 画布最大缩放比例为10
+                    elementScale = 10.0;
                     tempScale = 0;
                 }
                 // canvas偏移量
-                xOffset -= hoveredCursor.mouseX * tempScale;
-                yOffset -= hoveredCursor.mouseY * tempScale;
+                xOffset+=(hoveredCursor.mouseX-xOffset)/(elementScale-tempScale)*(-tempScale);
+                yOffset+=(hoveredCursor.mouseY-yOffset)/(elementScale-tempScale)*(-tempScale);
                 renderTargets();
-                console.log(elementScale);
                 emit:pcbAreaChanged();
             }
         }
@@ -199,8 +209,6 @@ Item {
         var distance = 0;
         var shape = "rectangle";
 
-        pcbViewItem.selectedObjIdx = -1;
-
         for(var i = 0; i < cnt; ++i){
             x = parseInt(elementList.elementData(i,0));
             y = parseInt(elementList.elementData(i,1));
@@ -217,7 +225,6 @@ Item {
                     selected = i;
                     renderTargets();
                     emit:pcbDataChanged();
-                    pcbViewItem.selectedObjIdx = i;
                     return;
                 }
             }
@@ -230,11 +237,12 @@ Item {
                     selected = i;
                     renderTargets();
                     emit:pcbDataChanged();
-                    pcbViewItem.selectedObjIdx = i;
                     return;
                 }
             }
-
         }
+        selected = -1;
+        emit:pcbDataChanged();
+        emit:listModelView.item.listDataChanged();
     }
 }

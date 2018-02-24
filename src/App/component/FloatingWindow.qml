@@ -9,9 +9,10 @@ Pane {
     Material.elevation: 10;
     Material.background: floatRectColor;
 
-    property color checkedColor: "#BCAAA4";
+    property color cicleColor: "#FFE082";
+    property color rectColor: "#C5E1A5"
     property color defaultColor: "#B0BEC5";
-    property color floatRectColor: "#AA455A64";
+    property color floatRectColor: "#779C27B0";
 
     property string checkedShape: "null";
 
@@ -103,14 +104,12 @@ Pane {
     //>>>---------------------------------------------------------------------------
     // 悬浮框上的退出按钮
     Button{
-        width: 80;
-        height: 30;
         text: qsTr("close");
-        Material.background: "#FFAB91";
+        font.capitalization: Font.MixedCase;
         anchors.right: parent.right;
         anchors.bottom: parent.bottom;
-        anchors.rightMargin: 20;
-        anchors.bottomMargin: 1;
+        Material.background: "transparent";
+        Material.foreground: "#B0BEC5";
 
         onClicked: {
             pcbViewItem.floatWinComponent.destroy();
@@ -121,11 +120,11 @@ Pane {
         if("circle" === shape){
             checkedShape = "circle";
             rectOption.color = defaultColor;
-            circleOption.color = checkedColor;
+            circleOption.color = cicleColor;
         }
         else if("rectangle" === shape){
             checkedShape = "rectangle";
-            rectOption.color = checkedColor;
+            rectOption.color = rectColor;
             circleOption.color = defaultColor;
         }
         else{

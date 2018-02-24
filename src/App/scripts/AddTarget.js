@@ -1,10 +1,16 @@
 .pragma library
 
-var rectColor = "#81d4fa";
-var cicleColor = "#ffcc80";
-var strokeColor = "black";
+var rectColor = "#C5E1A5";
+var cicleColor = "#FFE082";
+var strokeColor = "#F44336";
 var selectedBlodWidth = 2;
 var unselectedBlodWidth = 0;
+
+var x = 0;
+var y = 0;
+var w = 0;
+var h = 0;
+var shape = "rectangle";
 
 function drawShape( target,
                     data,
@@ -20,13 +26,21 @@ function drawShape( target,
     // 画矩形
     target.beginPath();
     for( var i = 0; i < cnt; ++i ){
-        if( data.elementData(i,4) === "rectangle" ){
+        x = data.elementData(i,0);
+        y = data.elementData(i,1);
+        w = data.elementData(i,2);
+        h = data.elementData(i,3);
+        shape = data.elementData(i,4);
+        if( "rectangle" === shape &&
+            x * elementScale + xOffset >= 0 &&
+            y * elementScale + yOffset >= 0 &&
+            w * elementScale + xOffset <= 1280 &&
+            h * elementScale + yOffset <= 720 ){
             target.fillStyle = rectColor;
-            // parseInt 将后面括号中的(data.elementData(i,0)变为数字类型
-            target.rect( parseInt(data.elementData(i,0)) * elementScale + xOffset,
-                         parseInt(data.elementData(i,1)) * elementScale + yOffset,
-                         parseInt(data.elementData(i,2)) * elementScale,
-                         parseInt(data.elementData(i,3)) * elementScale );
+            target.rect( x * elementScale + xOffset,
+                         y * elementScale + yOffset,
+                         w * elementScale,
+                         h * elementScale );
         }
     }
     target.fill();
@@ -34,33 +48,51 @@ function drawShape( target,
     // 画圆形
     target.beginPath();
     for( var i = 0; i < cnt; ++i ){
-        if( data.elementData(i,4) === "circle" ){
+        x = data.elementData(i,0);
+        y = data.elementData(i,1);
+        w = data.elementData(i,2);
+        h = data.elementData(i,3);
+        shape = data.elementData(i,4);
+        if( "circle" === shape &&
+            x * elementScale + xOffset >= 0 &&
+            y * elementScale + yOffset >= 0 &&
+            w * elementScale + xOffset <= 1280 &&
+            h * elementScale + yOffset <= 720 ){
             target.fillStyle = cicleColor;
-            target.ellipse( parseInt(data.elementData(i,0)) * elementScale + xOffset,
-                            parseInt(data.elementData(i,1)) * elementScale + yOffset,
-                            parseInt(data.elementData(i,2)) * elementScale,
-                            parseInt(data.elementData(i,3)) * elementScale );
+            target.ellipse( x * elementScale + xOffset,
+                            y * elementScale + yOffset,
+                            w * elementScale,
+                            h * elementScale );
         }
     }
     target.fill();
 
     // 画选中
-    target.beginPath();
-    target.lineWidth = selectedBlodWidth;
-    if( data.elementData(selectedIndex,4) === "rectangle" ){
-        target.fillStyle = rectColor;
-        target.rect( parseInt(data.elementData(selectedIndex,0)) * elementScale + xOffset,
-                     parseInt(data.elementData(selectedIndex,1)) * elementScale + yOffset,
-                     parseInt(data.elementData(selectedIndex,2)) * elementScale,
-                     parseInt(data.elementData(selectedIndex,3)) * elementScale );
+    if(-1 !== selectedIndex ){
+        x = data.elementData(selectedIndex,0);
+        y = data.elementData(selectedIndex,1);
+        w = data.elementData(selectedIndex,2);
+        h = data.elementData(selectedIndex,3);
+        shape = data.elementData(selectedIndex,4);
+        target.beginPath();
+        target.lineWidth = selectedBlodWidth;
+        if( "rectangle" === shape ){
+            target.fillStyle = rectColor;
+            target.rect( x * elementScale + xOffset,
+                         y * elementScale + yOffset,
+                         w * elementScale,
+                         h * elementScale );
+        }
+        else{
+            target.fillStyle = cicleColor;
+            target.ellipse( x * elementScale + xOffset,
+                            y * elementScale + yOffset,
+                            w * elementScale,
+                            h * elementScale );
+        }
+        target.fill();
+        target.stroke();
     }
-    else{
-        target.fillStyle = cicleColor;
-        target.ellipse( parseInt(data.elementData(selectedIndex,0)) * elementScale + xOffset,
-                        parseInt(data.elementData(selectedIndex,1)) * elementScale + yOffset,
-                        parseInt(data.elementData(selectedIndex,2)) * elementScale,
-                        parseInt(data.elementData(selectedIndex,3)) * elementScale );
-    }
-    target.fill();
-    target.stroke();
+
+    target.closePath();
 }

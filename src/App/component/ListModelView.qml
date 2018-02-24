@@ -89,31 +89,31 @@ Item {
                 spacing: 8;
                 Text {
                     text: centralX;
-                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "grey";
+                    color: itemWrapper.ListView.isCurrentItem ? "#9C27B0" : "grey";
                     font.pixelSize: itemWrapper.ListView.isCurrentItem ? 22 : 18;
                     Layout.preferredWidth: 100;
                 }
                 Text {
                     text: centralY;
-                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "grey";
+                    color: itemWrapper.ListView.isCurrentItem ? "#9C27B0" : "grey";
                     font.pixelSize: itemWrapper.ListView.isCurrentItem ? 22 : 18;
                     Layout.preferredWidth: 100;
                 }
                 Text {
                     text: cwidth;
-                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "grey";
+                    color: itemWrapper.ListView.isCurrentItem ? "#9C27B0" : "grey";
                     font.pixelSize: itemWrapper.ListView.isCurrentItem ? 22 : 18;
                     Layout.preferredWidth: 100;
                 }
                 Text {
                     text: cheight;
-                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "grey";
+                    color: itemWrapper.ListView.isCurrentItem ? "#9C27B0" : "grey";
                     font.pixelSize: itemWrapper.ListView.isCurrentItem ? 22 : 18;
                     Layout.preferredWidth: 100;
                 }
                 Text {
                     text: shape;
-                    color: itemWrapper.ListView.isCurrentItem ? "#8E24AA" : "grey";
+                    color: itemWrapper.ListView.isCurrentItem ? "#9C27B0" : "grey";
                     font.pixelSize: itemWrapper.ListView.isCurrentItem ? 22 : 18;
                     Layout.fillWidth: true;
                 }
@@ -143,6 +143,13 @@ Item {
         highlight: Rectangle{
             radius: 4;
             color: "#81D4FA";
+        }
+        ScrollBar.vertical: ScrollBar{
+            id: scrollBar;
+            width: 10;
+            anchors.top: lstVm.top;
+            anchors.right: lstVm.right;
+            anchors.bottom: lstVm.bottom;
         }
     }
 

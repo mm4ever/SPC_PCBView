@@ -13,16 +13,6 @@ Item {
         anchors.fill: parent;
         color: "grey";
     }
-    Rectangle{
-        id: rectBox;
-        x: 0;
-        y: 0;
-        width: 512;
-        height: 288;
-        border.width: 1;
-        border.color: "red";
-        color: "transparent";
-    }
 
     Canvas{
         id: preViewCanvas;
@@ -41,6 +31,17 @@ Item {
                                  0,
                                  1 );
         }
+    }
+
+    Rectangle{
+        id: rectBox;
+        x: 0;
+        y: 0;
+        width: 512;
+        height: 288;
+        border.width: 1;
+        border.color: "red";
+        color: "transparent";
     }
 
     // 重新渲染

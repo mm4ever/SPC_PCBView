@@ -10,27 +10,15 @@ import an.qt.LanguageSetting 1.0
 Item {
     id: mainWindow;
 
-    property int  selected: 0;
+    property int  selected: -1;
     property int xOffset: 0;
     property int yOffset: 0;
     property real elementScale: 1;
 
-//    Shortcut{
-//        sequence: "Ctrl+O";
-//        onActivated: Qt.quit();
-//    }
-
-//    ElementListModel{
-//        id: elementList;
-////        source: "../data/qml";
-//    }
-
-//    FileDialog {
-//        id: fileDialog1
-//        fileMode: FileDialog.OpenFile
-//        nameFilters: ["数据库文件 (*.db)", "全部文件 (*.*)"]
-//        options :FileDialog.ReadOnly;
-//    }
+    Shortcut{
+        sequence: "Ctrl+S";
+        onActivated: elementList.save();
+    }
 
     GridLayout{
         columns: 2;
@@ -145,10 +133,5 @@ Item {
         onPcbAreaChanged:{
             preView.item.renderRectBox();
         }
-    }
-
-    Shortcut{
-        sequence: "Ctrl+S";
-        onActivated: elementList.save();
     }
 }// end of mainWindow
