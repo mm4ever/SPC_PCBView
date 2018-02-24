@@ -15,11 +15,6 @@ Item {
     property int yOffset: 0;
     property real elementScale: 1;
 
-    Shortcut{
-        sequence: "Ctrl+S";
-        onActivated: elementList.save();
-    }
-
     GridLayout{
         columns: 2;
         anchors.fill: parent;

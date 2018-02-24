@@ -33,11 +33,11 @@ Item {
 
         onPaint: {
             AddTarget.drawShape( pcbViewCanvas.context,
-                                 elementList,
-                                 selected,
-                                 xOffset,
-                                 yOffset,
-                                 elementScale);
+                                elementList,
+                                selected,
+                                xOffset,
+                                yOffset,
+                                elementScale);
         }
         Component.onCompleted: {
             var cnt = 2000;
@@ -115,7 +115,7 @@ Item {
             }
             else{
                 if( null != pcbViewItem.floatWinComponent &&
-                     -1 === selected  ) {
+                        -1 === selected  ) {
                     var xDelta = parseInt( (clickPos.x - xOffset )/elementScale );
                     var yDelta = parseInt( (clickPos.y - yOffset )/elementScale );
                     //判断鼠标点击的区域是否存在已有target
@@ -162,6 +162,7 @@ Item {
             clickPos  = Qt.point(mouse.x,mouse.y);
             emit:pcbAreaChanged();
         }
+
         onWheel: {
             if (wheel.modifiers & Qt.ControlModifier) {
                 var tempScale = wheel.angleDelta.y/1200;
@@ -189,11 +190,11 @@ Item {
     function renderTargets( ){
         pcbViewCanvas.context.clearRect(0,0,1280,720);
         AddTarget.drawShape( pcbViewCanvas.context,
-                             elementList,
-                             selected,
-                             xOffset,
-                             yOffset,
-                             elementScale );
+                            elementList,
+                            selected,
+                            xOffset,
+                            yOffset,
+                            elementScale );
         pcbViewCanvas.requestPaint();
     }
 
@@ -230,9 +231,9 @@ Item {
             }
             else{
                 // 当前鼠标在圆形的target上
-                distance = Math.floor( (Math.sqrt(
-                           Math.pow( x +  width/2  - xDelta, 2) +
-                           Math.pow( y +  height/2 - yDelta, 2) )*10)/10);
+                distance = Math.floor( ( Math.sqrt(
+                                         Math.pow( x +  width/2  - xDelta, 2) +
+                                         Math.pow( y +  height/2 - yDelta, 2) )*10)/10);
                 if( distance < width/2 ){
                     selected = i;
                     renderTargets();

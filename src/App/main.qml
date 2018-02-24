@@ -18,47 +18,85 @@ ApplicationWindow {
     visible: true;
     flags: Qt.Window | Qt.FramelessWindowHint   //去标题栏
 
-    Shortcut{
-        sequence: "Ctrl+Q";
-        onActivated: Qt.quit();
-    }
-
     ElementListModel{
-        id: elementList;
+        id: elementList;                    // list数据
         source: "../data/default";
     }
+
+    Loader{
+        id: loadingView;                    // loading
+        source: "qrc:/component/LoadingView.qml";
+        anchors.centerIn: parent;
+    }
+
+    Loader{
+        id:loginView;                       // login
+        anchors.centerIn: parent;
+    }
+
+    Loader{
+        id:mainWindow;                      // 主程序窗口
+        anchors.fill: parent;
+    }
+
+    Loader{
+        id: fileDialog;                     // 打开文件窗口
+        source: "qrc:/component/FileDialog.qml";
+        anchors.centerIn: parent;
+    }
+
+    Loader{
+        id: themeDialog;                    // 主题设置
+        source: "qrc:/component/ThemeDialog.qml";
+        anchors.centerIn: parent;
+    }
+
+    Loader{
+        id: languageDialog;                 // 语言设置
+        source: "qrc:/component/LanguageDialog.qml";
+        anchors.centerIn: parent;
+    }
+
+    Loader{
+        id: aboutDialog;                    // about
+        source: "qrc:/component/AboutDialog.qml";
+        anchors.centerIn: parent;
+    }
+
+
 
     header: ToolBar {
         id: titleBar;
         visible: false;
         Material.foreground: "white";
+        font.capitalization: Font.MixedCase;
         RowLayout {
             anchors.margins: 20;
             ToolButton {
-                text: qsTr("<font size='4'>File</font>");
-                font.capitalization: Font.MixedCase;
-                onClicked: fileDialog.item.open();
+                text: qsTr("&File");
+                font.pointSize: 14;
+                onClicked: fileMenu.open();
+                Menu{
+                    id: fileMenu;
+                    y: titleBar.height;
+                    MenuItem{ action: openAction; }
+                    MenuItem{ action: saveAction; }
+                    MenuSeparator { }
+                    MenuItem{ action: quitAction; }
+                }
             }
             ToolButton {
-                text: qsTr("<font size='4'>Tools</font>");
-                font.capitalization: Font.MixedCase;
-                onClicked: menu.open();
-                Menu {
-                    id: menu
+                text: qsTr("&Tools");
+                font.pointSize: 14;
+                onClicked: toolMenu.open();
+
+                Menu{
+                    id: toolMenu;
                     y: titleBar.height;
-                    Action {
-                        text: qsTr("Theme");
-                        onTriggered: themeDialog.item.open();
-                    }
-                    Action {
-                        text: qsTr("Language");
-                        onTriggered: languageDialog.item.open();
-                    }
+                    MenuItem{ action: chooseTheme; }
+                    MenuItem{ action: chooseLanguage; }
                     MenuSeparator { }
-                    Action {
-                        text: qsTr("About");
-                        onTriggered: aboutDialog.item.open();
-                    }
+                    MenuItem{ action: showAbout; }
                 }
             }
         }
@@ -67,7 +105,6 @@ ApplicationWindow {
             id: loginMsg;
             text: qsTr("Login");
             anchors.right: minWnd.left;
-            font.capitalization: Font.MixedCase;
             onClicked: {
                 loginView.source = "qrc:/component/LoginView.qml";
                 loginView.item.openLoginWnd();
@@ -93,62 +130,62 @@ ApplicationWindow {
         }
     }
 
-    Loader{
-        id: fileDialog;
-        anchors.centerIn: parent;
-        source: "qrc:/component/FileDialog.qml";
-    }
-
-    Loader{
-        id: themeDialog;            // 主题设置
-        anchors.centerIn: parent;
-        source: "qrc:/component/ThemeDialog.qml";
-    }
-
-    Loader{
-        id: languageDialog;         // 语言设置
-        anchors.centerIn: parent;
-        source: "qrc:/component/LanguageDialog.qml";
-    }
-
-    Loader{
-        id: aboutDialog;            // about
-        anchors.centerIn: parent;
-        source: "qrc:/component/AboutDialog.qml";
-    }
-
-    Loader{
-        id: loadingView;            // loading
-        anchors.fill: parent;
-        source: "qrc:/component/LoadingView.qml";
-    }
-
-    Loader{
-        id:loginView;               // login
-        anchors.centerIn: parent;
-    }
-
-    Loader{
-        id:mainWindow;              // 主程序窗口
-        anchors.fill: parent;
-    }
-
-    Connections{
-        target: loadingView.item;   // 加载完成,启动登录界面
-        onLoadin:{
-            loadingView.source = "";
-            loginView.source = "qrc:/component/LoginView.qml";
-            titleBar.visible = true;
-            appWnd.showFullScreen();
+    Item{
+        id: actionItem;
+        Action{
+            id:openAction;
+            text:qsTr("&Open");
+            shortcut: StandardKey.Open;
+            onTriggered: fileDialog.item.open();
+        }
+        Action{
+            id:saveAction;
+            text:qsTr("Save");
+            shortcut: "Ctrl+S";
+            onTriggered: elementList.save();
+        }
+        Action{
+            id:quitAction
+            text:qsTr("Exit");
+            shortcut: "Ctrl+Q";
+            onTriggered: Qt.quit();
+        }
+        Action{
+            id:chooseTheme;
+            text: qsTr("Theme");
+            onTriggered: themeDialog.item.open();
+        }
+        Action{
+            id:chooseLanguage;
+            text: qsTr("Language");
+            onTriggered: languageDialog.item.open();
+        }
+        Action{
+            id:showAbout;
+            text:qsTr("About");
+            onTriggered: aboutDialog.item.open();
         }
     }
 
-    Connections{
-        target: loginView.item;
-        onLogin:{
-            loginMsg.text = user;
-            loginView.source = "";
-            mainWindow.source = "qrc:/component/MainWindow.qml";
+    Item{
+        id: connectionsItem;
+        Connections{
+            target: loadingView.item;   // 加载完成,启动登录界面
+            onLoadin:{
+                loadingView.source = "";
+                loginView.source = "qrc:/component/LoginView.qml";
+                titleBar.visible = true;
+                appWnd.showFullScreen();
+            }
+        }
+
+        Connections{
+            target: loginView.item;
+            onLogin:{
+                loginMsg.text = user;
+                loginView.source = "";
+                mainWindow.source = "qrc:/component/MainWindow.qml";
+            }
         }
     }
 }
