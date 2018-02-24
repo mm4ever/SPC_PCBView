@@ -8,7 +8,6 @@ import Qt.labs.settings 1.0
 import QtQuick.Dialogs 1.1
 
 import an.qt.CModel 1.0
-import an.qt.LanguageSetting 1.0
 
 ApplicationWindow {
     id: appWnd;
@@ -33,54 +32,66 @@ ApplicationWindow {
         id: titleBar;
         visible: false;
         Material.foreground: "white";
-            RowLayout {
-                anchors.margins: 20;
-                ToolButton {
-                    text: qsTr("File");
-                    font.capitalization: Font.MixedCase;
-                    onClicked: fileDialog.item.open();
-                }
-                ToolButton {
-                    text: qsTr("Theme");
-                    font.capitalization: Font.MixedCase;
-                    onClicked: themeDialog.item.open();
-                }
-                ToolButton {
-                    text: qsTr("Language");
-                    font.capitalization: Font.MixedCase;
-                    onClicked: languageDialog.item.open();
-                }
-            }
-
-            ToolButton{
-                id: loginMsg;
-                text: qsTr("Login");
-                anchors.right: minWnd.left;
+        RowLayout {
+            anchors.margins: 20;
+            ToolButton {
+                text: qsTr("<font size='4'>File</font>");
                 font.capitalization: Font.MixedCase;
-                onClicked: {
-                    loginView.source = "qrc:/component/LoginView.qml";
-                    loginView.item.openLoginWnd();
-                }
-                Rectangle{
-                    anchors.centerIn: parent;
-                    width: parent.width;
-                    height: parent.height*0.75;
-                    border.width: 2;
-                    border.color: "white";
-                    color: "transparent";
-                    radius: 4;
-                }
+                onClicked: fileDialog.item.open();
             }
-            ToolButton{
-                id: minWnd;
-                text: "X";
-                anchors.right: parent.right;
+            ToolButton {
+                text: qsTr("<font size='4'>Tools</font>");
                 font.capitalization: Font.MixedCase;
-                onClicked: {
-                    Qt.quit();
+                onClicked: menu.open();
+                Menu {
+                    id: menu
+                    y: titleBar.height;
+                    Action {
+                        text: qsTr("Theme");
+                        onTriggered: themeDialog.item.open();
+                    }
+                    Action {
+                        text: qsTr("Language");
+                        onTriggered: languageDialog.item.open();
+                    }
+                    MenuSeparator { }
+                    Action {
+                        text: qsTr("About");
+                        onTriggered: aboutDialog.item.open();
+                    }
                 }
             }
         }
+
+        ToolButton{
+            id: loginMsg;
+            text: qsTr("Login");
+            anchors.right: minWnd.left;
+            font.capitalization: Font.MixedCase;
+            onClicked: {
+                loginView.source = "qrc:/component/LoginView.qml";
+                loginView.item.openLoginWnd();
+            }
+            Rectangle{
+                anchors.centerIn: parent;
+                width: parent.width;
+                height: parent.height*0.75;
+                border.width: 2;
+                border.color: "white";
+                color: "transparent";
+                radius: 4;
+            }
+        }
+        ToolButton{
+            id: minWnd;
+            text: "X";
+            anchors.right: parent.right;
+            font.capitalization: Font.MixedCase;
+            onClicked: {
+                Qt.quit();
+            }
+        }
+    }
 
     Loader{
         id: fileDialog;
@@ -98,6 +109,12 @@ ApplicationWindow {
         id: languageDialog;         // 语言设置
         anchors.centerIn: parent;
         source: "qrc:/component/LanguageDialog.qml";
+    }
+
+    Loader{
+        id: aboutDialog;            // about
+        anchors.centerIn: parent;
+        source: "qrc:/component/AboutDialog.qml";
     }
 
     Loader{

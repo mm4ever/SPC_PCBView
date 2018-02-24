@@ -32,7 +32,7 @@ Item {
 
             Text{
                 id: pcbViewTitle;
-                text: qsTr("PCBView");
+                text: qsTr("<font size='4'>PCBView</font>");
                 color: Material.color(Material.Pink);
             }
 
@@ -73,7 +73,7 @@ Item {
 
             Text{
                 id: listModelTitle;
-                text: qsTr("List");
+                text: qsTr("<font size='4'>List</font>");
                 color: Material.color(Material.Pink);
             }
             Loader{
@@ -94,7 +94,7 @@ Item {
             width: pcbViewArea.width;
 
             Text{
-                text: qsTr("Equipment");
+                text: qsTr("<font size='4'>Equipment</font>");
                 color: Material.color(Material.Pink);
             }
         }
@@ -105,7 +105,7 @@ Item {
             Layout.fillWidth: true;
 
             Text{
-                text: qsTr("Lots");
+                text: qsTr("<font size='4'>Lots</font>");
                 color: Material.color(Material.Pink);
             }
         }

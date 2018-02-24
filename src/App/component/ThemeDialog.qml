@@ -2,17 +2,19 @@ import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.3
-import QtQuick.Controls.Universal 2.2
 
 import an.qt.ThemeSetting 1.0
 
 Dialog {
-    id: themeDialog
+    id: themeDialog;
+    title: qsTr("<font size='4'>Theme</font>");
+    Material.background: appWnd.Material.primary;
+    width: 265;
+    height: 230;
     x: -width/2;
     y: -height/2;
     modal: true;
     focus: true;
-    title: qsTr("Theme");
 
     ThemeSetting{
         id: themeSetting;
@@ -46,7 +48,7 @@ Dialog {
 
             appWnd.Material.theme = origTheme;
 
-            styleBox.model = themeSetting.themeList;
+            styleBox.model = themeSetting.themeList; //
             styleBox.currentIndex = themeSetting.themeIndex;
             updateStyle();
         }
@@ -83,6 +85,7 @@ Dialog {
 
             Label {
                 text: qsTr("Style:");
+                font.pixelSize: 18;
             }
 
             ComboBox {

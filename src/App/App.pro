@@ -42,6 +42,4 @@ unix::LIBS += -L/usr/lib/x86_64-linux-gnu\
 
 include(dependencies.pri)
 
-DISTFILES +=
-
 HEADERS +=

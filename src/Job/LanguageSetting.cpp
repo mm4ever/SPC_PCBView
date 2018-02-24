@@ -2,51 +2,24 @@
 
 using namespace SSDK;
 using namespace Job;
+using namespace std;
 
 LanguageSetting::LanguageSetting(QObject *parent) : QObject(parent),
     m_laguageIndex(0)
 {
     try
     {
+        this->m_languageList = QEnumStringList<LanguageSetting>(string("LanguageType"));
+
         this->m_languages.push_back(LanguageType::CHINESE);
         this->m_languages.push_back(LanguageType::ENGLISH);
     }
     CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("语言设置的构造函数出错!");
 }
 
-LanguageSetting::LanguageSetting(QGuiApplication &app,
-                                 QQmlApplicationEngine &engine,
-                                 QTranslator &translator)
-{
-    try
-    {
-        this->m_pApp = &app;
-        this->m_pEngine = &engine;
-        this->m_pTranslator = &translator;
-    }
-    CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("语言设置的构造函数出错!");
-}
-
 LanguageSetting::~LanguageSetting()
 {
-    try
-    {
-        delete this->m_pApp;
-        this->m_pApp = nullptr;
-        delete this->m_pEngine;
-        this->m_pEngine = nullptr;
-        delete this->m_pTranslator;
-        this->m_pTranslator = nullptr;
-    }
-    catch(...)
-    {
-        delete this->m_pApp;
-        this->m_pApp = nullptr;
-        delete this->m_pEngine;
-        this->m_pEngine = nullptr;
-        delete this->m_pTranslator;
-        this->m_pTranslator = nullptr;
-    }
+
 }
 
 void LanguageSetting::setLanguage(LanguageType languageType)
@@ -64,8 +37,10 @@ void LanguageSetting::setLanguage(LanguageType languageType)
         default:
             break;
         }
-        this->m_pApp->installTranslator(this->m_pTranslator);
-        this->m_pEngine->retranslate();
+        if(nullptr != this->m_pEngine)
+        {
+            this->m_pEngine->retranslate();
+        }
     }
     CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("设置语言时出错!");
 }
@@ -100,4 +75,22 @@ int LanguageSetting::laguageIndex() const
 void LanguageSetting::setLaguageIndex(int laguageIndex)
 {
     this->m_laguageIndex = laguageIndex;
+}
+void LanguageSetting::setPEngine(QQmlApplicationEngine *pEngine)
+{
+    m_pEngine = pEngine;
+}
+
+void LanguageSetting::setPTranslator(QTranslator *pTranslator)
+{
+    m_pTranslator = pTranslator;
+}
+
+QStringList LanguageSetting::languageList()
+{
+    if(0 == this->m_languageList.count())
+    {
+        this->m_languageList = QEnumStringList<LanguageSetting>(string("LanguageType"));
+    }
+    return this->m_languageList;
 }

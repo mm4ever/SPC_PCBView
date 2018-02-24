@@ -17,5 +17,6 @@
         <file>component/LanguageDialog.qml</file>
         <file>component/FileDialog.qml</file>
         <file>component/FloatingWindow.qml</file>
+        <file>component/AboutDialog.qml</file>
     </qresource>
 </RCC>
