@@ -2,7 +2,7 @@
 
 using namespace std;
 
-using namespace Job;
+using namespace App;
 
 LoginCheck::LoginCheck(QObject *parent) : QObject(parent)
 {

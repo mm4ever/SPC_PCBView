@@ -10,7 +10,6 @@ import "../scripts/AddTarget.js" as AddTarget
 
 Item {
     id: pcbViewItem;
-    visible: true;
     anchors.centerIn: parent;
     clip: true;
 
@@ -18,9 +17,10 @@ Item {
     property string checkedShape: "null";       // 鼠标选中要添加元件形状
     property var floatWinComponent: null;
     property var floatWin;
+    property string buttonType: "left";
 
     property int elementSize: 20;               // 自动生成的元件尺寸(长宽)
-    property int elementCnt: 50;                // 自动生成的元件数量
+    property int elementCnt: 5;                // 自动生成的元件数量
 
     signal pcbDataChanged();
     signal pcbAreaChanged();
@@ -44,11 +44,11 @@ Item {
 
         onPaint: {
             AddTarget.drawShape( pcbViewCanvas.context,
-                                elementList,
-                                selected,
-                                xOffset,
-                                yOffset,
-                                elementScale);
+                                 elementList,
+                                 selected,
+                                 xOffset,
+                                 yOffset,
+                                 elementScale);
         }
         Component.onCompleted: {
             for( var i = 0; i < pcbViewItem.elementCnt; ++i ){
@@ -71,35 +71,47 @@ Item {
     }
 
     Menu {
-        id: contentMenu;
-        width: 100;
-        Menu { // 右键菜单
-            title: qsTr("Edit");
+        id: addMenu;
+        Menu {                      // 右键菜单
+            title: qsTr("Add");
             MenuItem {
-                id: menuItem;
-                text: qsTr("add");
+                text: qsTr("Rectangle");
                 onTriggered: {
-                    if(null === pcbViewItem.floatWinComponent){
-                        pcbViewItem.floatWin = Qt.createComponent("qrc:/component/FloatingWindow.qml");
-                        pcbViewItem.floatWinComponent = pcbViewItem.floatWin.createObject(pcbViewItem,{ });
-                    }
+                    pcbViewItem.checkedShape = "rectangle";
+                    pcbViewItem.addChip();
                 }
             }
-
             MenuItem {
-                text: qsTr("continue1");
+                text: qsTr("Circle");
+                onTriggered: {
+                    pcbViewItem.checkedShape = "circle";
+                    pcbViewItem.addChip();
+                }
+            }
+            MenuItem {
+                text: qsTr("...");
                 onTriggered: {
                     tipMsg.text = qsTr("This option is not supported");
                     tipMsg.visible = true;
                 }
             }
+        }
+        Menu{
+            title: qsTr("...");
+        }
+    }
 
-            MenuItem {
-                text: qsTr("continue2");
-                onTriggered: {
-                    tipMsg.text = qsTr("This option is not supported");
-                    tipMsg.visible = true;
-                }
+    Menu{
+        id: deleteMenu;
+        MenuItem{
+            text: qsTr("Delete");
+            onTriggered:pcbViewItem.deleteChip();
+        }
+        MenuItem{
+            text: qsTr("...");
+            onTriggered: {
+                tipMsg.text = qsTr("This option is not supported");
+                tipMsg.visible = true;
             }
         }
     }
@@ -111,84 +123,69 @@ Item {
     }
 
     MouseArea{
-        id: curPos;
+        id: currentCursor;
         anchors.fill: parent;
         acceptedButtons: Qt.RightButton|Qt.LeftButton|Qt.WheelFocus; // 激活右键
 
         onPressed: {
-            // 未添加元件时选中形状为null,添加时获取所选形状
-            if( null === floatWinComponent ){
-                checkedShape = "null";
-            }
-            else{
-                checkedShape = floatWinComponent.currentShape;
-            }
-
             // 鼠标按下,判断是否选中元件
-            checkPos = Qt.point(mouseX,mouseY);
-            distinguishTarget(checkPos);
+            pcbViewItem.checkPos = Qt.point(mouseX,mouseY);
+            pcbViewItem.distinguishTarget(pcbViewItem.checkPos);
+            if(mouse.button === Qt.LeftButton)
+                pcbViewItem.buttonType = "left";
+            else
+                pcbViewItem.buttonType = "right";
         }
 
         onPositionChanged: {
-            if( "null" === checkedShape){
-                // 未添加元件时计算canvas偏移量
-                xOffset += mouseX - checkPos.x;
-                yOffset += mouseY - checkPos.y;
-                renderTargets();
-                checkPos  = Qt.point(mouse.x,mouse.y);
-                emit:pcbAreaChanged();
+            if( "left" === buttonType){
+                    // 未选中元件时计算canvas偏移量
+                    xOffset += mouseX - pcbViewItem.checkPos.x;
+                    yOffset += mouseY - pcbViewItem.checkPos.y;
+                    pcbViewItem.renderTargets();
+                    pcbViewItem.checkPos  = Qt.point(mouse.x,mouse.y);
+                    emit:pcbAreaChanged();
             }
             else{
-                // 意图在添加元件时移动,弹出提示信息
-                tipMsg.text = qsTr("Add without moving!");
-                tipMsg.visible = true;
-
+                pcbViewItem.checkPos  = Qt.point(mouse.x,mouse.y);
             }
         }
-
         onClicked: {
-            if (mouse.button === Qt.RightButton) {
-                // 鼠标点击时为右键,弹出添加元件悬浮框
-                contentMenu.popup();
+            if ( mouse.button === Qt.RightButton) {
+                if ( -1 === selected )
+                    addMenu.popup();        // 弹出添加menu
+                else
+                    deleteMenu.popup();     // 弹出删除menu
             }
-            else if( null !== floatWinComponent &&
-                     "null" !== checkedShape &&
-                    -1 === selected  ) {
-                // 左键时,添加元件悬浮框打开+选中添加形状+空白处=添加所选形状元件
-                checkPos = Qt.point(mouseX,mouseY);
-                distinguishTarget(checkPos);
-                addChip();
+            else{
+                pcbViewItem.checkPos = Qt.point(mouseX,mouseY);
+                pcbViewItem.distinguishTarget(pcbViewItem.checkPos);
             }
         }
 
         onDoubleClicked: {
-            if( "null" === checkedShape ){
+            if(  mouse.button === Qt.LeftButton ){
                 if( -1 === selected ){
-                    xOffset = 0;                // canvas上绘图的起始位置偏移量恢复
+                    xOffset = 0; // canvas上绘图的起始位置偏移量恢复
                     yOffset = 0;
-                    elementScale = 1;           // canvas上绘图的比例恢复
-                    renderTargets();
+                    elementScale = 1;  // canvas上绘图的比例恢复
+                    pcbViewItem.renderTargets();
                     emit:pcbAreaChanged();
                 }
                 else{
-                    elementList.remove(selected);
-                    emit:listModelView.item.listDataChanged();
+                    pcbViewItem.deleteChip();
                 }
-            }
-            else{
-                tipMsg.text = qsTr("Add with blank!");
-                tipMsg.visible = true;
             }
         }
 
         onWheel: {
             var tempScale = wheel.angleDelta.y/1200;
             elementScale += tempScale;
-            if (elementScale < 0.3) {       // 画布最小缩放比例为0.3
+            if ( elementScale < 0.3 ) {       // 画布最小缩放比例为0.3
                 elementScale = 0.3;
                 tempScale = 0;
             }
-            else if(elementScale > 10) {    // 画布最大缩放比例为10
+            else if( elementScale > 10 ) {    // 画布最大缩放比例为10
                 elementScale = 10.0;
                 tempScale = 0;
             }
@@ -200,7 +197,61 @@ Item {
         }
     }
 
-    // 重新渲染
+    // 将pcb恢复为默认尺寸和位置
+    function reset(){
+        xOffset = 0;        // canvas上绘图的起始位置偏移量恢复
+        yOffset = 0;
+        elementScale = 1;   // canvas上绘图的比例恢复
+        pcbViewItem.renderTargets();
+        emit:pcbAreaChanged();
+    }
+
+    // 在pcb上删除元件
+    function deleteChip(){
+        elementList.remove(selected);
+        emit:listModelView.item.listDataChanged();
+    }
+
+    // 在pcb上添加元件
+    function addChip( ){
+        // 当前鼠标位置对应图像上的偏移量
+        var xDelta = parseInt((pcbViewItem.checkPos.x-xOffset )/elementScale);
+        var yDelta = parseInt((pcbViewItem.checkPos.y-yOffset )/elementScale);
+
+        // 计算待添加元件起始坐标,长宽等信息
+        var x = xDelta - pcbViewItem.elementSize / 2;
+        var y = yDelta - pcbViewItem.elementSize / 2;
+        var w = pcbViewItem.elementSize;
+        var h = pcbViewItem.elementSize;
+
+        // 判断待添加元件是否在pcb范围内(不是PCBView范围内)
+        if ( x >= 0 && x <= 1280 - w &&
+             y >= 0 && y <= 720 - h ){
+            if( "rectangle" === checkedShape ){
+                elementList.add( Shape.RECTANGLE,
+                                 xDelta-pcbViewItem.elementSize / 2,
+                                 yDelta-pcbViewItem.elementSize / 2,
+                                 pcbViewItem.elementSize,
+                                 pcbViewItem.elementSize);
+            }
+            else if( "circle" === checkedShape ){
+                elementList.add( Shape.CIRCLE,
+                                 xDelta-pcbViewItem.elementSize / 2,
+                                 yDelta-pcbViewItem.elementSize / 2,
+                                 pcbViewItem.elementSize,
+                                 pcbViewItem.elementSize);
+            }
+        }
+        else{
+            tipMsg.text = qsTr("Out of pcb area!");
+            tipMsg.visible = true;
+        }
+
+        pcbViewItem.renderTargets();
+        emit:pcbDataChanged();
+    }
+
+    // 删除pcb重新画
     function renderTargets( ){
         pcbViewCanvas.context.clearRect(0,0,1280,720);
         AddTarget.drawShape( pcbViewCanvas.context,
@@ -212,7 +263,7 @@ Item {
         pcbViewCanvas.requestPaint();
     }
 
-    // 判断鼠标点击的是空白区域还是在target上
+    // 判断鼠标点击的是pcb的空白区域还是在元件上
     function distinguishTarget(pos){
         // 当前点击在PCBView上的坐标位置映射到canvas画布上的坐标位置
         var xDelta = parseInt( (pos.x - xOffset )/elementScale );
@@ -233,7 +284,7 @@ Item {
                         yDelta >= y &&
                         yDelta <= ( y + height ) ){
                     selected = i;
-                    renderTargets();
+                    pcbViewItem.renderTargets();
                     emit:pcbDataChanged();
                     return;
                 }
@@ -244,7 +295,7 @@ Item {
                                                 Math.pow( y +  height/2 - yDelta, 2) )*10)/10);
                 if( distance <= width/2 ){
                     selected = i;
-                    renderTargets();
+                    pcbViewItem.renderTargets();
                     emit:pcbDataChanged();
                     return;
                 }
@@ -253,28 +304,5 @@ Item {
         selected = -1;
         emit:pcbDataChanged();
         emit:listModelView.item.listDataChanged();
-    }
-
-    // 在PCBView上添加元件
-    function addChip( ){
-        var xDelta = parseInt( (checkPos.x - xOffset )/elementScale );
-        var yDelta = parseInt( (checkPos.y - yOffset )/elementScale );
-
-        if( "circle" === checkedShape ){
-            elementList.add( Shape.CIRCLE,
-                            xDelta-pcbViewItem.elementSize / 2,
-                            yDelta-pcbViewItem.elementSize / 2,
-                            pcbViewItem.elementSize,
-                            pcbViewItem.elementSize);
-        }
-        else if( "rectangle" === checkedShape ){
-            elementList.add( Shape.RECTANGLE,
-                            xDelta-pcbViewItem.elementSize / 2,
-                            yDelta-pcbViewItem.elementSize / 2,
-                            pcbViewItem.elementSize,
-                            pcbViewItem.elementSize);
-        }
-        renderTargets();
-        emit:pcbDataChanged();
     }
 }

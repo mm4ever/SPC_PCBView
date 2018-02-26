@@ -10,7 +10,7 @@ Item {
     anchors.centerIn: parent;
     clip: true;
 
-    Rectangle{                      // 画缩略图背景
+    Rectangle{                      // 画缩略图背景框
         anchors.fill: parent;
         border.width: 1;
         border.color: Material.foreground;

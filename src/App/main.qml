@@ -16,7 +16,7 @@ ApplicationWindow {
     width: screen.width / 6;
     height: screen.height / 2;
     visible: true;
-    flags: Qt.Window | Qt.FramelessWindowHint   //去标题栏
+    flags: Qt.Window | Qt.FramelessWindowHint;   //去标题栏
 
     ElementListModel{
         id: elementList;                    // list数据
@@ -114,7 +114,6 @@ ApplicationWindow {
                 text: qsTr("Login");
                 onClicked: {
                     loginView.source = "qrc:/component/LoginView.qml";
-                    loginView.item.openLoginWnd();
                 }
                 Rectangle{
                     anchors.centerIn: parent;
@@ -134,14 +133,12 @@ ApplicationWindow {
         id: actionItem;
         Action{
             id:openAction;
-            enabled: false;
             text:qsTr("&Open");
             shortcut: StandardKey.Open;
             onTriggered: fileDialog.item.open();
         }
         Action{
             id:saveAction;
-            enabled: false;
             text:qsTr("Save");
             shortcut: "Ctrl+S";
             onTriggered: elementList.save();
@@ -192,8 +189,6 @@ ApplicationWindow {
                 loginMsg.text = user;
                 loginView.source = "";
                 mainWindow.source = "qrc:/component/MainWindow.qml";
-                openAction.enabled = true;
-                saveAction.enabled = true;
             }
         }
     }

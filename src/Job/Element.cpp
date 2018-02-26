@@ -144,10 +144,11 @@ void Element::save()
         string path = this->jobPath().toStdString();    //程式文件路径
         string::size_type pos = path.find( 'file:/' );  //从传入的路径中找出文件前缀
         path.erase( pos - pathPrefix.size() + 1, pathPrefix.size() );//删除文件前缀
+        path.erase( path.size()-5,path.size() );         //删除后缀重新保存
 
         // 获取当前时间,用于生成保存的数据库文件名
         QDateTime local(QDateTime::currentDateTime());
-        QString localTime = local.toString("_yyMMddhhmmss.'s'ung");
+        QString localTime = local.toString("_hhmmss.'s'ung");
 
         // 创建数据库对象，打开传入路径的数据库
         sqlite.open( path + localTime.toStdString());

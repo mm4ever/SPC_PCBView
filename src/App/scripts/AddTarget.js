@@ -26,14 +26,14 @@ function drawShape( target,
     // 画矩形
     target.beginPath();
     for( var i = 0; i < cnt; ++i ){
+
         x = data.elementData(i,0);
         y = data.elementData(i,1);
         w = data.elementData(i,2);
         h = data.elementData(i,3);
         shape = data.elementData(i,4);
-        if( "rectangle" === shape &&
-            x >= 0 && x <= 1280 -w &&
-            y >= 0 && y <= 720 -h ){
+
+        if( "rectangle" === shape ){
             target.fillStyle = rectColor;
             target.rect( x * elementScale + xOffset,
                          y * elementScale + yOffset,
@@ -46,14 +46,14 @@ function drawShape( target,
     // 画圆形
     target.beginPath();
     for(  i = 0; i < cnt; ++i ){
+
         x = data.elementData(i,0);
         y = data.elementData(i,1);
         w = data.elementData(i,2);
         h = data.elementData(i,3);
         shape = data.elementData(i,4);
-        if( "circle" === shape &&
-            x >= 0 && x <= 1280 -w &&
-            y >= 0 && y <= 720 -h ){
+
+        if( "circle" === shape ){
             target.fillStyle = cicleColor;
             target.ellipse( x * elementScale + xOffset,
                             y * elementScale + yOffset,

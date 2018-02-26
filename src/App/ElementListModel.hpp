@@ -6,7 +6,7 @@
 
 #include "Element.hpp"
 
-namespace Job
+namespace App
 {
     class ElementListModel: public QAbstractListModel
     {
@@ -33,8 +33,8 @@ namespace Job
     Q_SIGNALS:
 
     private:
-        Element* m_pElement { nullptr };
+        Job::Element* m_pElement { nullptr };
     };
-}//End of namespace Job
+}//End of namespace App
 
 #endif // ELEMENTLISTMODEL_HPP

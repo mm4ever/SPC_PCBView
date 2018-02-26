@@ -25,6 +25,8 @@ Item {
             width: 1284;
             height: 745;
 
+            BorderRect{ anchors.fill: parent; }
+
             Text{
                 id: pcbViewTitle;
                 text: qsTr("PCBView");
@@ -67,6 +69,8 @@ Item {
             Layout.fillWidth: true;
             height: pcbViewArea.height;
 
+            BorderRect{ anchors.fill: parent; }
+
             Text{
                 id: listModelTitle;
                 text: qsTr("List");
@@ -90,24 +94,28 @@ Item {
             Layout.fillHeight: true;
             width: pcbViewArea.width;
 
+            BorderRect{ anchors.fill: parent; }
+
             Text{
                 text: qsTr("Equipment");
                 font.pointSize: 14;
                 color: Material.accent;
             }
-        }
+        }// end of equipmentArea
 
         Item{
             id: lotsArea;                       // Lots窗口
             Layout.fillHeight: true;
             Layout.fillWidth: true;
 
+            BorderRect{ anchors.fill: parent; }
+
             Text{
                 text: qsTr("Lots");
                 font.pointSize: 14;
                 color: Material.accent;
             }
-        }
+        }// end of lotsArea
     }// end of GridLayout
 
     Item{
@@ -142,8 +150,9 @@ Item {
                 for(var i = 0; i < cnt; ++i){
                     elementList.remove(0);
                 }
+                preView.item.renderTargets();
                 pcbView.item.renderTargets();
             }
         }
-    }
+    }// end of signal connections
 }// end of mainWindow

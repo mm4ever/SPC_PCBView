@@ -16,7 +16,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    ThemeSetting.cpp \
+    LoginCheck.cpp \
+    LanguageSetting.cpp \
+    ElementListModel.cpp
 
 RESOURCES += qml.qrc
 
@@ -31,7 +35,6 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-INCLUDEPATH += $$PWD/../../include/sqlite
 INCLUDEPATH += $$PWD/../../include
 DEPENDPATH += $$PWD/../../include
 
@@ -42,4 +45,8 @@ unix::LIBS += -L/usr/lib/x86_64-linux-gnu\
 
 include(dependencies.pri)
 
-HEADERS +=
+HEADERS += \
+    ThemeSetting.hpp \
+    LoginCheck.hpp \
+    LanguageSetting.hpp \
+    ElementListModel.hpp

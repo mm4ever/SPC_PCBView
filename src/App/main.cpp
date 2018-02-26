@@ -5,7 +5,6 @@
 #include <QQuickStyle>
 #include <QIcon>
 #include <QTranslator>
-#include <QDebug>
 
 #include "LoginCheck.hpp"
 #include "ElementListModel.hpp"
@@ -14,6 +13,7 @@
 
 #include <QDebug>
 
+using namespace App;
 using namespace Job;
 using namespace SSDK;
 
@@ -37,16 +37,10 @@ int main(int argc, char *argv[])
 
     qRegisterMetaType<Shape::ShapeType>();
 
-
     // 主题
-    QSettings settings;
     QQuickStyle::setStyle("Material");
-    QString style = QQuickStyle::name();
-    if (!style.isEmpty())
-        settings.setValue("style", style);
-    else
-        QQuickStyle::setStyle(settings.value("style").toString());
-
+    ThemeSetting theme;
+    engine.rootContext()->setContextProperty("myTheme",&theme);
 
     // 语言
     QTranslator translator;
@@ -55,6 +49,7 @@ int main(int argc, char *argv[])
     langSetting.setPTranslator(&translator);
     engine.rootContext()->setContextProperty("languages", &langSetting);
     app.installTranslator(&translator);
+
 
 
     // 加载main.qml
