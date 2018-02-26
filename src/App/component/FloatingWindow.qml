@@ -107,6 +107,7 @@ Pane {
         anchors.right: parent.right;
         onClicked: {
             pcbViewItem.floatWinComponent.destroy();
+            pcbViewItem.isLoaded = false;
         }
     }
 

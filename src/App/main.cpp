@@ -14,7 +14,7 @@
 
 #include <QDebug>
 
-using namespace Job;
+using namespace App;
 using namespace SSDK;
 
 int main(int argc, char *argv[])
@@ -32,7 +32,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<LoginCheck>("an.qt.LoginCheck",1,0,"LoginCheck");
     qmlRegisterType<ElementListModel>("an.qt.CModel", 1, 0, "ElementListModel");
     qmlRegisterType<ThemeSetting>("an.qt.ThemeSetting",1,0,"ThemeSetting");
-    qmlRegisterType<LanguageSetting>("an.qt.LanguageSetting",1,0,"LanguageSetting");
     qmlRegisterType<Shape>("an.qt.Shape", 1, 0, "Shape");
 
     qRegisterMetaType<Shape::ShapeType>();

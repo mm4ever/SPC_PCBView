@@ -18,6 +18,7 @@ Item {
     property string checkedShape: "null";       // 鼠标选中要添加元件形状
     property var floatWinComponent: null;
     property var floatWin;
+    property bool isLoaded: false;
 
     property int elementSize: 20;               // 自动生成的元件尺寸(长宽)
     property int elementCnt: 50;                // 自动生成的元件数量
@@ -25,11 +26,13 @@ Item {
     signal pcbDataChanged();
     signal pcbAreaChanged();
 
-    ToolTip{
-        id: tipMsg;
-        x: (screen.width-width)*0.5;
-        y: (screen.height-height)*0.1;
-        timeout: 800;
+    Item{
+        ToolTip{
+            id: tipMsg;
+            x: (screen.width-width)*0.5;
+            y: (screen.height-height)*0.1;
+            timeout: 800;
+        }
     }
 
     Canvas{
@@ -43,6 +46,10 @@ Item {
         scale: 1;
 
         onPaint: {
+            context.lineWidth = 2;
+            context.strokeStyle = "lightblue";
+            context.beginPath();
+            context.strokeRect(0,0,1276,716);
             AddTarget.drawShape( pcbViewCanvas.context,
                                 elementList,
                                 selected,
@@ -82,6 +89,7 @@ Item {
                     if(null === pcbViewItem.floatWinComponent){
                         pcbViewItem.floatWin = Qt.createComponent("qrc:/component/FloatingWindow.qml");
                         pcbViewItem.floatWinComponent = pcbViewItem.floatWin.createObject(pcbViewItem,{ });
+                        pcbViewItem.isLoaded = true;
                     }
                 }
             }
@@ -115,45 +123,57 @@ Item {
         anchors.fill: parent;
         acceptedButtons: Qt.RightButton|Qt.LeftButton|Qt.WheelFocus; // 激活右键
 
+        property string buttonType: "null"  // 判断点击的是鼠标左键还是右键
+
         onPressed: {
-            // 未添加元件时选中形状为null,添加时获取所选形状
-            if( null === floatWinComponent ){
-                checkedShape = "null";
+            if (mouse.button === Qt.LeftButton)
+            {
+                // 未添加元件时选中形状为null,添加时获取所选形状
+                if( null === floatWinComponent ){
+                    checkedShape = "null";
+                }
+                else{
+                    checkedShape = floatWinComponent.currentShape;
+                }
+
+                // 鼠标按下,判断是否选中元件
+                checkPos = Qt.point(mouseX,mouseY);
+                distinguishTarget(checkPos);
+                buttonType = "left"
             }
             else{
-                checkedShape = floatWinComponent.currentShape;
+                buttonType = "right"
             }
-
-            // 鼠标按下,判断是否选中元件
-            checkPos = Qt.point(mouseX,mouseY);
-            distinguishTarget(checkPos);
         }
 
         onPositionChanged: {
-            if( "null" === checkedShape){
-                // 未添加元件时计算canvas偏移量
-                xOffset += mouseX - checkPos.x;
-                yOffset += mouseY - checkPos.y;
-                renderTargets();
-                checkPos  = Qt.point(mouse.x,mouse.y);
-                emit:pcbAreaChanged();
-            }
-            else{
-                // 意图在添加元件时移动,弹出提示信息
-                tipMsg.text = qsTr("Add without moving!");
-                tipMsg.visible = true;
+            if("left" === buttonType) {
+                if( "null" === checkedShape){
+                    // 未添加元件时计算canvas偏移量
+                    xOffset += mouseX - checkPos.x;
+                    yOffset += mouseY - checkPos.y;
+                    renderTargets();
+                    checkPos  = Qt.point(mouse.x,mouse.y);
+                    emit:pcbAreaChanged();
+                }
+                else{
+                    // 意图在添加元件时移动,弹出提示信息
+                    tipMsg.text = qsTr("Add without moving!");
+                    tipMsg.visible = true;
 
+                }
             }
         }
 
         onClicked: {
-            if (mouse.button === Qt.RightButton) {
+            if (mouse.button === Qt.RightButton && pcbViewItem.isLoaded === false) {
                 // 鼠标点击时为右键,弹出添加元件悬浮框
                 contentMenu.popup();
             }
             else if( null !== floatWinComponent &&
                      "null" !== checkedShape &&
-                    -1 === selected  ) {
+                    -1 === selected &&
+                    mouse.button === Qt.LeftButton) {
                 // 左键时,添加元件悬浮框打开+选中添加形状+空白处=添加所选形状元件
                 checkPos = Qt.point(mouseX,mouseY);
                 distinguishTarget(checkPos);
@@ -162,22 +182,25 @@ Item {
         }
 
         onDoubleClicked: {
-            if( "null" === checkedShape ){
-                if( -1 === selected ){
-                    xOffset = 0;                // canvas上绘图的起始位置偏移量恢复
-                    yOffset = 0;
-                    elementScale = 1;           // canvas上绘图的比例恢复
-                    renderTargets();
-                    emit:pcbAreaChanged();
+            if (mouse.button === Qt.LeftButton)
+            {
+                if( "null" === checkedShape ){
+                    if( -1 === selected ){
+                        xOffset = 0;                // canvas上绘图的起始位置偏移量恢复
+                        yOffset = 0;
+                        elementScale = 1;           // canvas上绘图的比例恢复
+                        renderTargets();
+                        emit:pcbAreaChanged();
+                    }
+                    else{
+                        elementList.remove(selected);
+                        emit:listModelView.item.listDataChanged();
+                    }
                 }
                 else{
-                    elementList.remove(selected);
-                    emit:listModelView.item.listDataChanged();
+                    tipMsg.text = qsTr("Add with blank!");
+                    tipMsg.visible = true;
                 }
-            }
-            else{
-                tipMsg.text = qsTr("Add with blank!");
-                tipMsg.visible = true;
             }
         }
 

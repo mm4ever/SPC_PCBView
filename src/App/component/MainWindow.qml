@@ -5,7 +5,6 @@ import QtQuick.Layouts 1.3
 import Qt.labs.platform 1.0
 
 import an.qt.CModel 1.0
-import an.qt.LanguageSetting 1.0
 
 Item {
     id: mainWindow;

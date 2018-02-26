@@ -15,16 +15,6 @@ Dialog {
     ThemeSetting{
         id: themeSetting;
 
-        property color accentColor1;
-        property color primaryColor1;
-        property color foregroundColor1;
-        property color backgroundColor1;
-
-        property color accentColor2;
-        property color primaryColor2;
-        property color foregroundColor2;
-        property color backgroundColor2;
-
         Component.onCompleted: {
             //把系统的Materil不同Theme的颜色缓存下来，以便在自定义改了颜色后能够恢复
             var origTheme =  appWnd.Material.theme;
@@ -44,33 +34,32 @@ Dialog {
 
             appWnd.Material.theme = origTheme;
 
-            styleBox.model = themeSetting.themeList; //
-            styleBox.currentIndex = themeSetting.themeIndex;
-            updateStyle();
+            styleBox.model = themeSetting.themeTypeList();
+            styleBox.currentIndex = themeSetting.themeTypeSelectedIndex;
+            //这里是真正的绑定
+            themeSetting.themeTypeSelectedIndex = Qt.binding(function() { return styleBox.currentIndex })
         }
 
         //这个函数更新窗口风格
         function updateStyle(){
             //附加属性在material中
             appWnd.Material.accent =
-                    themeSetting.getThemeColor(themeSetting.themeIndex, ThemeSetting.ACCENT);
+                    themeSetting.getThemeColor(themeSetting.themeTypeSelectedIndex, ThemeSetting.ACCENT);
             appWnd.Material.primary =
-                    themeSetting.getThemeColor(themeSetting.themeIndex, ThemeSetting.PRIMARY);
+                    themeSetting.getThemeColor(themeSetting.themeTypeSelectedIndex, ThemeSetting.PRIMARY);
             appWnd.Material.foreground =
-                    themeSetting.getThemeColor(themeSetting.themeIndex, ThemeSetting.FORGROUND);
+                    themeSetting.getThemeColor(themeSetting.themeTypeSelectedIndex, ThemeSetting.FORGROUND);
             appWnd.Material.background =
-                    themeSetting.getThemeColor(themeSetting.themeIndex, ThemeSetting.BACKGROUND);
+                    themeSetting.getThemeColor(themeSetting.themeTypeSelectedIndex, ThemeSetting.BACKGROUND);
         }
     }//End of ThemeSetting
 
     standardButtons: Dialog.Ok | Dialog.Cancel;
     font.capitalization: Font.MixedCase;
     onAccepted: {
-        themeSetting.themeIndex = styleBox.currentIndex;
         themeSetting.updateStyle();
     }
     onRejected: {
-        styleBox.currentIndex = themeSetting.themeIndex;
         themeDialog.close();
     }
 
@@ -88,7 +77,6 @@ Dialog {
 
             ComboBox {
                 id: styleBox;
-                property int styleIndex: -1
                 Layout.fillWidth: true;
             }
         }

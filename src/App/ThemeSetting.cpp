@@ -2,15 +2,15 @@
 
 using namespace std;
 
-using namespace Job;
+using namespace App;
 using namespace SSDK;
 
 ThemeSetting::ThemeSetting(QObject *parent):QObject(parent)
 {
     try
     {
-        this->m_themeIndex = 0; //默认为light主题
-        this->m_themeList = QEnumStringList<ThemeSetting>(string("ThemeType"));
+        this->m_themeTypeSelectedIndex = 0; //默认为light主题
+        this->m_themeList = getStringListFromQEnum<ThemeSetting::ThemeType>();
         int cnt = m_themeList.count();
         for (int i = 0; i < cnt ; ++i)
         {
@@ -32,6 +32,36 @@ ThemeSetting::ThemeSetting(QObject *parent):QObject(parent)
 ThemeSetting::~ThemeSetting()
 {
 
+}
+
+QStringList ThemeSetting::themeTypeList() const
+{
+    //只会初始化一次
+    static QStringList themeTypeList;
+    if( 0 == themeTypeList.count() )
+    {
+        //该函数在MetaeEum.hpp中
+        themeTypeList = getStringListFromQEnum<ThemeSetting::ThemeType>();
+    }
+    return themeTypeList;
+}
+
+int ThemeSetting::themeTypeSelectedIndex() const
+{
+    return this->m_themeTypeSelectedIndex;
+}
+
+void ThemeSetting::setThemeTypeSelectedIndex(int themeTypeSelectedIndex)
+{
+    this->m_themeTypeSelectedIndex = themeTypeSelectedIndex;
+    emit themeTypeSelectedIndexChanged(this->m_themeTypeSelectedIndex);
+}
+
+ThemeSetting::ThemeType ThemeSetting::themeType() const
+{
+    QString key = themeTypeList().at(m_themeTypeSelectedIndex);
+    auto val = getQEnumValFromKey<ThemeSetting::ThemeType>(key.toStdString());
+    return (ThemeSetting::ThemeType)val.toInt();
 }
 
 void ThemeSetting::setThemeColor(int themeIndex, ColorType colorType, QColor color)
@@ -92,24 +122,5 @@ QColor ThemeSetting::getThemeColor(int themeIndex, ColorType colorType)
         }
     }
     CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("获取主题颜色时出错")
-}
-
-QStringList ThemeSetting::themeList()
-{
-    if(0 == this->m_themeList.count())
-    {
-        this->m_themeList = QEnumStringList<ThemeSetting>(string("ThemeType"));
-    }
-    return this->m_themeList;
-}
-
-int ThemeSetting::themeIndex() const
-{
-    return this->m_themeIndex;
-}
-
-void ThemeSetting::setThemeIndex(const int themeIndex)
-{
-    this->m_themeIndex = themeIndex;
 }
 

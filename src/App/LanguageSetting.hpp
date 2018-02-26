@@ -9,7 +9,7 @@
 #include "MetaEnum.hpp"
 #include "CustomException.hpp"
 
-namespace Job
+namespace App
 {
     /**
      *  @brief 此类实现程序在运行期间的语言切换，具体要配置qml界面使用
@@ -21,9 +21,7 @@ namespace Job
     class LanguageSetting : public QObject
     {
         Q_OBJECT
-        Q_ENUMS(LanguageType)
-        Q_PROPERTY(int laguageIndex READ laguageIndex  WRITE setLaguageIndex)
-        Q_PROPERTY(QStringList languageList READ languageList )
+        Q_PROPERTY(int languageTypeSelectedIndex READ languageTypeSelectedIndex  WRITE setLanguageTypeSelectedIndex NOTIFY languageTypeSelectedIndexChanged)
 
     public:
 
@@ -32,34 +30,34 @@ namespace Job
             CHINESE, // 中文
             ENGLISH  // 英文
         };
+        Q_ENUM(LanguageType)
 
         LanguageSetting(QObject* parent = 0);
         virtual ~LanguageSetting();
 
-        Q_INVOKABLE void setLanguage(LanguageType languageType);
-        Q_INVOKABLE void setLanguageType (int languageIndex,LanguageType languageType);
+        Q_INVOKABLE QStringList languageTypeList() const;
 
-        int laguageIndex() const;
-        void setLaguageIndex(int laguageIndex);
+        int languageTypeSelectedIndex() const;
+        void setLanguageTypeSelectedIndex(int languageTypeSelectedIndex);
+        LanguageType languageType() const;
 
         void setPEngine(QQmlApplicationEngine *pEngine);
 
         void setPTranslator(QTranslator *pTranslator);
 
-        QList<LanguageType> languages() const;
-        void setLanguages(const QList<LanguageType> &languages);
+    signals:
+        void languageTypeSelectedIndexChanged(int selectedIndex);
 
-        QStringList languageList();
+    public slots:
+        void changeLanguageType();
 
     private:
-        int m_laguageIndex;                 // 进行语言类型切换时定位，和界面进行绑定
-        QStringList m_languageList;
-        QList<LanguageType> m_languages;    // 存放语言类型
+        int m_languageTypeSelectedIndex{1}; // 进行语言类型切换时定位，和界面进行绑定
         QQmlApplicationEngine *m_pEngine;   // 调用翻译相关函数
         QTranslator *m_pTranslator;         // 调用翻译相关函数
         // 翻译文件所在的路径
-        QString m_filesPathArr[2] { ":/language/tr_cn.qm", ":/language/tr_en.qm" };
+        QString m_filesPathArr[2] { "../src/App/language/tr_cn.qm", "../src/App/language/tr_en.qm" };
     };
-}//End of namespace Job
+}//End of namespace App
 
 #endif // LANGUAGESETTING_HPP

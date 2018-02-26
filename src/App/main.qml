@@ -16,7 +16,7 @@ ApplicationWindow {
     width: screen.width / 6;
     height: screen.height / 2;
     visible: true;
-    flags: Qt.Window | Qt.FramelessWindowHint   //去标题栏
+    flags: Qt.Window | Qt.FramelessWindowHint;   //去标题栏
 
     ElementListModel{
         id: elementList;                    // list数据

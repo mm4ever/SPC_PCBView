@@ -25,7 +25,7 @@
 <context>
     <name>FloatingWindow</name>
     <message>
-        <location filename="component/FloatingWindow.qml" line="107"/>
+        <location filename="component/FloatingWindow.qml" line="105"/>
         <source>X</source>
         <translation type="unfinished"></translation>
     </message>
@@ -33,7 +33,7 @@
 <context>
     <name>LanguageDialog</name>
     <message>
-        <location filename="component/LanguageDialog.qml" line="47"/>
+        <location filename="component/LanguageDialog.qml" line="53"/>
         <source>Language:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -69,58 +69,58 @@
 <context>
     <name>LoginView</name>
     <message>
-        <location filename="component/LoginView.qml" line="29"/>
+        <location filename="component/LoginView.qml" line="32"/>
         <source>Please enter the credentials:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/LoginView.qml" line="36"/>
+        <location filename="component/LoginView.qml" line="39"/>
         <source>Username</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/LoginView.qml" line="43"/>
+        <location filename="component/LoginView.qml" line="46"/>
         <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/LoginView.qml" line="52"/>
+        <location filename="component/LoginView.qml" line="55"/>
         <source></source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/LoginView.qml" line="60"/>
-        <source>Regist</source>
+        <location filename="component/LoginView.qml" line="63"/>
+        <source>Register</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/LoginView.qml" line="66"/>
-        <location filename="component/LoginView.qml" line="82"/>
+        <location filename="component/LoginView.qml" line="69"/>
+        <location filename="component/LoginView.qml" line="85"/>
         <source>Input is empty!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/LoginView.qml" line="76"/>
+        <location filename="component/LoginView.qml" line="79"/>
         <source>Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/LoginView.qml" line="87"/>
+        <location filename="component/LoginView.qml" line="90"/>
         <source>Username or Passwd error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/LoginView.qml" line="100"/>
+        <location filename="component/LoginView.qml" line="103"/>
         <source>Register success!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/LoginView.qml" line="107"/>
+        <location filename="component/LoginView.qml" line="110"/>
         <source>Login success!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/LoginView.qml" line="120"/>
+        <location filename="component/LoginView.qml" line="123"/>
         <source> </source>
         <translation type="unfinished"></translation>
     </message>
@@ -151,35 +151,46 @@
 <context>
     <name>PCBView</name>
     <message>
-        <location filename="component/PCBView.qml" line="64"/>
+        <location filename="component/PCBView.qml" line="84"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/PCBView.qml" line="67"/>
+        <location filename="component/PCBView.qml" line="87"/>
         <source>add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/PCBView.qml" line="77"/>
+        <location filename="component/PCBView.qml" line="98"/>
         <source>continue1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/PCBView.qml" line="82"/>
+        <location filename="component/PCBView.qml" line="100"/>
+        <location filename="component/PCBView.qml" line="108"/>
+        <source>This option is not supported</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="component/PCBView.qml" line="106"/>
         <source>continue2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="component/PCBView.qml" line="90"/>
-        <source>此功能暂未开放！</source>
+        <location filename="component/PCBView.qml" line="161"/>
+        <source>Add without moving!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="component/PCBView.qml" line="201"/>
+        <source>Add with blank!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ThemeDialog</name>
     <message>
-        <location filename="component/ThemeDialog.qml" line="84"/>
+        <location filename="component/ThemeDialog.qml" line="90"/>
         <source>Theme:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -192,42 +203,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="91"/>
+        <location filename="main.qml" line="92"/>
         <source>&amp;Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="108"/>
+        <location filename="main.qml" line="114"/>
         <source>Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="140"/>
+        <location filename="main.qml" line="138"/>
         <source>&amp;Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="147"/>
+        <location filename="main.qml" line="145"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="153"/>
+        <location filename="main.qml" line="151"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="159"/>
+        <location filename="main.qml" line="157"/>
         <source>Theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="164"/>
+        <location filename="main.qml" line="162"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="169"/>
+        <location filename="main.qml" line="167"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>

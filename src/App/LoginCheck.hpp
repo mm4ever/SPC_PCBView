@@ -10,7 +10,7 @@
 
 #include "CustomException.hpp"
 
-namespace Job
+namespace App
 {
     class LoginCheck : public QObject
     {
@@ -40,5 +40,5 @@ namespace Job
         QString m_currentPasswd {"12345678"};
 
     };
-} // End of namespace Job
+} // End of namespace App
 #endif // LOGINCHECK_HPP

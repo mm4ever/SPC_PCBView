@@ -18,6 +18,9 @@ Item{
         width: 300;
         height: 320;
         focus: true;
+        modal: true;
+        closePolicy: Popup.CloseOnEscape;
+
 
         ColumnLayout {
             id: col;
@@ -57,7 +60,7 @@ Item{
                 spacing: 60;
                 Layout.alignment: Qt.AlignCenter
                 Button{
-                    text: qsTr("Regist");
+                    text: qsTr("Register");
                     font.pointSize: 12;
                     font.capitalization: Font.MixedCase;
 

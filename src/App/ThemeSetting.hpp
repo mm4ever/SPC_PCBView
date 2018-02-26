@@ -8,7 +8,7 @@
 #include "MetaEnum.hpp"
 #include "CustomException.hpp"
 
-namespace Job
+namespace App
 {
     /**
      *  @brief 这个类可以实现程序在运行期间的主题切换已经颜色配置，具体要配置qml界面使用
@@ -21,10 +21,8 @@ namespace Job
     {
         Q_OBJECT
 
-        Q_ENUMS(ThemeType)
         Q_ENUMS(ColorType)
-        Q_PROPERTY(int themeIndex READ themeIndex WRITE setThemeIndex)
-        Q_PROPERTY(QStringList themeList READ themeList )
+        Q_PROPERTY(int themeTypeSelectedIndex READ themeTypeSelectedIndex  WRITE setThemeTypeSelectedIndex NOTIFY themeTypeSelectedIndexChanged)
 
     public:
 
@@ -34,6 +32,7 @@ namespace Job
             DARK,            // 黑色
             CUSTOM           // 自定义
         };
+        Q_ENUM(ThemeType)
 
         enum class ColorType // 颜色类型
         {
@@ -46,22 +45,26 @@ namespace Job
         ThemeSetting(QObject* parent = 0);
         virtual ~ThemeSetting();
 
+        Q_INVOKABLE QStringList themeTypeList() const;
+
         Q_INVOKABLE void setThemeColor (int themeIndex,ColorType colorType,QColor color);
         Q_INVOKABLE QColor getThemeColor (int themeIndex, ColorType colorType);
 
-        QStringList themeList ();
+        int themeTypeSelectedIndex() const;
+        void setThemeTypeSelectedIndex(int themeTypeSelectedIndex);
+        ThemeType themeType() const;
 
-        int themeIndex() const;
-        void setThemeIndex(const int themeIndex);
+    signals:
+        void themeTypeSelectedIndexChanged(int selectedIndex);
 
     private:
-        int m_themeIndex; // 这里为了方便和界面进行绑定，都使用Index进行定位
+        int m_themeTypeSelectedIndex{1};     // 这里为了方便和界面进行绑定，都使用Index进行定位
         QStringList m_themeList;             // 存放所有主题类型
         QList<QColor> m_primaryColorList;    // 存放所有主题的原色
         QList<QColor> m_accentColorList;     // 存放所有主题的强调色
         QList<QColor> m_foregroundColorList; // 存放所有主题的前景色
         QList<QColor> m_backgroundColorList; // 存放所有主题的背景色
     };
-}//End of namespace Job
+}//End of namespace App
 
 #endif // THEMESETTING_HPP
