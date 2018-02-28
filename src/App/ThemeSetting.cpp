@@ -2,7 +2,7 @@
 
 using namespace std;
 
-using namespace Job;
+using namespace App;
 using namespace SSDK;
 
 ThemeSetting::ThemeSetting(QObject *parent):QObject(parent)
@@ -10,9 +10,9 @@ ThemeSetting::ThemeSetting(QObject *parent):QObject(parent)
     try
     {
         this->m_themeIndex = 0; //默认为light主题
-        this->m_themeList = QEnumStringList<ThemeSetting>(string("ThemeType"));
+//        this->m_themeList = QEnumStringList<ThemeSetting>(string("ThemeType"));
         int cnt = m_themeList.count();
-        for (int i = 0; i < cnt ; ++i)
+        for (int i = 0; i < 3 ; ++i)
         {
             this->m_backgroundColorList.push_back(QColor());
             this->m_foregroundColorList.push_back(QColor());
@@ -38,7 +38,7 @@ void ThemeSetting::setThemeColor(int themeIndex, ColorType colorType, QColor col
 {
     try
     {
-        if( themeIndex > -1 && themeIndex < this->m_themeList.count())
+        if( themeIndex > -1 && themeIndex < themeTypeList().count())
         {
             switch (colorType)
             {
@@ -70,7 +70,7 @@ QColor ThemeSetting::getThemeColor(int themeIndex, ColorType colorType)
 {
     try
     {
-        if( themeIndex > -1 && themeIndex < this->m_themeList.count())
+        if( themeIndex > -1 && themeIndex < themeTypeList().count())
         {
             switch (colorType)
             {
@@ -94,13 +94,15 @@ QColor ThemeSetting::getThemeColor(int themeIndex, ColorType colorType)
     CATCH_AND_RETHROW_EXCEPTION_WITH_OBJ("获取主题颜色时出错")
 }
 
-QStringList ThemeSetting::themeList()
+QStringList ThemeSetting::themeTypeList()
 {
-    if(0 == this->m_themeList.count())
+    //只会初始化一次
+    static QStringList themeTypeList;
+    if( 0==themeTypeList.count() )
     {
-        this->m_themeList = QEnumStringList<ThemeSetting>(string("ThemeType"));
+        themeTypeList = getStringListFromQEnum<ThemeSetting::ThemeType>();
     }
-    return this->m_themeList;
+    return themeTypeList;
 }
 
 int ThemeSetting::themeIndex() const
@@ -110,6 +112,18 @@ int ThemeSetting::themeIndex() const
 
 void ThemeSetting::setThemeIndex(const int themeIndex)
 {
-    this->m_themeIndex = themeIndex;
+    if(this->m_themeIndex != themeIndex )
+    {
+        m_themeIndex = themeIndex;
+        emit themeIndexChanged(m_themeIndex);
+    }
 }
+
+//ThemeSetting::ThemeType ThemeSetting::themeType() const
+//{
+//    QString key = themeTypeList().at(m_themeIndex);
+//    auto val = getQEnumValFromKey<ThemeSetting::ThemeType>(key.toStdString());
+//    return (ThemeSetting::ThemeType)val.toInt();
+
+//}
 

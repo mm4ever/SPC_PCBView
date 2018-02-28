@@ -8,7 +8,7 @@
 #include "MetaEnum.hpp"
 #include "CustomException.hpp"
 
-namespace Job
+namespace App
 {
     /**
      *  @brief 这个类可以实现程序在运行期间的主题切换已经颜色配置，具体要配置qml界面使用
@@ -21,10 +21,8 @@ namespace Job
     {
         Q_OBJECT
 
-        Q_ENUMS(ThemeType)
-        Q_ENUMS(ColorType)
-        Q_PROPERTY(int themeIndex READ themeIndex WRITE setThemeIndex)
-        Q_PROPERTY(QStringList themeList READ themeList )
+        Q_PROPERTY(int themeIndex READ themeIndex WRITE setThemeIndex NOTIFY themeIndexChanged)
+//        Q_PROPERTY(QStringList themeList READ themeList )
 
     public:
 
@@ -34,6 +32,7 @@ namespace Job
             DARK,            // 黑色
             CUSTOM           // 自定义
         };
+        Q_ENUM(ThemeType)
 
         enum class ColorType // 颜色类型
         {
@@ -42,6 +41,7 @@ namespace Job
             FORGROUND,       // 前景色
             BACKGROUND       // 背景色
         };
+        Q_ENUMS(ColorType)
 
         ThemeSetting(QObject* parent = 0);
         virtual ~ThemeSetting();
@@ -49,10 +49,16 @@ namespace Job
         Q_INVOKABLE void setThemeColor (int themeIndex,ColorType colorType,QColor color);
         Q_INVOKABLE QColor getThemeColor (int themeIndex, ColorType colorType);
 
-        QStringList themeList ();
+        //这个QStringList是为了直接可以和QML界面的ComboBox的model进行绑定
+        Q_INVOKABLE QStringList themeTypeList ();
 
         int themeIndex() const;
         void setThemeIndex(const int themeIndex);
+//        ThemeType themeType()const;
+
+    signals:
+
+        void themeIndexChanged(int selectedIndex);
 
     private:
         int m_themeIndex; // 这里为了方便和界面进行绑定，都使用Index进行定位

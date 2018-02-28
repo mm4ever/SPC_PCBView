@@ -44,9 +44,13 @@ Dialog {
 
             appWnd.Material.theme = origTheme;
 
-            styleBox.model = themeSetting.themeList; //
+            styleBox.model = themeSetting.themeTypeList();
             styleBox.currentIndex = themeSetting.themeIndex;
-            updateStyle();
+            themeSetting.themeIndex = Qt.binding(
+                            function(){
+                                return styleBox.currentIndex;
+                            }
+                        )
         }
 
         //这个函数更新窗口风格
@@ -66,11 +70,9 @@ Dialog {
     standardButtons: Dialog.Ok | Dialog.Cancel;
     font.capitalization: Font.MixedCase;
     onAccepted: {
-        themeSetting.themeIndex = styleBox.currentIndex;
         themeSetting.updateStyle();
     }
     onRejected: {
-        styleBox.currentIndex = themeSetting.themeIndex;
         themeDialog.close();
     }
 

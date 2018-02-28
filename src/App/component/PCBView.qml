@@ -32,44 +32,52 @@ Item {
         timeout: 800;
     }
 
-    Canvas{
-        id: pcbViewCanvas;
+    Rectangle{      //lynn_change: 添加rectange 使得canvas有个边框
         x: 0;
         y: 0;
         width: 1280;
         height: 720;
-        clip: true;
-        contextType: "2d";
-        scale: 1;
+        border.color: "blue"
+        border.width: 2
 
-        onPaint: {
-            AddTarget.drawShape( pcbViewCanvas.context,
-                                elementList,
-                                selected,
-                                xOffset,
-                                yOffset,
-                                elementScale);
-        }
-        Component.onCompleted: {
-            for( var i = 0; i < pcbViewItem.elementCnt; ++i ){
-                if( 0 === i % 2 ){
-                    elementList.add( Shape.RECTANGLE,
-                                    parseInt(Math.random()*1280),
-                                    parseInt(Math.random()*720),
-                                    elementSize,
-                                    elementSize);
-                }
-                else{
-                    elementList.add( Shape.CIRCLE,
-                                    parseInt(Math.random()*1280),
-                                    parseInt(Math.random()*720),
-                                    elementSize,
-                                    elementSize);
+        Canvas{
+            id: pcbViewCanvas;
+            x: 0;
+            y: 0;
+            width: 1280;
+            height: 720;
+            clip: true;
+            contextType: "2d";
+            scale: 1;
+
+            onPaint: {
+                AddTarget.drawShape( pcbViewCanvas.context,
+                                    elementList,
+                                    selected,
+                                    xOffset,
+                                    yOffset,
+                                    elementScale);
+            }
+            Component.onCompleted: {
+                for( var i = 0; i < pcbViewItem.elementCnt; ++i ){
+                    if( 0 === i % 2 ){
+                        elementList.add( Shape.RECTANGLE,
+                                        parseInt(Math.random()*1280),
+                                        parseInt(Math.random()*720),
+                                        elementSize,
+                                        elementSize);
+                    }
+                    else{
+                        elementList.add( Shape.CIRCLE,
+                                        parseInt(Math.random()*1280),
+                                        parseInt(Math.random()*720),
+                                        elementSize,
+                                        elementSize);
+                    }
                 }
             }
         }
     }
-
     Menu {
         id: contentMenu;
         width: 100;
@@ -147,12 +155,13 @@ Item {
         }
 
         onClicked: {
-            if (mouse.button === Qt.RightButton) {
+            if (mouse.button === Qt.RightButton && false === isMenuOpen) {  //lynn_change: 若已打开菜单右键功能失效
                 // 鼠标点击时为右键,弹出添加元件悬浮框
                 contentMenu.popup();
+                isMenuOpen = true;
             }
             else if( null !== floatWinComponent &&
-                     "null" !== checkedShape &&
+                    "null" !== checkedShape &&
                     -1 === selected  ) {
                 // 左键时,添加元件悬浮框打开+选中添加形状+空白处=添加所选形状元件
                 checkPos = Qt.point(mouseX,mouseY);

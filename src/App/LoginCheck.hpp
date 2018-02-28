@@ -10,7 +10,7 @@
 
 #include "CustomException.hpp"
 
-namespace Job
+namespace App
 {
     class LoginCheck : public QObject
     {

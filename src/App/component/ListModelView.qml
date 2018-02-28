@@ -61,36 +61,43 @@ Item {
             width: parent.width-10;         // 减去ScrollBar宽度10
             height: 50;
 
-//            Connections{
-//                target:fileDialog
-//                onClearAllElement:{
-//                    elementList.remove(0);
-//                }
-//            }
+            //            Connections{
+            //                target:fileDialog
+            //                onClearAllElement:{
+            //                    elementList.remove(0);
+            //                }
+            //            }
 
             MouseArea{
                 anchors.fill: parent;
 
                 onClicked: {
-                    //调用listView的属性
-                    selected = index;       // 当前选中目标
-                    itemWrapper.ListView.view.currentIndex = selected;
-                    emit:listDataChanged();
+                    if(false === isMenuOpen)
+                    {
+                        //调用listView的属性
+                        selected = index;       // 当前选中目标
+                        itemWrapper.ListView.view.currentIndex = selected;
+                        emit:listDataChanged();
+                    }
                 }
+
                 onDoubleClicked: {
-                    if( elementList.rowCount() > 1 ){
-                        if( elementList.rowCount() === selected+1 ){
-                            selected -= 1;
-                            itemWrapper.ListView.view.model.remove(selected+1);
+                    if(false === isMenuOpen)
+                    {
+                        if( elementList.rowCount() > 1 ){
+                            if( elementList.rowCount() === selected+1 ){
+                                selected -= 1;
+                                itemWrapper.ListView.view.model.remove(selected+1);
+                            }
+                            else{
+                                itemWrapper.ListView.view.model.remove(selected);
+                            }
                         }
                         else{
                             itemWrapper.ListView.view.model.remove(selected);
                         }
+                        emit:listDataChanged();
                     }
-                    else{
-                        itemWrapper.ListView.view.model.remove(selected);
-                    }
-                    emit:listDataChanged();
                 }
             }
 

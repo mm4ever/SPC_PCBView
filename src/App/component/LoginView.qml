@@ -13,11 +13,13 @@ Item{
 
     Popup{
         id: loginPop;
-        x: -width/2;
-        y: -height/2;
         width: 300;
         height: 320;
+        x: -width/2;
+        y: -height/2;
         focus: true;
+        modal: true     //lynn_change: 添加modal和closePolicy属性达到模态效果
+        closePolicy:Popup.CloseOnEscape
 
         ColumnLayout {
             id: col;

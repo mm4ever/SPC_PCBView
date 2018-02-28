@@ -15,6 +15,9 @@ Item {
     property int yOffset: 0;
     property real elementScale: 1;
 
+    //lynn_change: 添加属性isMenuOpen用于判断是否已打开菜单
+    property bool isMenuOpen: false; //在PCBView区域右键点击打开的菜单是否处于打开状态
+
     GridLayout{
         columns: 2;
         anchors.fill: parent;

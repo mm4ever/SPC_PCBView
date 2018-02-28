@@ -9,7 +9,7 @@
 #include "MetaEnum.hpp"
 #include "CustomException.hpp"
 
-namespace Job
+namespace App
 {
     /**
      *  @brief 此类实现程序在运行期间的语言切换，具体要配置qml界面使用
@@ -21,9 +21,7 @@ namespace Job
     class LanguageSetting : public QObject
     {
         Q_OBJECT
-        Q_ENUMS(LanguageType)
-        Q_PROPERTY(int laguageIndex READ laguageIndex  WRITE setLaguageIndex)
-        Q_PROPERTY(QStringList languageList READ languageList )
+        Q_PROPERTY(int languageSelectedIndex READ languageSelectedIndex  WRITE setLanguageSelectedIndex NOTIFY languageSelectedIndexChanged)
 
     public:
 
@@ -32,15 +30,22 @@ namespace Job
             CHINESE, // 中文
             ENGLISH  // 英文
         };
+        Q_ENUM(LanguageType)
 
         LanguageSetting(QObject* parent = 0);
         virtual ~LanguageSetting();
 
+void setLanguage();
+
         Q_INVOKABLE void setLanguage(LanguageType languageType);
+
+        Q_INVOKABLE QStringList languageTypeList() const;
+
         Q_INVOKABLE void setLanguageType (int languageIndex,LanguageType languageType);
 
-        int laguageIndex() const;
-        void setLaguageIndex(int laguageIndex);
+        int languageSelectedIndex() const;
+        void setLanguageSelectedIndex(int languageIndex);
+        LanguageType languageType()const;
 
         void setPEngine(QQmlApplicationEngine *pEngine);
 
@@ -51,8 +56,11 @@ namespace Job
 
         QStringList languageList();
 
+    signals:
+        void languageSelectedIndexChanged(int selectedIndex);
+
     private:
-        int m_laguageIndex;                 // 进行语言类型切换时定位，和界面进行绑定
+        int m_languageSelectedIndex{0};                 // 进行语言类型切换时定位，和界面进行绑定
         QStringList m_languageList;
         QList<LanguageType> m_languages;    // 存放语言类型
         QQmlApplicationEngine *m_pEngine;   // 调用翻译相关函数
