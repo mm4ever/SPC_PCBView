@@ -8,15 +8,16 @@ import an.qt.Shape 1.0
 
 import "../scripts/AddTarget.js" as AddTarget
 
-Item {
+Rectangle {
     id: pcbViewItem;
     visible: true;
     anchors.centerIn: parent;
     clip: true;
+    border.color: appWnd.Material.accent;
+
 
     property point checkPos: "0,0";             // 鼠标点击的位置坐标
     property string checkedShape: "null";       // 鼠标选中要添加元件形状
-    property var floatWinComponent: null;
     property var floatWin;
 
     property int elementSize: 20;               // 自动生成的元件尺寸(长宽)
@@ -27,8 +28,9 @@ Item {
 
     ToolTip{
         id: tipMsg;
-        x: (screen.width-width)*0.5;
-        y: (screen.height-height)*0.1;
+        x: (parent.width-width)*0.5;
+        y: (parent.height-height)*0.5;
+
         timeout: 800;
     }
 
@@ -41,6 +43,7 @@ Item {
         clip: true;
         contextType: "2d";
         scale: 1;
+
 
         onPaint: {
             AddTarget.drawShape( pcbViewCanvas.context,
@@ -72,36 +75,60 @@ Item {
 
     Menu {
         id: contentMenu;
-        width: 100;
-        Menu { // 右键菜单
-            title: qsTr("Edit");
-            MenuItem {
-                id: menuItem;
-                text: qsTr("add");
+        width: 150;
+        modal: true;
+
+        Menu {
+            id: menuItem;
+            title: qsTr("add");
+            width: 150;
+
+
+            Action{
+                text: "Rectangle";
                 onTriggered: {
-                    if(null === pcbViewItem.floatWinComponent){
-                        pcbViewItem.floatWin = Qt.createComponent("qrc:/component/FloatingWindow.qml");
-                        pcbViewItem.floatWinComponent = pcbViewItem.floatWin.createObject(pcbViewItem,{ });
-                    }
+                    checkedShape = "rectangle";
+                }
+
+            }
+            Action{
+                text: "Circle";
+                onTriggered: {
+                    checkedShape = "circle"
+                }
+            }
+            Action{
+                text: "Cancle";
+                onTriggered: {
+                    contentMenu.close();
                 }
             }
 
-            MenuItem {
-                text: qsTr("continue1");
-                onTriggered: {
-                    tipMsg.text = qsTr("This option is not supported");
-                    tipMsg.visible = true;
-                }
-            }
+        }
 
-            MenuItem {
-                text: qsTr("continue2");
-                onTriggered: {
-                    tipMsg.text = qsTr("This option is not supported");
-                    tipMsg.visible = true;
-                }
+        MenuItem {
+            id: continue1;
+            text: "continue1";
+            onTriggered: {
+                tipMsg.text = qsTr("This option is not supported");
+                tipMsg.visible = true;
             }
         }
+        MenuItem {
+            id: continue2;
+            text: "continue2";
+            onTriggered: {
+                tipMsg.text = qsTr("This option is not supported");
+                tipMsg.visible = true;
+            }
+        }
+        MenuItem {
+            text: "Cancle";
+            onTriggered: {
+                contentMenu.close();
+            }
+        }
+
     }
 
     MouseArea{
@@ -116,14 +143,6 @@ Item {
         acceptedButtons: Qt.RightButton|Qt.LeftButton|Qt.WheelFocus; // 激活右键
 
         onPressed: {
-            // 未添加元件时选中形状为null,添加时获取所选形状
-            if( null === floatWinComponent ){
-                checkedShape = "null";
-            }
-            else{
-                checkedShape = floatWinComponent.currentShape;
-            }
-
             // 鼠标按下,判断是否选中元件
             checkPos = Qt.point(mouseX,mouseY);
             distinguishTarget(checkPos);
@@ -147,22 +166,29 @@ Item {
         }
 
         onClicked: {
-            if (mouse.button === Qt.RightButton) {
+            if (mouse.button === Qt.RightButton &&
+                    "null" === checkedShape) {
                 // 鼠标点击时为右键,弹出添加元件悬浮框
-                contentMenu.popup();
+                checkPos = Qt.point(mouseX,mouseY);
+                distinguishTarget(checkPos);
+                if(-1 === selected){
+                    contentMenu.popup();
+                }
             }
-            else if( null !== floatWinComponent &&
-                     "null" !== checkedShape &&
+            else if(mouse.button === Qt.LeftButton &&
+                    "null" !== checkedShape &&
                     -1 === selected  ) {
                 // 左键时,添加元件悬浮框打开+选中添加形状+空白处=添加所选形状元件
                 checkPos = Qt.point(mouseX,mouseY);
                 distinguishTarget(checkPos);
                 addChip();
+                checkedShape = "null";
             }
         }
 
         onDoubleClicked: {
-            if( "null" === checkedShape ){
+            if(mouse.button === Qt.LeftButton &&
+                    "null" === checkedShape ){
                 if( -1 === selected ){
                     xOffset = 0;                // canvas上绘图的起始位置偏移量恢复
                     yOffset = 0;

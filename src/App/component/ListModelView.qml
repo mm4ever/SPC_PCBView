@@ -61,13 +61,6 @@ Item {
             width: parent.width-10;         // 减去ScrollBar宽度10
             height: 50;
 
-//            Connections{
-//                target:fileDialog
-//                onClearAllElement:{
-//                    elementList.remove(0);
-//                }
-//            }
-
             MouseArea{
                 anchors.fill: parent;
 

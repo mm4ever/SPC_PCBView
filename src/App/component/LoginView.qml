@@ -18,6 +18,8 @@ Item{
         width: 300;
         height: 320;
         focus: true;
+        modal: true;
+        closePolicy: Popup.NoAutoClose; //设置模态
 
         ColumnLayout {
             id: col;
@@ -90,8 +92,9 @@ Item{
                     }
                 }
             }
-        }
-    }
+
+        }//End of ColumnLayout
+    }//End od Popup
     Component.onCompleted: loginPop.open();
 
     Connections{

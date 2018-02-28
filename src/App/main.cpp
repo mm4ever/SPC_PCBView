@@ -14,6 +14,7 @@
 
 #include <QDebug>
 
+using namespace App;
 using namespace Job;
 using namespace SSDK;
 
@@ -47,10 +48,13 @@ int main(int argc, char *argv[])
     else
         QQuickStyle::setStyle(settings.value("style").toString());
 
+    ThemeSetting themeSetting;
+    engine.rootContext()->setContextProperty("themes", &themeSetting);
+
 
     // 语言
     QTranslator translator;
-    LanguageSetting langSetting; // qml与C++的枚举绑定
+    LanguageSetting langSetting;
     langSetting.setPEngine(&engine);
     langSetting.setPTranslator(&translator);
     engine.rootContext()->setContextProperty("languages", &langSetting);

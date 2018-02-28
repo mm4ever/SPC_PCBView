@@ -36,6 +36,7 @@ Item {
                 id: pcbView;
                 source: "qrc:/component/PCBView.qml";
                 anchors.margins: 2;
+
                 anchors.top: pcbViewTitle.bottom;
                 anchors.left: parent.left;
                 anchors.right: parent.right;
@@ -97,7 +98,7 @@ Item {
             }
         }
 
-        Item{
+        Item {
             id: lotsArea;                       // Lots窗口
             Layout.fillHeight: true;
             Layout.fillWidth: true;
