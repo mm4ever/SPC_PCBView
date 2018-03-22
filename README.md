@@ -36,7 +36,9 @@ mkdir -p lib/debug data debug/config include/Job include/SSDK
     - 将 Build directory 设置为: ./build/linux/debug
 2. 设置Build Steps:
     - 依次点击Projects->BuildSteps->AddBuildStep->CustomProcessStep
-    - 将Command修改为:./debug_build.sh
+    - 将Command修改为:%{buildDir}/release_build.sh
+    - 将Arguments修改为:%{CurrentProject:FileBaseName} %{CurrentBuild:Type}
+    - 将Workingdirectory修改为:%{buildDir}
 3. 配置完成
 
 #### SSDK
@@ -45,7 +47,9 @@ mkdir -p lib/debug data debug/config include/Job include/SSDK
     - 将 Build directory 设置为: ./build/linux/debug
 2. 设置Build Steps:
     - 依次点击Projects->BuildSteps->AddBuildStep->CustomProcessStep
-    - 将Command修改为:./debug_build.sh
+    - 将Command修改为:%{buildDir}/release_build.sh
+    - 将Arguments修改为:%{CurrentProject:FileBaseName} %{CurrentBuild:Type}
+    - 将Workingdirectory修改为:%{buildDir}
 3. 配置完成
 
 #### 数据库配置

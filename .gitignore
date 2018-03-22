@@ -6,11 +6,13 @@
 /src/Job/build/linux/debug/*.so.*
 /src/Job/build/linux/debug/.qmake.stash
 /src/Job/build/linux/debug/.qmake.cache
+/src/Job/build/linux/debug/moc_*
 
 /src/SSDK/build/linux/debug/*.so
 /src/SSDK/build/linux/debug/*.so.*
 /src/SSDK/build/linux/debug/.qmake.stash
 /src/SSDK/build/linux/debug/.qmake.cache
+/src/SSDK/build/linux/debug/moc_*
 
 
 /release/
@@ -18,11 +20,13 @@
 /src/Job/build/linux/release/*.so.*
 /src/Job/build/linux/release/.qmake.stash
 /src/Job/build/linux/release/.qmake.cache
+/src/Job/build/linux/release/moc_*
 
 /src/SSDK/build/linux/release/*.so
 /src/SSDK/build/linux/release/*.so.*
 /src/SSDK/build/linux/release/.qmake.stash
 /src/SSDK/build/linux/release/.qmake.cache
+/src/SSDK/build/linux/release/moc_*
 
 
 /src/App/App.pro.user
@@ -35,6 +39,9 @@
 
 /lib/debug/*.so
 /lib/debug/*.so.*
+/lib/release/*.so
+/lib/release/*.so.*
+
  
 *~
 *.autosave
